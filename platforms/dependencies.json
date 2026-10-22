@@ -1,5 +1,6 @@
 {
   "schema_version": 1,
+  "pins": {"chipstar_spirv_tools": "2d579aea06654623760975d9c785838296980363"},
   "sources": {
     "adaptivecpp": {"repository": "https://github.com/AdaptiveCpp/AdaptiveCpp.git", "tag": "v25.10.0", "commit": "9f842c701a599107cc6d117d3539f971036363a1"},
     "kokkos": {"repository": "https://github.com/kokkos/kokkos.git", "tag": "5.2.2", "commit": "8e15454876298832f013ebcaf08d53825b5bda40"},

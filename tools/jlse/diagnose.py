@@ -61,6 +61,9 @@ def main():
     p.add_argument("--omp-stack-probes", action="store_true", help="Retry an immutable numeric executable with OpenMP stack and teams settings")
     p.add_argument("--omp-memory-probes", action="store_true", help="Minimize mapping, integer/float conversion, and teams constructs independently")
     p.add_argument("--omp-large-probes", action="store_true", help="Run each isolated mapping/conversion probe with the full8216-record allocation")
+    p.add_argument("--omp-loop-probes", action="store_true", help="Compare one/two/four serial target calls with an unrelated noinline stack-buffer helper")
+    p.add_argument("--omp-stack-teams-probes", action="store_true", help="Test unrelated noinline stack-buffer calls inside teams at1/24/8216 records")
+    p.add_argument("--omp-deep-probes", action="store_true", help="Test unrelated initialized noinline call chains depth4/16/64 with64/768-byte frames")
     p.add_argument("--expected", type=Path, help="Independent numeric oracle bytes for --omp-stack-probes")
     p.add_argument("--configured-only", action="store_true", help="Run the selected environment without the loader comparison matrix")
     p.add_argument("--timeout", type=int, default=60, help="Timeout for an existing offload executable")
@@ -80,9 +83,9 @@ def main():
                     cobalt_jobid=os.environ.get("COBALT_JOBID"),
                     timestamp_utc=datetime.datetime.now(datetime.timezone.utc).isoformat(),
                     device_files={}, variants={})
-    if a.omp_memory_probes or a.omp_large_probes:
+    if a.omp_memory_probes or a.omp_large_probes or a.omp_loop_probes or a.omp_stack_teams_probes or a.omp_deep_probes:
         import omp_memory_probe
-        evidence["omp_memory_probes"] = omp_memory_probe.run_probes(a.profile, a.timeout, a.omp_large_probes)
+        evidence["omp_memory_probes"] = omp_memory_probe.run_probes(a.profile, a.timeout, a.omp_large_probes, a.omp_loop_probes, a.omp_stack_teams_probes, a.omp_deep_probes)
     if a.omp_stack_probes:
         import numeric_memory
         probe_dir = ROOT / "artifacts" / a.profile / f"omp-stack-{os.environ['COBALT_JOBID']}"

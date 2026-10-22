@@ -17,10 +17,27 @@
 #ifndef BENCH_CALLS
 #define BENCH_CALLS 1
 #endif
+#if defined(BENCH_SHORTEST) && BENCH_SHORTEST
+BENCH_HD inline void shortest_resource_call(char* output, int value) {
+  const double number = static_cast<double>(value) / 8.0;
+#if BENCH_PRINT
+  FFMT_PRINT("value={}\n", number);
+#else
+  ffmt::format_to_n(output,64,"value={}\n",number);
+#endif
+}
+#endif
 BENCH_HD inline void resource_call(char* output, int value) {
+#if defined(BENCH_SHORTEST) && BENCH_SHORTEST
+  shortest_resource_call(output,value);
+#if BENCH_CALLS == 2
+  shortest_resource_call(output+64,value+1);
+#endif
+#else
   benchmark_call(output,value,BENCH_FLOAT,BENCH_PRINT,0);
 #if BENCH_CALLS == 2
   benchmark_call(output+64,value+1,BENCH_FLOAT,BENCH_PRINT,0);
+#endif
 #endif
 }
 #if defined(BENCH_CUDA) || defined(BENCH_HIP)

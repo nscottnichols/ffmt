@@ -39,11 +39,12 @@ archive lack that library; the recipe therefore builds pinned LLVM20 from source
 with its shared library enabled. Intel LLVM's SYCL compiler and Intel oneAPI's OpenMP compiler are selected
 separately. No device route permits CPU fallback.
 
-The optional chipStar recipe is retained as an attempted configuration: LLVM 22
-failed while linking its OCML bitcode and LLVM 23 exposed upstream API mismatches.
-An LLVM 20 configuration uses the pinned SPIR-V translator rather than LLVM's
-integrated SPIR-V backend. Installation is successful only when its per-job
-manifest records `installed`; source downloads alone establish no support.
+chipStar 1.3 installs with pinned LLVM 20 and SPIR-V translator 20.1.18. The
+recipe also freezes its transitive SPIRV-Tools source and fingerprints the
+local CMake pin. `--llvm-prefix` can reuse a compatible installed LLVM 20.
+Trials with LLVM 22 failed while linking OCML bitcode; LLVM 23 exposed upstream
+API mismatches. Installation is successful only when its per-job manifest
+records `installed`; source downloads alone establish no support.
 
 `host_tests.py` covers the engine, legacy emission hook, native extended float,
 optional `__float128` and BitInt extensions, portable shortest conversion,
@@ -72,3 +73,34 @@ is compared for preallocated host output. Resource reports and raw stdout remain
 under ignored artifacts, with compact results imported into documentation.
 Manifests retain source and binary hashes, compiler versions, device-image
 metadata, and a hash of the job's hardware/runtime discovery evidence.
+Resource probes label explicit `.8e` and default shortest `{}` presentations
+separately. Select `--resources-only --resource-presentation shortest` to inspect
+the shortest-conversion path; ELF symbol sizes identify retained numeric tables
+and their copies in each image.
+Use `--family float --mode memory --capacity 128` for a focused follow-up
+measurement after a numeric implementation change; the manifest records this
+selection. Omitting the filters retains the complete matrix.
+Add `--float-presentation shortest` with memory mode to time default `{}`
+conversion against fmt. These rows carry a distinct presentation label and
+have no printf comparison.
+
+The chipStar recipe also records a versioned translator adapter selected through
+an explicit `-B` compiler flag. It excludes `SPV_KHR_untyped_pointers` from
+Clang20 HIPSPV's unrestricted extension list because the measured Intel IGC
+rejects that extension. The original pinned translator remains unchanged.
+Chiatta selects the Level Zero GPU backend explicitly. The qualified typed
+translator does not require skipping chipStar backend cleanup.
+
+For an isolated integration check of a committed tree, submit
+`tools/jlse/build_checks.sh PROFILE COMMIT --cxx COMPILER --coverage` through
+Cobalt script mode. For example, from a scheduler-accessible working directory:
+
+```sh
+qsub --mode script -q rome_7742 -n 1 -t 60 --cwd /home/nnichols \
+  /bin/bash /vast/projects/datascience/nnichols/ffmt_project/ffmt/tools/jlse/build_checks.sh \
+  rome 98dba67 --cxx /soft/compilers/llvm/release-22.1.8/bin/clang++ --coverage
+```
+
+The helper creates a detached checkout, runs CMake/CTest and Make controls, and
+retains step commands, raw diagnostics and source coverage under a unique job
+directory. Omit `--coverage` when using GCC.

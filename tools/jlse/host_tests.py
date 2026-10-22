@@ -15,7 +15,8 @@ import conformance
 DEFAULT_TESTS = [
     "test_engine.cpp", "test_engine_transport.cpp", "test_engine_legacy_hook.cpp",
     "test_engine_extended.cpp", "test_engine_bitint.cpp", "test_engine_quad.cpp",
-    "test_engine_portable.cpp", "test_families.cpp", "test_families_printf.cpp",
+    "test_engine_portable.cpp", "test_engine_forwarding.cpp", "test_engine_fast_math.cpp",
+    "test_families.cpp", "test_families_ranges.cpp", "test_families_printf.cpp",
     "test_families_std23.cpp",
 ]
 
@@ -68,16 +69,17 @@ def main():
             # __float128 extension on a compiler that does not expose that type.
             if filename == "test_engine_quad.cpp" and not has_quad:
                 defines = []
+            fp_flags = ["-ffast-math"] if filename == "test_engine_fast_math.cpp" else ["-fno-fast-math"]
             source = output / filename
             source.write_bytes((ROOT / "test/conformance" / fixture).read_bytes())
             for opt in a.opt or [0, 2]:
                 label = source.stem + "-O"+str(opt)
                 executable = output / label
-                process = conformance.run([*compiler, "-std="+standard, "-O"+str(opt), "-fno-fast-math", "-UNDEBUG", *defines,
+                process = conformance.run([*compiler, "-std="+standard, "-O"+str(opt), *fp_flags, "-UNDEBUG", *defines,
                                           "-I"+str(output/"source/include"), "-I"+str(oracle/"include"),
                                           str(source), str(output/"fmt.o"), "-o", str(executable)], output, label+"-build", timeout=300)
                 row = dict(test=filename, fixture=fixture, standard=standard, defines=defines,
-                           opt=opt,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),build=conformance.record(process))
+                           floating_point_flags=fp_flags,opt=opt,source_sha256=hashlib.sha256(source.read_bytes()).hexdigest(),build=conformance.record(process))
                 if process["exit_code"]:
                     row["status"] = "compile_failure"
                 else:

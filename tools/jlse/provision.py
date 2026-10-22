@@ -78,7 +78,9 @@ def cmake_install(name, src, base, flags, jobs, log, build_override=None):
     prefix = base / "install" / name
     flags = [f"-DCMAKE_INSTALL_PREFIX={prefix}", "-DCMAKE_BUILD_TYPE=Release", *flags]
     source_commit = subprocess.check_output(["git", "-C", src, "rev-parse", "HEAD"], universal_newlines=True).strip()
-    signature = hashlib.sha256(json.dumps([str(src), source_commit, flags], sort_keys=True).encode()).hexdigest()[:12]
+    source_diff = subprocess.check_output(["git", "-C", src, "diff", "--binary"])
+    patch_hash = hashlib.sha256(source_diff).hexdigest()
+    signature = hashlib.sha256(json.dumps([str(src), source_commit, patch_hash, flags], sort_keys=True).encode()).hexdigest()[:12]
     build = base / "build" / (build_override or (name + "-" + signature))
     configure_seconds = run(["cmake", "-S", src, "-B", build, *flags], log)
     build_seconds = run(["cmake", "--build", build, "--parallel", jobs], log)
@@ -88,8 +90,25 @@ def cmake_install(name, src, base, flags, jobs, log, build_override=None):
         if repository.is_dir():
             external[str(repository.parent.relative_to(build))] = subprocess.check_output(["git", "-C", repository.parent, "rev-parse", "HEAD"], universal_newlines=True).strip()
     return {"prefix": str(prefix), "build_directory": str(build), "source_commit": source_commit,
+            "source_patch_sha256": patch_hash,
             "external_commits": external, "flags": flags, "configure_seconds": configure_seconds,
             "build_seconds": build_seconds, "install_seconds": install_seconds}
+
+
+def typed_spirv_adapter(base, translator, major):
+    """Keep LLVM HIPSPV's +all setting compatible with the measured Intel IGC."""
+    wrapper = base / "install/spirv-translator-typed/bin" / f"llvm-spirv-{major}"
+    wrapper.parent.mkdir(parents=True, exist_ok=True)
+    wrapper.write_text(
+        "#!/usr/bin/python3\nimport os,sys\ntranslator=" + repr(str(translator.resolve())) + "\n"
+        'args=[a+",-SPV_KHR_untyped_pointers" if a.startswith("--spirv-ext=") else a for a in sys.argv[1:]]\n'
+        "os.execv(translator,[translator,*args])\n")
+    wrapper.chmod(0o755)
+    metadata = dict(path=str(wrapper), sha256=hashlib.sha256(wrapper.read_bytes()).hexdigest(),
+                    translator=str(translator), translator_sha256=hashlib.sha256(translator.read_bytes()).hexdigest(),
+                    excluded_extension="SPV_KHR_untyped_pointers")
+    (wrapper.parent.parent / "manifest.json").write_text(json.dumps(metadata, indent=2) + "\n")
+    return metadata
 
 
 def provision(component, args, base, log):
@@ -100,6 +119,7 @@ def provision(component, args, base, log):
     if args.fetch_only:
         return {"source": str(src), "commit": RECIPES["sources"][name]["commit"], "status": "source-ready"}
     flags = []
+    extra = {}
     compiler = os.getenv("FFMT_HOST_CXX", shutil.which("g++") or "g++")
     if name == "llvm20":
         compiler_prefix = "/soft/compilers/llvm/release-22.1.8"
@@ -131,9 +151,30 @@ def provision(component, args, base, log):
         elif args.profile == "chiatta":
             flags += ["-DWITH_LEVEL_ZERO_BACKEND=ON"]
     elif name == "chipstar":
-        llvm = Path(args.llvm_prefix or "/soft/compilers/llvm/release-22.1.8")
+        llvm = Path(args.llvm_prefix or base / "install/llvm20-shared")
+        if not (llvm / "bin/llvm-config").exists() and not args.llvm_prefix:
+            provision("llvm-shared", args, base, log)
         os.environ["LD_LIBRARY_PATH"] = str(base/"install/spirv-translator/lib") + os.pathsep + str(llvm/"lib") + os.pathsep + os.environ.get("LD_LIBRARY_PATH", "")
         run(["git", "-C", src, "submodule", "update", "--init", "--recursive", "--depth", "1"], log)
+        # Upstream v1.3 fetches SPIRV-Tools main. Freeze the measured transitive
+        # dependency and fingerprint this deterministic local source patch.
+        cmake = src / "CMakeLists.txt"
+        text = cmake.read_text()
+        upstream = 'set(SPIRV_TOOLS_VERSION "main")'
+        pinned = 'set(SPIRV_TOOLS_VERSION "'+RECIPES["pins"]["chipstar_spirv_tools"]+'")'
+        if upstream in text:
+            text = text.replace(upstream, pinned)
+        elif pinned not in text:
+            raise RuntimeError("chipStar SPIRV-Tools source pin cannot be applied")
+        # A full commit pin must stay fetchable after the upstream branch moves;
+        # a depth-one clone only contains the then-current branch tips.
+        shallow = "GIT_TAG          ${SPIRV_TOOLS_VERSION}\n    GIT_SHALLOW      TRUE"
+        complete = "GIT_TAG          ${SPIRV_TOOLS_VERSION}\n    GIT_SHALLOW      FALSE"
+        if shallow in text:
+            text = text.replace(shallow, complete)
+        elif complete not in text:
+            raise RuntimeError("chipStar SPIRV-Tools full-history clone patch cannot be applied")
+        cmake.write_text(text)
         major = int(subprocess.check_output([llvm/"bin/llvm-config", "--version"], text=True).split(".")[0])
         flags += [f"-DLLVM_CONFIG_BIN={llvm}/bin/llvm-config", f"-DCHIP_LLVM_USE_INTERGRATED_SPIRV={'ON' if major >= 22 else 'OFF'}",
                   "-DCHIP_BUILD_TESTS=OFF", "-DCHIP_BUILD_SAMPLES=OFF"]
@@ -142,6 +183,7 @@ def provision(component, args, base, log):
             if not translator.exists():
                 provision("spirv-translator", args, base, log)
             flags += [f"-DLLVM_SPIRV={translator}"]
+            extra["typed_pointer_adapter"] = typed_spirv_adapter(base, translator, major)
     elif name == "spirv-translator":
         llvm = Path(args.llvm_prefix or base / "install/llvm20-shared")
         flags += [f"-DCMAKE_C_COMPILER={llvm}/bin/clang", f"-DCMAKE_CXX_COMPILER={llvm}/bin/clang++",
@@ -178,7 +220,12 @@ def provision(component, args, base, log):
             run([python, "-m", "pip", "install", "--disable-pip-version-check", "--target", python_prefix, "PyYAML==6.0.3"], log)
         os.environ["PYTHONPATH"] = str(python_prefix) + os.pathsep + os.environ.get("PYTHONPATH", "")
         flags += [f"-DPython_EXECUTABLE={python}", f"-DPython3_EXECUTABLE={python}"]
-    return cmake_install(component + ("-" + args.install_suffix if args.install_suffix else ""), src, base, flags, args.jobs, log)
+    result = cmake_install(component + ("-" + args.install_suffix if args.install_suffix else ""), src, base, flags, args.jobs, log)
+    if name == "spirv-translator":
+        major = int(subprocess.check_output([llvm/"bin/llvm-config", "--version"], text=True).split(".")[0])
+        extra["typed_pointer_adapter"] = typed_spirv_adapter(base, base / "install/spirv-translator/bin/llvm-spirv", major)
+    result.update(extra)
+    return result
 
 
 def main():

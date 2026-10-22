@@ -22,6 +22,18 @@ Compile errors, skips and unavailable hardware must never become passing cases.
 Record the actual device and execution errors; prevent host fallback.
 Use separate artifact paths per worker and configuration. Test defects with
 minimized regressions and test harness changes with malformed-output fixtures.
+Use `--revision COMMIT` for final qualification. A WORKTREE run is development
+evidence; match its captured header hashes to an immutable commit before linking
+it to a release claim. Keep a fallback node's actual device name visible even
+when the queue profile retains the primary system's name.
+
+`tools/jlse/host_tests.py` runs strict/sanitized focused suites and records source
+hashes. `tools/jlse/build_checks.sh PROFILE COMMIT --cxx COMPILER --coverage`
+checks an isolated committed tree with CMake/CTest, Make, invalid-format controls
+and source coverage. Submit it through Cobalt, as with other compute work.
+Publish explicitly selected completed runs with `tools/report.py`; use
+`tools/benchmark_report.py` for measured groups and `tools/paper_tables.py` for
+tables plus their selection ledger. Retain earlier failures when a retry passes.
 
 Workers follow their assigned file ownership. Send the orchestrator interface
 changes and validation commands. Do not change branches, commit, reset, or include

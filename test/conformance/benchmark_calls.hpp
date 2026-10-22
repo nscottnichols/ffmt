@@ -21,8 +21,15 @@
 #define BENCH_PRINTF(...) ::printf(__VA_ARGS__)
 #endif
 
-// Every row has equivalent format and printf specifications. Values are exact
-// binary fractions, so constructing inputs does not add a rounding difference.
+#if defined(BENCH_SHORTEST) && BENCH_SHORTEST
+#define BENCH_FLOAT_PATTERN "value={}\n"
+#else
+#define BENCH_FLOAT_PATTERN "value={:.8e}\n"
+#endif
+
+// Explicit-precision rows have equivalent format and printf specifications.
+// Shortest conversion is measured only in memory against independent fmt.
+// Values are exact binary fractions, so input construction adds no rounding.
 #if defined(BENCH_OMP)
 #pragma omp declare target
 #endif
@@ -35,20 +42,20 @@ BENCH_HD inline std::size_t benchmark_call(char* output, int value, int floating
                       : BENCH_PRINTF("value=%+012d\n", value);
     }
 #if defined(BENCH_REFERENCE)
-    if (floating) fmt::print("value={:.8e}\n", number);
+    if (floating) fmt::print(BENCH_FLOAT_PATTERN, number);
     else fmt::print("value={:+012d}\n", value);
 #else
-    if (floating) FFMT_PRINT("value={:.8e}\n", number);
+    if (floating) FFMT_PRINT(BENCH_FLOAT_PATTERN, number);
     else FFMT_PRINT("value={:+012d}\n", value);
 #endif
     return 0;
   }
 #if defined(BENCH_REFERENCE)
-  auto r = floating ? fmt::format_to_n(output, 64, "value={:.8e}\n", number)
+  auto r = floating ? fmt::format_to_n(output, 64, BENCH_FLOAT_PATTERN, number)
                     : fmt::format_to_n(output, 64, "value={:+012d}\n", value);
   return r.size;
 #else
-  auto r = floating ? ffmt::format_to_n(output, 64, "value={:.8e}\n", number)
+  auto r = floating ? ffmt::format_to_n(output, 64, BENCH_FLOAT_PATTERN, number)
                     : ffmt::format_to_n(output, 64, "value={:+012d}\n", value);
   return r.error == ffmt::format_error::none ? r.written : 65;
 #endif

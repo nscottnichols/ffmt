@@ -35,7 +35,8 @@ def main():
                 "cobalt_jobid": os.getenv("COBALT_JOBID"),
                 "cobalt_partname": os.getenv("COBALT_PARTNAME"), "commands": {},
                 "paths": {}, "environment": {k: os.getenv(k) for k in
-                    ["PATH", "LD_LIBRARY_PATH", "LIBRARY_PATH", "CPATH", "LOADEDMODULES"]}}
+                    ["PATH", "LD_LIBRARY_PATH", "LIBRARY_PATH", "CPATH", "LOADEDMODULES",
+                     "ONEAPI_DEVICE_SELECTOR", "CHIP_BE", "CHIP_DEVICE_TYPE", "CHIP_SKIP_UNINIT", "FFMT_FLAGS_CHIPSTAR"]}}
     candidates = ["g++", "gcc", "clang++", "clang", "nvcc", "hipcc", "icpx", "acpp", "syclcc"]
     for name in candidates:
         executable = shutil.which(name)

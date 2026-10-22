@@ -25,7 +25,7 @@ def main():
     a = p.parse_args()
     for value in a.env:
         key, separator, _ = value.partition("=")
-        if not separator or not re.fullmatch(r"FFMT_(?:CXX_[A-Z_]+|FLAGS_[A-Z_]+|KOKKOS_[A-Z_]+_PREFIX|HOST_CXX|OMP_RUNTIME_PREFIX|GPU_ARCH)|CXX|CUDA_PATH|ROCM_PATH", key):
+        if not separator or not re.fullmatch(r"FFMT_(?:CXX_[A-Z_]+|FLAGS_[A-Z_]+|KOKKOS_[A-Z_]+_PREFIX|HOST_CXX|OMP_RUNTIME_PREFIX|GPU_ARCH)|CXX|CUDA_PATH|ROCM_PATH|CHIP_(?:BE|DEVICE_TYPE|SKIP_UNINIT)", key):
             p.error("--env accepts explicit compiler and runtime selections only")
     profiles = json.loads((ROOT / "platforms/profiles.json").read_text())["profiles"]
     if a.queue and len(a.profiles) != 1:
@@ -40,7 +40,7 @@ def main():
         # The Cobalt service host cannot open /vast output files even though
         # allocated compute nodes can. Keep launcher I/O on shared /home.
         scheduler_dir = Path.home() / ".cache/ffmt-cobalt" / profile
-        prefix = scheduler_dir / f"cobalt-{a.stage}-{datetime.datetime.now(datetime.timezone.utc):%Y%m%dT%H%M%S}"
+        prefix = scheduler_dir / f"cobalt-{a.stage}-{datetime.datetime.now(datetime.timezone.utc):%Y%m%dT%H%M%S%f}"
         cmd = ["qsub", "-q", a.queue or profiles[profile]["queue"], "-n", "1", "-t", str(minutes), "--mode", "script",
                "--cwd", str(Path.home()), "-O", str(prefix)]
         environment_file = Path(str(prefix)+".environment.json")

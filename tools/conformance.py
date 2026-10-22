@@ -13,6 +13,7 @@ import platform
 import re
 import shlex
 import shutil
+import signal
 import subprocess
 import sys
 import tarfile
@@ -59,11 +60,21 @@ def run(command, directory, stem, timeout=180):
     directory.mkdir(parents=True, exist_ok=True)
     start = time.monotonic()
     try:
-        p = subprocess.run([str(x) for x in command], stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                           cwd=str(ROOT), timeout=timeout)
-        result = dict(exit_code=p.returncode, stdout=p.stdout, stderr=p.stderr)
-    except subprocess.TimeoutExpired as e:
-        result = dict(exit_code=-1, stdout=e.stdout or b"", stderr=e.stderr or b"", timeout=True)
+        with subprocess.Popen([str(x) for x in command], stdout=subprocess.PIPE,
+                              stderr=subprocess.PIPE, cwd=str(ROOT),
+                              start_new_session=True) as p:
+            try:
+                stdout, stderr = p.communicate(timeout=timeout)
+                result = dict(exit_code=p.returncode, stdout=stdout, stderr=stderr)
+            except subprocess.TimeoutExpired:
+                # Compiler drivers and JIT launchers can have descendants that
+                # keep running and hold these pipes open after the parent dies.
+                try:
+                    os.killpg(p.pid, signal.SIGKILL)
+                except ProcessLookupError:
+                    pass
+                stdout, stderr = p.communicate()
+                result = dict(exit_code=-1, stdout=stdout, stderr=stderr, timeout=True)
     except OSError as e:
         result = dict(exit_code=-1, stdout=b"", stderr=str(e).encode())
     result.update(command=[str(x) for x in command], seconds=time.monotonic() - start)
@@ -209,12 +220,12 @@ int main(int argc, char** argv) {
   if(argc!=2) return 2;
   Kokkos::initialize(argc,argv);
   if(std::strcmp(Kokkos::DefaultExecutionSpace::name(),"EXPECTED_SPACE")!=0){Kokkos::finalize();return 77;}
-  std::fprintf(stderr,"FFMT_DEVICE kokkos space=%s\n",Kokkos::DefaultExecutionSpace::name());
+  KOKKOS_DEVICE_GUARD
   int index=std::atoi(argv[1]);
   Kokkos::parallel_for("ffmt-case",Kokkos::RangePolicy<>(0,1),KOKKOS_LAMBDA(int){execute_case(index);});
   Kokkos::fence();Kokkos::finalize();return 0;
 }
-'''.replace("EXPECTED_SPACE", expected_space)
+'''.replace("EXPECTED_SPACE", expected_space).replace("KOKKOS_DEVICE_GUARD", numeric_memory.kokkos_device_guard(route))
     elif cuda or hip:
         prefix = "cuda" if cuda else "hip"
         source += "__global__ void kernel(int index) {execute_case(index);}\n"
@@ -275,7 +286,7 @@ int main(int argc, char** argv) {
 class Campaign:
     def __init__(self, args):
         self.args = args
-        stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        stamp = datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
         self.output = ROOT / args.output if args.output else ROOT / "artifacts" / args.profile / (args.label + "-" + stamp)
         self.output.mkdir(parents=True, exist_ok=False)
         hashes = snapshot(self.output / "source", args.revision)
@@ -286,9 +297,14 @@ class Campaign:
                         worktree=args.revision == "WORKTREE", dirty=bool(git("status", "--porcelain")), files=hashes),
             oracle=dict(repository="https://github.com/fmtlib/fmt", commit=CONFIG["fmt_commit"]),
             host=dict(name=platform.node(), architecture=platform.machine(), os=platform.platform()),
-            environment={k: v for k, v in os.environ.items() if k in ("LC_ALL", "OMP_TARGET_OFFLOAD", "ONEAPI_DEVICE_SELECTOR", "ACPP_VISIBILITY_MASK")},
+            environment={k: v for k, v in os.environ.items() if k in ("LC_ALL", "OMP_TARGET_OFFLOAD", "ONEAPI_DEVICE_SELECTOR", "ACPP_VISIBILITY_MASK", "CHIP_BE", "CHIP_DEVICE_TYPE", "CHIP_SKIP_UNINIT")},
             configurations=[])
         self.manifest["corpus_sha256"] = hashlib.sha256((ROOT / "test/conformance/cases.py").read_bytes()).hexdigest()
+        self.manifest["selection"] = dict(
+            case_ids=[x["id"] for x in fixtures.CASES if not args.case or x["id"] in args.case],
+            routes=args.route or CONFIG["profiles"][args.profile]["routes"],
+            optimizations=args.opt or [0, 2], numeric_samples=args.numeric_samples,
+            memory=not args.no_memory, negative=not args.no_negative, shard_size=args.shard_size)
         self.manifest["runner_files"] = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in (ROOT / "tools/conformance.py", ROOT / "tools/numeric_memory.py", ROOT / "test/conformance/cases.py")}
         self.manifest["timeouts"] = dict(compile=args.compile_timeout, execution=args.run_timeout, cold_jit=args.jit_timeout)
@@ -353,9 +369,11 @@ class Campaign:
         p = run(cmd + [src] + link_flags(route) + ["-o", directory / "control"], directory, "control-build", self.args.compile_timeout)
         config["control_build"] = record(p)
         if p["exit_code"]:
-            config.update(status="control_compile_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not compile") for x in items])
+            config.update(stdout_status="control_compile_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not compile") for x in items])
+            self.save()
             if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
                 self.memory_suite(cmd, directory, route, config)
+            config["status"] = config["stdout_status"]
             self.save()
             print("%s -O%s: control compile failed (%s)" % (route, opt, p["stderr_file"]), flush=True)
             return
@@ -364,9 +382,11 @@ class Campaign:
         metadata = [line for line in p["stderr"].decode("utf-8", "replace").splitlines() if line.startswith("FFMT_DEVICE ")]
         config["device"] = metadata[0][12:] if metadata else None
         if p["exit_code"] or p["stdout"] != b"control 7" or not metadata:
-            config.update(status="control_execution_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not execute correctly") for x in items])
+            config.update(stdout_status="control_execution_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not execute correctly") for x in items])
+            self.save()
             if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
                 self.memory_suite(cmd, directory, route, config)
+            config["status"] = config["stdout_status"]
             self.save()
             print("%s -O%s: execution control failed" % (route, opt), flush=True)
             return
@@ -419,11 +439,13 @@ class Campaign:
                 applicable.append(index)
         for first in range(0, len(applicable), self.args.shard_size):
             shard(applicable[first:first + self.args.shard_size])
-        config["status"] = "completed"
+        config["stdout_status"] = "completed"
+        self.save()
         if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
             self.memory_suite(cmd, directory, route, config)
         if not self.args.no_negative:
             self.negatives(cmd, directory, route, config)
+        config["status"] = config["stdout_status"]
         self.save()
 
     def memory_suite(self, cmd, directory, route, config):
@@ -482,7 +504,7 @@ def main():
     parser.add_argument("--output")
     parser.add_argument("--fmt-dir", default=str(ROOT / "third_party/fmt"))
     parser.add_argument("--host-cxx")
-    parser.add_argument("--case", action="append")
+    parser.add_argument("--case", action="append", choices=sorted(x["id"] for x in fixtures.CASES))
     parser.add_argument("--shard-size", type=int, default=16)
     parser.add_argument("--compile-timeout", type=int, default=180)
     parser.add_argument("--run-timeout", type=int, default=30)
@@ -493,6 +515,8 @@ def main():
     args = parser.parse_args()
     if args.shard_size < 1:
         parser.error("--shard-size must be positive")
+    if args.numeric_samples < 0:
+        parser.error("--numeric-samples must be nonnegative")
     os.environ["LC_ALL"] = "C"
     os.environ["OMP_TARGET_OFFLOAD"] = "MANDATORY"
     os.environ["FFMT_PROFILE"] = args.profile

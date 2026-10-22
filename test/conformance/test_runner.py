@@ -1,19 +1,94 @@
 """Regressions for false passes previously possible in the output harness."""
 import importlib.util
+import io
+import json
+import os
 from pathlib import Path
+import signal
 import struct
+import subprocess
 import sys
 import tempfile
+import time
 from types import SimpleNamespace
 import unittest
 from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 import numeric_memory
+import report as evidence_report
 
 spec = importlib.util.spec_from_file_location("conformance", str(Path(__file__).resolve().parents[2] / "tools/conformance.py"))
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
+
+
+class ProcessLifetimeTests(unittest.TestCase):
+    def test_binary_output_and_nonzero_exit_are_preserved(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                mock.patch.object(runner, "ROOT", Path(temporary)):
+            result = runner.run([sys.executable, "-c",
+                "import os; os.write(1,b'out\\x00\\xff'); os.write(2,b'err\\x00\\xfe'); raise SystemExit(7)"],
+                Path(temporary), "binary", timeout=10)
+            self.assertEqual(result["exit_code"], 7)
+            self.assertNotIn("timeout", result)
+            for name, expected in (("stdout", b"out\x00\xff"), ("stderr", b"err\x00\xfe")):
+                self.assertEqual(result[name], expected)
+                self.assertEqual((Path(temporary) / result[name + "_file"]).read_bytes(), expected)
+
+    @unittest.skipUnless(hasattr(os, "killpg"), "requires POSIX process groups")
+    def test_timeout_kills_spawned_child_and_grandchild(self):
+        def running(pid):
+            try:
+                os.kill(pid, 0)
+            except ProcessLookupError:
+                return False
+            # An orphan can briefly remain as a zombie before init reaps it.
+            # It is already dead and cannot keep a compiler or pipe alive.
+            status = subprocess.run(["ps", "-p", str(pid), "-o", "stat="],
+                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            state = status.stdout.strip()
+            return bool(state) and not state.startswith(b"Z")
+
+        with tempfile.TemporaryDirectory() as temporary, \
+                mock.patch.object(runner, "ROOT", Path(temporary)):
+            directory = Path(temporary)
+            parent_file, child_file, grandchild_file = [directory / (name + ".json")
+                for name in ("parent", "child", "grandchild")]
+            save = "from pathlib import Path; import json,os,signal,time; signal.signal(signal.SIGTERM,signal.SIG_IGN); "
+            grandchild = save + ("os.write(1,b'grandchild\\x00\\xff'); os.write(2,b'diagnostic\\x00\\xfe'); "
+                f"Path({str(grandchild_file)!r}).write_text(json.dumps([os.getpid(),os.getpgrp()])); time.sleep(60)")
+            child = save + (f"Path({str(child_file)!r}).write_text(json.dumps([os.getpid(),os.getpgrp()])); "
+                f"import subprocess,sys; subprocess.Popen([sys.executable,'-c',{grandchild!r}]); time.sleep(60)")
+            parent = save + (f"Path({str(parent_file)!r}).write_text(json.dumps([os.getpid(),os.getpgrp()])); "
+                f"import subprocess,sys; subprocess.Popen([sys.executable,'-c',{child!r}]); time.sleep(60)")
+            try:
+                result = runner.run([sys.executable, "-c", parent], directory, "timeout", timeout=3)
+                self.assertEqual(result["exit_code"], -1)
+                self.assertTrue(result["timeout"])
+                self.assertEqual(result["stdout"], b"grandchild\x00\xff")
+                self.assertEqual(result["stderr"], b"diagnostic\x00\xfe")
+                parent_pid, parent_group = json.loads(parent_file.read_text())
+                descendants = [json.loads(path.read_text()) for path in (child_file, grandchild_file)]
+                self.assertEqual(parent_pid, parent_group)
+                for pid, group in descendants:
+                    self.assertEqual(group, parent_group)
+                    deadline = time.monotonic() + 3
+                    while running(pid) and time.monotonic() < deadline:
+                        time.sleep(0.02)
+                    self.assertFalse(running(pid), f"descendant {pid} survived timeout")
+                for name in ("stdout", "stderr"):
+                    self.assertEqual((directory / result[name + "_file"]).read_bytes(), result[name])
+            finally:
+                # Also clean descendants if this regression is run against an
+                # implementation that only kills the immediate parent.
+                for path in (child_file, grandchild_file):
+                    if path.exists():
+                        pid, _ = json.loads(path.read_text())
+                        try:
+                            os.kill(pid, signal.SIGKILL)
+                        except ProcessLookupError:
+                            pass
 
 
 class OutputEvidenceTests(unittest.TestCase):
@@ -91,7 +166,47 @@ class MemoryEvidenceTests(unittest.TestCase):
         self.assertEqual(numeric_memory.compare_records(expected, actual)["failed"], 1)
 
 
+class ReportEvidenceTests(unittest.TestCase):
+    def manifest(self, directory, status, case_status, fatal=None):
+        path = directory / "manifest.json"
+        data = dict(profile="local", label="test", started="test", source={}, oracle={}, host={},
+            configurations=[dict(route="host-buffer", optimization=2, status=status,
+                cases=[dict(id="case", status=case_status)])])
+        if fatal:
+            data["fatal_error"] = fatal
+        path.write_text(json.dumps(data))
+        return path
+
+    def test_auxiliary_fatal_error_cannot_publish_a_legacy_completed_config(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                mock.patch.object(evidence_report, "ROOT", Path(temporary)):
+            path = self.manifest(Path(temporary), "completed", "pass", "numeric oracle failed")
+            result = evidence_report.summarize(path, terminal_only=True)
+            self.assertEqual(result["configurations"], [])
+            self.assertEqual(result["fatal_error"], "numeric oracle failed")
+            self.assertEqual(result["unfinished_configurations"][0]["positive_counts"], {"pass": 1})
+
+    def test_terminal_selection_retains_failed_controls(self):
+        with tempfile.TemporaryDirectory() as temporary, \
+                mock.patch.object(evidence_report, "ROOT", Path(temporary)):
+            path = self.manifest(Path(temporary), "control_compile_failure", "not_run")
+            result = evidence_report.summarize(path, terminal_only=True)
+            self.assertEqual(result["unfinished_configurations"], [])
+            config = result["configurations"][0]
+            self.assertEqual(config["status"], "control_compile_failure")
+            self.assertEqual(config["positive_executions"], 0)
+
+
 class BackendEvidenceTests(unittest.TestCase):
+    def test_unknown_case_cannot_silently_shrink_a_campaign(self):
+        with mock.patch.object(sys, "argv", ["conformance.py", "--case", "literal", "--case", "typo"]), \
+                mock.patch.object(sys, "stderr", io.StringIO()), \
+                mock.patch.object(runner, "Campaign") as campaign:
+            with self.assertRaises(SystemExit) as error:
+                runner.main()
+            self.assertEqual(error.exception.code, 2)
+            campaign.assert_not_called()
+
     def test_unknown_route_cannot_become_host_execution(self):
         with self.assertRaises(ValueError):
             runner.target_source([], [], "misspelled-gpu")
@@ -109,6 +224,7 @@ class BackendEvidenceTests(unittest.TestCase):
                 campaign.manifest = {"configurations": []}
                 campaign.save = mock.Mock()
                 def memory(cmd, directory, route, config):
+                    self.assertNotIn("status", config)
                     config["numeric_memory"] = {"status": "execution_failure"}
                 campaign.memory_suite = mock.Mock(side_effect=memory)
                 ok = dict(exit_code=0, stdout=b"", stderr=b"", stderr_file="diagnostic")
@@ -121,6 +237,54 @@ class BackendEvidenceTests(unittest.TestCase):
                 config = campaign.manifest["configurations"][0]
                 self.assertEqual(config["cases"][0]["status"], "not_run")
                 self.assertEqual(config["numeric_memory"]["status"], "execution_failure")
+                self.assertEqual(config["stdout_status"], "control_compile_failure" if compile_failure else "control_execution_failure")
+                self.assertEqual(config["status"], config["stdout_status"])
+
+    def test_auxiliary_exception_leaves_configuration_unfinished(self):
+        for control_failure, failed_suite in ((None, "memory"), ("compile", "memory"),
+                                               ("execution", "memory"), (None, "negative")):
+            with self.subTest(control_failure=control_failure, failed_suite=failed_suite), \
+                    tempfile.TemporaryDirectory() as temporary:
+                campaign = object.__new__(runner.Campaign)
+                campaign.output = Path(temporary)
+                header = campaign.output / "source/include/ffmt/core.hpp"
+                header.parent.mkdir(parents=True)
+                header.touch()
+                campaign.args = SimpleNamespace(run_timeout=30, jit_timeout=600,
+                    compile_timeout=60, no_memory=False, no_negative=False, shard_size=1)
+                campaign.manifest = {"configurations": []}
+                checkpoints = []
+                campaign.save = lambda: checkpoints.append(json.loads(json.dumps(campaign.manifest)))
+
+                def process(command, directory, stem, *args):
+                    result = dict(exit_code=0, stdout=b"", stderr=b"", stderr_file="diagnostic")
+                    if stem == "control-build" and control_failure == "compile":
+                        result["exit_code"] = 1
+                    elif stem == "control-run":
+                        result.update(stdout=b"control 7", stderr=b"FFMT_DEVICE host\n")
+                        if control_failure == "execution":
+                            result["exit_code"] = 1
+                    elif stem == "literal":
+                        result["stdout"] = b"expected"
+                    return result
+
+                def auxiliary(name, cmd, directory, route, config):
+                    self.assertNotIn("status", config)
+                    self.assertEqual(checkpoints[-1]["configurations"][0]["stdout_status"],
+                                     config["stdout_status"])
+                    if name == failed_suite:
+                        raise RuntimeError("auxiliary failure")
+
+                campaign.memory_suite = lambda *args: auxiliary("memory", *args)
+                campaign.negatives = lambda *args: auxiliary("negative", *args)
+                with mock.patch.object(runner, "run", side_effect=process), mock.patch("builtins.print"), \
+                        self.assertRaisesRegex(RuntimeError, "auxiliary failure"):
+                    campaign.configuration("host-buffer", 2,
+                        [dict(id="literal", family="core", pattern="expected", args=[])], [b"expected"])
+                config = campaign.manifest["configurations"][0]
+                self.assertNotIn("status", config)
+                expected = "control_" + control_failure + "_failure" if control_failure else "completed"
+                self.assertEqual(config["stdout_status"], expected)
 
     def test_shared_binary_failure_is_isolated_before_case_classification(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -146,6 +310,8 @@ class BackendEvidenceTests(unittest.TestCase):
             config = campaign.manifest["configurations"][0]
             self.assertEqual([case["status"] for case in config["cases"]], ["pass", "pass"])
             self.assertEqual(config["shard_failures"][0]["status"], "execution_failure")
+            self.assertEqual(config["stdout_status"], "completed")
+            self.assertEqual(config["status"], "completed")
 
 
 if __name__ == "__main__":

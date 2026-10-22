@@ -5,6 +5,24 @@ MAGIC = 0x46464D54
 SEED = 0x4D595DF4D0F33173
 
 
+def kokkos_device_guard(route):
+    if route == "kokkos-sycl":
+        return r'''
+  auto device=Kokkos::DefaultExecutionSpace{}.sycl_queue().get_device();
+  if(!device.is_gpu()){Kokkos::finalize();return 77;}
+  std::fprintf(stderr,"FFMT_DEVICE kokkos space=SYCL name=%s\n",device.get_info<sycl::info::device::name>().c_str());
+'''
+    if route in ("kokkos-cuda", "kokkos-hip"):
+        prefix = "cuda" if route == "kokkos-cuda" else "hip"
+        prop = "cudaDeviceProp" if prefix == "cuda" else "hipDeviceProp_t"
+        return r'''
+  int device_id=0;PROPTYPE properties{};
+  if(PREFIXGetDevice(&device_id)!=PREFIXSuccess||PREFIXGetDeviceProperties(&properties,device_id)!=PREFIXSuccess){Kokkos::finalize();return 78;}
+  std::fprintf(stderr,"FFMT_DEVICE kokkos space=SPACE name=%s arch=%d.%d\n",properties.name,properties.major,properties.minor);
+'''.replace("PROPTYPE", prop).replace("PREFIX", prefix).replace("SPACE", "Cuda" if prefix == "cuda" else "HIP")
+    return r'''std::fprintf(stderr,"FFMT_DEVICE kokkos space=Serial\n");'''
+
+
 def parse_records(data):
     if len(data) < 8:
         raise ValueError("missing memory-suite header")
@@ -108,7 +126,7 @@ void serialize(const std::vector<Input>& in,const std::vector<Output>& out){
 int main(int argc,char** argv){
   Kokkos::initialize(argc,argv);
   if(std::strcmp(Kokkos::DefaultExecutionSpace::name(),"EXPECTED_SPACE")!=0){Kokkos::finalize();return 77;}
-  std::fprintf(stderr,"FFMT_DEVICE kokkos memory space=%s\n",Kokkos::DefaultExecutionSpace::name());
+  KOKKOS_DEVICE_GUARD
   {
     auto in=inputs();std::vector<Output> out(in.size());unsigned n=unsigned(in.size());
     Kokkos::View<Input*> din("input",n);Kokkos::View<Output*> dout("output",n);
@@ -120,7 +138,7 @@ int main(int argc,char** argv){
   }
   Kokkos::finalize();return 0;
 }
-'''.replace("EXPECTED_SPACE", expected_space)
+'''.replace("EXPECTED_SPACE", expected_space).replace("KOKKOS_DEVICE_GUARD", kokkos_device_guard(route))
     if oracle or not (cuda or hip or sycl or omp):
         return text + """
 int main(){

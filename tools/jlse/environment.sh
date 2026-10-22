@@ -32,6 +32,7 @@ if type module >/dev/null 2>&1; then
           export FFMT_CXX_OMP_SPIRV="${FFMT_CXX_OMP_SPIRV:-$ffmt_oneapi/bin/icpx}"
         fi
         export ONEAPI_DEVICE_SELECTOR=level_zero:gpu
+        export CHIP_BE="${CHIP_BE:-level0}" CHIP_DEVICE_TYPE="${CHIP_DEVICE_TYPE:-gpu}"
         unset ffmt_oneapi
         ;;
     esac
@@ -75,7 +76,17 @@ if [ -f /usr/lib64/libstdc++.so.6 ]; then
 fi
 if [ -x "$ffmt_prefix/intel-llvm/bin/clang++" ]; then export FFMT_CXX_SYCL="${ffmt_user_sycl:-$ffmt_prefix/intel-llvm/bin/clang++}"; fi
 if [ -x "$ffmt_prefix/adaptivecpp/bin/acpp" ]; then export FFMT_CXX_ACPP="${FFMT_CXX_ACPP:-$ffmt_prefix/adaptivecpp/bin/acpp}"; fi
-if [ -x "$ffmt_prefix/chipstar/bin/hipcc" ]; then export FFMT_CXX_CHIPSTAR="${FFMT_CXX_CHIPSTAR:-$ffmt_prefix/chipstar/bin/hipcc}"; fi
+if [ -x "$ffmt_prefix/chipstar/bin/hipcc" ]; then
+  export FFMT_CXX_CHIPSTAR="${FFMT_CXX_CHIPSTAR:-$ffmt_prefix/chipstar/bin/hipcc}"
+  # The locally built Clang otherwise selects native GCC14 headers, whose
+  # hardened string_view indexing calls a host-only assertion on SPIR devices.
+  if [ "$(uname -m)" = x86_64 ] && [ -z "${FFMT_FLAGS_CHIPSTAR:-}" ]; then
+    export FFMT_FLAGS_CHIPSTAR=--gcc-toolchain=/soft/compilers/gcc/13.3.0/x86_64-suse-linux
+    if [ -d "$ffmt_prefix/spirv-translator-typed/bin" ]; then
+      export FFMT_FLAGS_CHIPSTAR="$FFMT_FLAGS_CHIPSTAR -B$ffmt_prefix/spirv-translator-typed/bin"
+    fi
+  fi
+fi
 if [ -n "${FFMT_OMP_RUNTIME_PREFIX:-}" ]; then
   export LD_LIBRARY_PATH="$FFMT_OMP_RUNTIME_PREFIX/lib:$FFMT_OMP_RUNTIME_PREFIX/lib/x86_64-unknown-linux-gnu:${LD_LIBRARY_PATH:-}"
 fi

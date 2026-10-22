@@ -9,16 +9,35 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
+def device_label(run, config):
+    """Keep actual hardware visible when a queue profile uses a fallback node."""
+    device = config.get("device") or "unavailable"
+    if " name=" in device:
+        device = device.split(" name=", 1)[1].split(" arch=", 1)[0].split(" fp64=", 1)[0]
+    elif device == "host" or device == "kokkos space=Serial":
+        device = "host " + run["host"]["architecture"]
+    return device.replace("|", "\\|").replace("\n", " ")
+
+
 def read_log(config, key, stream="stdout"):
     name = config.get(key, {}).get(stream + "_file")
     return (ROOT / name).read_text(errors="replace") if name and (ROOT / name).is_file() else None
 
 
-def summarize(path):
+def summarize(path, terminal_only=False):
     raw = path.read_bytes()
     m = json.loads(raw)
     configurations = []
+    unfinished = []
     for c in m["configurations"]:
+        interrupted = bool(m.get("fatal_error")) and c is m["configurations"][-1]
+        if terminal_only and (not c.get("status") or interrupted):
+            unfinished.append(dict(route=c["route"], optimization=c["optimization"],
+                recorded_cases=len(c.get("cases", [])), status="not_completed",
+                reported_status=c.get("status"), stdout_status=c.get("stdout_status"),
+                positive_counts=dict(Counter(x["status"] for x in c.get("cases", []))),
+                numeric_memory=c.get("numeric_memory"), fatal_error=m.get("fatal_error") if interrupted else None))
+            continue
         cases = c.get("cases", [])
         compact = []
         for case in cases:
@@ -33,7 +52,7 @@ def summarize(path):
                         entry[stage][stream + "_sha256"] = hashlib.sha256((ROOT / file).read_bytes()).hexdigest()
             compact.append(entry)
         configurations.append(dict(route=c["route"], optimization=c["optimization"],
-            status=c.get("status", "incomplete"), device=c.get("device"),
+            status=c.get("status", "incomplete"), stdout_status=c.get("stdout_status"), device=c.get("device"),
             compiler_version=read_log(c, "compiler_version"),
             command_prefix=c.get("command_prefix"), control_build=c.get("control_build"),
             control_run=c.get("control_run"),
@@ -44,8 +63,14 @@ def summarize(path):
             negative_counts=dict(Counter(x["status"] for x in c.get("negative_cases", []))),
             numeric_memory=c.get("numeric_memory"),
             cases=compact, negative_cases=c.get("negative_cases", [])))
+    termination = path.parent / "termination.json"
+    termination_record = dict(evidence=json.loads(termination.read_text()),
+        sha256=hashlib.sha256(termination.read_bytes()).hexdigest()) if termination.is_file() else None
     return dict(profile=m["profile"], label=m["label"], started=m["started"], finished=m.get("finished"),
                 source=m["source"], oracle=m["oracle"], host=m["host"], environment=m.get("environment"),
+                selection=m.get("selection"), termination=termination_record,
+                fatal_error=m.get("fatal_error"),
+                unfinished_configurations=unfinished,
                 input_manifest=str(path.relative_to(ROOT)), input_sha256=hashlib.sha256(raw).hexdigest(),
                 corpus_sha256=m.get("corpus_sha256"), timeouts=m.get("timeouts"),
                 runner_files=m.get("runner_files"),
@@ -58,29 +83,32 @@ def main():
     p.add_argument("--label", required=True)
     p.add_argument("--output", required=True, help="output basename within repository")
     p.add_argument("--include-incomplete", action="store_true")
+    p.add_argument("--terminal-configurations-only", action="store_true", help="Include terminal configurations from partial campaigns, retaining failed controls and explicit unfinished scope")
     p.add_argument("--manifest", type=Path, action="append", help="Select exact runs instead of scanning the label")
     a = p.parse_args()
     runs = []
     for path in a.manifest or sorted((ROOT / "artifacts").glob("*/" + a.label + "-*/manifest.json")):
         path = path.resolve()
         m = json.loads(path.read_text())
-        if m.get("finished") or a.include_incomplete:
-            runs.append(summarize(path))
+        if m.get("finished") or a.include_incomplete or a.terminal_configurations_only:
+            runs.append(summarize(path, a.terminal_configurations_only))
     target = ROOT / a.output
     target.parent.mkdir(parents=True, exist_ok=True)
     target.with_suffix(".json").write_text(json.dumps(dict(schema_version=1, runs=runs), indent=2, sort_keys=True) + "\n")
     lines = ["# " + a.label + " qualification", "", "Exact byte comparisons against the pinned host fmt oracle. Counts are executions per configuration; logical case IDs remain stable across configurations.", "",
         "A failed positive control means cases were not exercised. Unsupported or compile-failing cases are not counted as executions. Hardware availability and compiler failures are separate from output agreement.", "",
-        "| Profile | Route | Opt | Executed | Exact | Mismatch | Unsupported | Other failures | Negative rejection |", "|---|---|---:|---:|---:|---:|---:|---:|---:|"]
+        "| Profile | Actual device | Route | Opt | Executed | Exact | Mismatch | Unsupported | Other failures | Negative rejection |", "|---|---|---|---:|---:|---:|---:|---:|---:|---:|"]
     for run in runs:
         for c in run["configurations"]:
             counts = c["positive_counts"]
             other = sum(v for k, v in counts.items() if k not in ("pass", "mismatch", "unsupported"))
             negatives = c["negative_counts"]
-            lines.append("| %s | %s | O%d | %d | %d | %d | %d | %d | %d/%d |" %
-                (run["profile"], c["route"], c["optimization"], c["positive_executions"], counts.get("pass", 0), counts.get("mismatch", 0), counts.get("unsupported", 0), other, negatives.get("expected_rejection", 0), sum(negatives.values())))
+            lines.append("| %s | %s | %s | O%d | %d | %d | %d | %d | %d | %d/%d |" %
+                (run["profile"], device_label(run, c), c["route"], c["optimization"], c["positive_executions"], counts.get("pass", 0), counts.get("mismatch", 0), counts.get("unsupported", 0), other, negatives.get("expected_rejection", 0), sum(negatives.values())))
     lines += ["", "## Observed gaps", ""]
     for run in runs:
+        if not run["finished"]:
+            lines.append("- **%s partial campaign:** only the selected terminal configurations are shown; the original run did not finish. Unfinished attempts and termination scope remain in the JSON." % run["profile"])
         for c in run["configurations"]:
             failures = [x for x in c["cases"] if x["status"] != "pass"]
             if not failures:
@@ -96,13 +124,13 @@ def main():
                     lines.append("- **%s, %s:** %s." % (label, status, ", ".join(ids)))
     lines += ["", "## Device-memory numeric comparisons", "",
               "Each input record combines five independently referenced formats. Counts are input records, not stdout cases.", "",
-              "| Profile | Route | Opt | Status | Exact/input records |", "|---|---|---:|---|---:|"]
+              "| Profile | Actual device | Route | Opt | Status | Exact/input records |", "|---|---|---|---:|---|---:|"]
     for run in runs:
         for c in run["configurations"]:
             memory = c.get("numeric_memory")
             if memory:
-                lines.append("| %s | %s | O%d | %s | %s/%s |" %
-                    (run["profile"], c["route"], c["optimization"], memory["status"],
+                lines.append("| %s | %s | %s | O%d | %s | %s/%s |" %
+                    (run["profile"], device_label(run, c), c["route"], c["optimization"], memory["status"],
                      memory.get("passed", "—"), memory.get("input_cases", "—")))
     lines += ["", "The companion JSON contains compiler/device identity, source file hashes, commands, per-case outcomes, and hashes/paths for raw evidence retained under artifacts/. Code coverage and performance are measured separately.", ""]
     target.with_suffix(".md").write_text("\n".join(lines))

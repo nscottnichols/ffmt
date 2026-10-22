@@ -16,7 +16,23 @@ ROOT = Path(__file__).resolve().parents[2]
 def source(route, workload, oracle=False):
     name, pattern, argument, count, serial = workload
     text = numeric_memory.source(route, oracle=oracle, samples=(count-24)//2 if count > 24 else 0)
-    if pattern is None:
+    prefix = ""
+    if pattern and pattern.startswith("@deep"):
+        depth, width = (int(part) for part in pattern[len("@deep"):].split("x"))
+        text = text.replace("#include <ffmt/base.hpp>\n", "")
+        body = "unsigned seed;if constexpr(sizeof(T)==8)seed=unsigned(__builtin_bit_cast(std::uint64_t,value));else seed=__builtin_bit_cast(std::uint32_t,value);"
+        if oracle:
+            body += "unsigned checksum=0;for(unsigned level=0;level<="+str(depth)+";++level){unsigned s=seed+level;checksum+=(s+s%"+str(width)+")&255;}"
+        else:
+            prefix = "HD __attribute__((noinline)) unsigned probe_deep_leaf(const volatile unsigned char* data,unsigned index){return data[index];}\n"
+            prefix += "template<int Depth,int Width>HD __attribute__((noinline)) unsigned probe_deep(unsigned seed){volatile unsigned char local[Width];for(unsigned j=0;j<Width;++j)local[j]=static_cast<unsigned char>((seed+j)&255);unsigned tail=0;if constexpr(Depth>0)tail=probe_deep<Depth-1,Width>(seed+1);return tail+probe_deep_leaf(local,seed%Width);}\n"
+            body += "unsigned checksum=probe_deep<"+str(depth)+","+str(width)+">(seed);"
+        body += "out.written=out.required=4;out.error=0;for(unsigned j=0;j<4;++j)out.text[j]=char(checksum>>(8*j));"
+    elif pattern == "@stack" and not oracle:
+        prefix = 'HD __attribute__((noinline)) void probe_leaf(char* data){data[0]=\'x\';}\n'
+        body = "char local[768];probe_leaf(local);out.text[0]=local[0];out.written=out.required=1;out.error=0;"
+        text = text.replace("#include <ffmt/base.hpp>\n", "")
+    elif pattern is None or pattern == "@stack":
         body = "out.text[0]='x';out.written=out.required=1;out.error=0;"
     elif oracle:
         body = 'auto value_text=fmt::format("' + pattern + '",' + argument + ');'
@@ -26,15 +42,18 @@ def source(route, workload, oracle=False):
         body += "out.written=unsigned(r.written);out.required=unsigned(r.required);out.error=unsigned(r.error);"
     begin = text.index("template<class T>HD void format_record_value")
     end = text.index("HD void format_record(", begin)
-    text = text[:begin] + "template<class T>HD void format_record_value(T value,Output& out){" + body + "}\n" + text[end:]
-    if count == 1:
-        text = text.replace("auto in=inputs();", "auto in=inputs();in.resize(1);")
-    if serial and not oracle:
+    text = text[:begin] + prefix + "template<class T>HD __attribute__((noinline)) void format_record_value(T value,Output& out){" + body + "}\n" + text[end:]
+    if count < 24:
+        text = text.replace("auto in=inputs();", "auto in=inputs();in.resize("+str(count)+");")
+    if serial == "target" and not oracle:
+        text = text.replace("#pragma omp target teams distribute parallel for map", "#pragma omp target map")
+        text = text.replace("for(unsigned i=0;i<n;++i)format_record(di[i],dout[i]);", "{for(unsigned i=0;i<n;++i)format_record(di[i],dout[i]);}")
+    elif serial and not oracle:
         text = text.replace("target teams distribute parallel for map", "target teams distribute parallel for num_teams(1) thread_limit(1) map")
     return text
 
 
-def run_probes(profile, timeout=120, large=False):
+def run_probes(profile, timeout=120, large=False, loops=False, stack_teams=False, deep=False):
     route = {"mi300x": "omp-hip", "h100": "omp-cuda", "chiatta": "omp-spirv"}[profile]
     directory = ROOT / "artifacts" / profile / ("omp-memory-" + os.environ["COBALT_JOBID"])
     directory.mkdir(parents=True, exist_ok=True)
@@ -70,6 +89,19 @@ def run_probes(profile, timeout=120, large=False):
             ("fixed-large", "{:.6f}", "value", 8216, False),
             ("full-large", full, "value,value,value,value,value", 8216, False),
         ]
+    if loops:
+        workloads = [("integer-target-"+str(n), "{}", "7", n, "target") for n in (1, 2, 4)]
+        workloads += [("stack-target-"+str(n), "@stack", "", n, "target") for n in (1, 2, 4)]
+    if stack_teams:
+        workloads = [("stack-teams-"+str(n), "@stack", "", n, False) for n in (1, 24, 8216)]
+        workloads += [("stack-one-team-24", "@stack", "", 24, True)]
+    if deep:
+        workloads = []
+        for depth in (4, 16, 64):
+            for width in (64, 768):
+                pattern = "@deep"+str(depth)+"x"+str(width)
+                workloads += [("deep-teams-"+str(depth)+"x"+str(width), pattern, "", 8216, False),
+                              ("deep-target-"+str(depth)+"x"+str(width), pattern, "", 4, "target")]
     for workload in workloads:
         name = workload[0]
         oracle = directory / (name+"-oracle.cpp")
