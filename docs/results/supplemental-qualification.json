@@ -1,0 +1,3484 @@
+{
+  "acpp_raw_transport_controls": [
+    {
+      "actual_device": "AMD Radeon Graphics",
+      "cobalt_jobid": "1011071",
+      "device_identity_source": "FFMT_DEVICE sycl name=AMD Radeon Graphics in each executed fixture stderr; discovery inventory is linked separately.",
+      "discovery": {
+        "bytes": 115269,
+        "path": "artifacts/mi300x/discovery-1011071.json",
+        "sha256": "4dc42875f104f5c635b3d8f5b5bd66c618dcc6f8e27aefb3e8b6d2ba527dfe6e"
+      },
+      "execution_scope": "native_gpu_execution_for_successfully_built_fixtures",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": "amdgpu01",
+      "raw_manifest": {
+        "bytes": 16733,
+        "path": "artifacts/mi300x/acpp-nul-1011071/manifest.json",
+        "sha256": "69e3c6a9ac06a40e2ce795b0418362b212aef63782edcf45b417bb240aaf8eb3"
+      },
+      "results": [
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 4.486191717005568,
+            "sources": [
+              {
+                "bytes": 771,
+                "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O0.cpp",
+                "sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O0"
+            ],
+            "exit_code": -6,
+            "seconds": 1.6899755659978837,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O0-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O0-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf",
+          "opt": 0,
+          "source_sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/sscp-string-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/sscp-string-O0"
+            ],
+            "exit_code": 1,
+            "seconds": 3.9807695470080944,
+            "sources": [
+              {
+                "bytes": 807,
+                "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O0.cpp",
+                "sha256": "1c6326e3a2ca9e4835fb7c0927c421e0386fb8d61f938a2900d43f4ec3530fa9"
+              }
+            ],
+            "stderr": {
+              "bytes": 309,
+              "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O0-build.stderr",
+              "sha256": "1db03e2bbba9d000e9fff9f927ef010bc2b8dd8b4455b196b40098283f982daf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "name": "sscp-string",
+          "opt": 0,
+          "source_sha256": "1c6326e3a2ca9e4835fb7c0927c421e0386fb8d61f938a2900d43f4ec3530fa9",
+          "status": "compile_failure"
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 3.9993343020032626,
+            "sources": [
+              {
+                "bytes": 827,
+                "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0.cpp",
+                "sha256": "af2bd1ec9c653d9930761d54adb1e1e3d0f429cc6026429b165e995e52fe1c0c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 1.8652511639957083,
+            "stderr": {
+              "bytes": 379,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0-run.stderr",
+              "sha256": "7f5bbb9935f3b363b7d5d5a5681a09a4f69ac81bc7433c476e8a298be40fa6f2"
+            },
+            "stdout": {
+              "bytes": 3,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O0-run.stdout",
+              "sha256": "59b271ae1bbcb1d31d41929817f4b16fb439eb4f31520b5ad1d5ce98920a7138"
+            }
+          },
+          "expected_binary_bytes_equal": true,
+          "name": "mapped-bytes",
+          "opt": 0,
+          "source_sha256": "af2bd1ec9c653d9930761d54adb1e1e3d0f429cc6026429b165e995e52fe1c0c",
+          "status": "executed",
+          "stdout_base64": "YQBi",
+          "stdout_bytes": 3
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 4.094449419993907,
+            "sources": [
+              {
+                "bytes": 879,
+                "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0.cpp",
+                "sha256": "0ac309decfea871ef1c9471817f8bf8921ef24f236800559845ee97d4eda7192"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 3.162827723994269,
+            "stderr": {
+              "bytes": 373,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0-run.stderr",
+              "sha256": "3cae838a576aef72008d61cefe1be70294ebc70eade3f1b277f60cdc6ff48fe9"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O0-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "ffmt-stdout-status",
+          "opt": 0,
+          "source_sha256": "0ac309decfea871ef1c9471817f8bf8921ef24f236800559845ee97d4eda7192",
+          "status": "executed",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 4.082246738995309,
+            "sources": [
+              {
+                "bytes": 928,
+                "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0.cpp",
+                "sha256": "8789ba88b0c90cda6cafbc064397f72eb264c876a0569fa337172a03846aff4f"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 2.203835071006324,
+            "stderr": {
+              "bytes": 373,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0-run.stderr",
+              "sha256": "9d3090c793a7e4b637b8bfa8e8e7f5afc409c8bb8cecd3b6b79d993b6d5a32af"
+            },
+            "stdout": {
+              "bytes": 3,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O0-run.stdout",
+              "sha256": "59b271ae1bbcb1d31d41929817f4b16fb439eb4f31520b5ad1d5ce98920a7138"
+            }
+          },
+          "expected_binary_bytes_equal": true,
+          "name": "ffmt-memory",
+          "opt": 0,
+          "source_sha256": "8789ba88b0c90cda6cafbc064397f72eb264c876a0569fa337172a03846aff4f",
+          "status": "executed",
+          "stdout_base64": "YQBi",
+          "stdout_bytes": 3
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 4.987105703999987,
+            "sources": [
+              {
+                "bytes": 771,
+                "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O2.cpp",
+                "sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/literal-printf-O2"
+            ],
+            "exit_code": -6,
+            "seconds": 1.6209286369994516,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O2-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/literal-printf-O2-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf",
+          "opt": 2,
+          "source_sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/sscp-string-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/sscp-string-O2"
+            ],
+            "exit_code": 1,
+            "seconds": 5.017798214001232,
+            "sources": [
+              {
+                "bytes": 807,
+                "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O2.cpp",
+                "sha256": "1c6326e3a2ca9e4835fb7c0927c421e0386fb8d61f938a2900d43f4ec3530fa9"
+              }
+            ],
+            "stderr": {
+              "bytes": 354,
+              "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O2-build.stderr",
+              "sha256": "d012c46087e66495ad2ecea4d091da00633dd7f13901824d4003c384f3cf1cc2"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/sscp-string-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "name": "sscp-string",
+          "opt": 2,
+          "source_sha256": "1c6326e3a2ca9e4835fb7c0927c421e0386fb8d61f938a2900d43f4ec3530fa9",
+          "status": "compile_failure"
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 5.001160877000075,
+            "sources": [
+              {
+                "bytes": 827,
+                "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2.cpp",
+                "sha256": "af2bd1ec9c653d9930761d54adb1e1e3d0f429cc6026429b165e995e52fe1c0c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 1.8503506350098178,
+            "stderr": {
+              "bytes": 379,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2-run.stderr",
+              "sha256": "7f5bbb9935f3b363b7d5d5a5681a09a4f69ac81bc7433c476e8a298be40fa6f2"
+            },
+            "stdout": {
+              "bytes": 3,
+              "path": "artifacts/mi300x/acpp-nul-1011071/mapped-bytes-O2-run.stdout",
+              "sha256": "59b271ae1bbcb1d31d41929817f4b16fb439eb4f31520b5ad1d5ce98920a7138"
+            }
+          },
+          "expected_binary_bytes_equal": true,
+          "name": "mapped-bytes",
+          "opt": 2,
+          "source_sha256": "af2bd1ec9c653d9930761d54adb1e1e3d0f429cc6026429b165e995e52fe1c0c",
+          "status": "executed",
+          "stdout_base64": "YQBi",
+          "stdout_bytes": 3
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 5.219057148002321,
+            "sources": [
+              {
+                "bytes": 879,
+                "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2.cpp",
+                "sha256": "0ac309decfea871ef1c9471817f8bf8921ef24f236800559845ee97d4eda7192"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 3.1912712460034527,
+            "stderr": {
+              "bytes": 373,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2-run.stderr",
+              "sha256": "3cae838a576aef72008d61cefe1be70294ebc70eade3f1b277f60cdc6ff48fe9"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-stdout-status-O2-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "ffmt-stdout-status",
+          "opt": 2,
+          "source_sha256": "0ac309decfea871ef1c9471817f8bf8921ef24f236800559845ee97d4eda7192",
+          "status": "executed",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 5.282205743002123,
+            "sources": [
+              {
+                "bytes": 928,
+                "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2.cpp",
+                "sha256": "8789ba88b0c90cda6cafbc064397f72eb264c876a0569fa337172a03846aff4f"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 2.2511568179907044,
+            "stderr": {
+              "bytes": 373,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2-run.stderr",
+              "sha256": "9d3090c793a7e4b637b8bfa8e8e7f5afc409c8bb8cecd3b6b79d993b6d5a32af"
+            },
+            "stdout": {
+              "bytes": 3,
+              "path": "artifacts/mi300x/acpp-nul-1011071/ffmt-memory-O2-run.stdout",
+              "sha256": "59b271ae1bbcb1d31d41929817f4b16fb439eb4f31520b5ad1d5ce98920a7138"
+            }
+          },
+          "expected_binary_bytes_equal": true,
+          "name": "ffmt-memory",
+          "opt": 2,
+          "source_sha256": "8789ba88b0c90cda6cafbc064397f72eb264c876a0569fa337172a03846aff4f",
+          "status": "executed",
+          "stdout_base64": "YQBi",
+          "stdout_bytes": 3
+        }
+      ],
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    },
+    {
+      "actual_device": "AMD Radeon Graphics",
+      "cobalt_jobid": "1011072",
+      "device_identity_source": "FFMT_DEVICE sycl name=AMD Radeon Graphics in each executed fixture stderr; discovery inventory is linked separately.",
+      "discovery": {
+        "bytes": 115269,
+        "path": "artifacts/mi300x/discovery-1011072.json",
+        "sha256": "e449e8daa0c1632bf95159e9d6196e6edc10fad21183820f2feccf8b29e43c3b"
+      },
+      "execution_scope": "native_gpu_execution_for_successfully_built_fixtures",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": "amdgpu01",
+      "raw_manifest": {
+        "bytes": 11507,
+        "path": "artifacts/mi300x/acpp-nul-1011072/manifest.json",
+        "sha256": "be6ef4a3fce0961f5298517e21bad5a95c0616bff03c6f9cbbbc2c9fda100eb4"
+      },
+      "results": [
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 4.097100295010023,
+            "sources": [
+              {
+                "bytes": 771,
+                "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O0.cpp",
+                "sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O0"
+            ],
+            "exit_code": -6,
+            "seconds": 1.631732074994943,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O0-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O0-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf",
+          "opt": 0,
+          "source_sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 3.979168808000395,
+            "sources": [
+              {
+                "bytes": 772,
+                "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0.cpp",
+                "sha256": "47ade47862b8e9580d80bfeb9441c2caa8aac156d0ffb4097f867619221fee98"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0"
+            ],
+            "exit_code": -6,
+            "seconds": 1.6018925340031274,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O0-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf-ascii",
+          "opt": 0,
+          "source_sha256": "47ade47862b8e9580d80bfeb9441c2caa8aac156d0ffb4097f867619221fee98",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O0.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 3.957206370003405,
+            "sources": [
+              {
+                "bytes": 830,
+                "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O0.cpp",
+                "sha256": "a19d3e78c9d94cca89da147df983b67aed53707848100267269ff36b6c63a02e"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O0"
+            ],
+            "exit_code": 0,
+            "seconds": 1.9861286789964652,
+            "stderr": {
+              "bytes": 379,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O0-run.stderr",
+              "sha256": "af3506b95579f0d622535ad02497884001cb8b579e1c4d0dbce8d9baca0e328e"
+            },
+            "stdout": {
+              "bytes": 1,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O0-run.stdout",
+              "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "sscp-string",
+          "opt": 0,
+          "source_sha256": "a19d3e78c9d94cca89da147df983b67aed53707848100267269ff36b6c63a02e",
+          "status": "executed",
+          "stdout_base64": "YQ==",
+          "stdout_bytes": 1
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 5.017610461000004,
+            "sources": [
+              {
+                "bytes": 771,
+                "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O2.cpp",
+                "sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-O2"
+            ],
+            "exit_code": -6,
+            "seconds": 1.635595903993817,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O2-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-O2-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf",
+          "opt": 2,
+          "source_sha256": "be4ab905196543e51e7ea3eb9c2734190e15785a95c3abffa8b4bf9c221c767c",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 4.971300845994847,
+            "sources": [
+              {
+                "bytes": 772,
+                "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2.cpp",
+                "sha256": "47ade47862b8e9580d80bfeb9441c2caa8aac156d0ffb4097f867619221fee98"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2"
+            ],
+            "exit_code": -6,
+            "seconds": 1.6911994959955337,
+            "stderr": {
+              "bytes": 464,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2-run.stderr",
+              "sha256": "04972d963abb5bdfc146f8613ba5a71f79e21a4fe834124c9e1079feeb7544cf"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/literal-printf-ascii-O2-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "literal-printf-ascii",
+          "opt": 2,
+          "source_sha256": "47ade47862b8e9580d80bfeb9441c2caa8aac156d0ffb4097f867619221fee98",
+          "status": "execution_failure",
+          "stdout_base64": "",
+          "stdout_bytes": 0
+        },
+        {
+          "build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/adaptivecpp/bin/acpp",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "--acpp-targets=generic",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O2.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 4.951466640006402,
+            "sources": [
+              {
+                "bytes": 830,
+                "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O2.cpp",
+                "sha256": "a19d3e78c9d94cca89da147df983b67aed53707848100267269ff36b6c63a02e"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/acpp-nul-1011072/sscp-string-O2"
+            ],
+            "exit_code": 0,
+            "seconds": 2.0345525659940904,
+            "stderr": {
+              "bytes": 379,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O2-run.stderr",
+              "sha256": "af3506b95579f0d622535ad02497884001cb8b579e1c4d0dbce8d9baca0e328e"
+            },
+            "stdout": {
+              "bytes": 1,
+              "path": "artifacts/mi300x/acpp-nul-1011072/sscp-string-O2-run.stdout",
+              "sha256": "ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb"
+            }
+          },
+          "expected_binary_bytes_equal": false,
+          "name": "sscp-string",
+          "opt": 2,
+          "source_sha256": "a19d3e78c9d94cca89da147df983b67aed53707848100267269ff36b6c63a02e",
+          "status": "executed",
+          "stdout_base64": "YQ==",
+          "stdout_bytes": 1
+        }
+      ],
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    }
+  ],
+  "acpp_transport_interpretation": [
+    "Mapped raw bytes and ffmt format_to_n emit exactly base64 YQBi (a, NUL, b) at O0/O2; formatting returns error 0, written 3, required 3.",
+    "ffmt try_print emits no bytes and returns transport_error (7), written 0, required 3 for the same NUL payload.",
+    "Bare printf with NUL and ASCII substitutions both abort with std::length_error / vector::_M_default_append. These controls do not isolate a NUL-specific printf failure.",
+    "The supported __acpp_if_target_sscp-wrapped __acpp_sscp_print control returns zero but emits only 'a' from the a,NUL,b string. The earlier unguarded builtin fixture's compile failure is retained as a fixture limitation, not a runtime failure."
+  ],
+  "final98_native_controls": [
+    {
+      "cobalt_jobid": "1011074",
+      "configurations": [
+        {
+          "cases": [
+            {
+              "actual_bytes": 16,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O0",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 1.611910773004638,
+                "sources": [
+                  {
+                    "bytes": 872,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0.cpp",
+                    "sha256": "da1dd504e0833d624a834897ed9e78db5eacfb1ca9b1475dfc97ca8e8e552564"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 0.38386976899346337,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/literal.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 16,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/literal.stdout",
+                  "sha256": "831fdd374094b747120bebee8a234630c7dec952cb56a2672206caa2cec7dfad"
+                }
+              },
+              "expected_bytes": 16,
+              "family": "literal",
+              "id": "literal",
+              "source_sha256": "da1dd504e0833d624a834897ed9e78db5eacfb1ca9b1475dfc97ca8e8e552564",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 14,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O0",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1"
+                ],
+                "exit_code": 0,
+                "seconds": 1.8243427099951077,
+                "sources": [
+                  {
+                    "bytes": 871,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1.cpp",
+                    "sha256": "7fd5766d108d3f91112cb6a428465afb8fd14b2fbe1a24f648ebb5db213f7b9c"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-1-1",
+                  "1"
+                ],
+                "exit_code": 0,
+                "seconds": 0.415597863990115,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/dynamic-width.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 14,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/dynamic-width.stdout",
+                  "sha256": "3f48208fe9ce33be4388820a0ab6ff29264dd58d35a04d5906734ef0ea01f244"
+                }
+              },
+              "expected_bytes": 14,
+              "family": "dynamic",
+              "id": "dynamic-width",
+              "source_sha256": "7fd5766d108d3f91112cb6a428465afb8fd14b2fbe1a24f648ebb5db213f7b9c",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 6,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O0",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2"
+                ],
+                "exit_code": 0,
+                "seconds": 2.0896914979966823,
+                "sources": [
+                  {
+                    "bytes": 875,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2.cpp",
+                    "sha256": "8fcbe4c087dfc2817344f59cdc35d1f8a6931ce065443dc324627d2335f796b6"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-2-2",
+                  "2"
+                ],
+                "exit_code": 0,
+                "seconds": 0.5139112610195298,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/dynamic-precision.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 6,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/dynamic-precision.stdout",
+                  "sha256": "8d20c40394785ada3ea23013403c0b990d9aba7ec8fbd489f9e10607f8b52e67"
+                }
+              },
+              "expected_bytes": 6,
+              "family": "dynamic",
+              "id": "dynamic-precision",
+              "source_sha256": "8fcbe4c087dfc2817344f59cdc35d1f8a6931ce065443dc324627d2335f796b6",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 4,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O0",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3"
+                ],
+                "exit_code": 0,
+                "seconds": 1.8080544790136628,
+                "sources": [
+                  {
+                    "bytes": 879,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3.cpp",
+                    "sha256": "2924e07f9f2550c41a4cbfae74ed1346799a72c0a315bf423c9509a9234cc052"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/cases-3-3",
+                  "3"
+                ],
+                "exit_code": 0,
+                "seconds": 0.3868666470225435,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/runtime-format.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 4,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/runtime-format.stdout",
+                  "sha256": "42a7a909af4a19e9aef2e94d69c63736ecc68e61f1c9849607063f61b27b79de"
+                }
+              },
+              "expected_bytes": 4,
+              "family": "runtime",
+              "id": "runtime-format",
+              "source_sha256": "2924e07f9f2550c41a4cbfae74ed1346799a72c0a315bf423c9509a9234cc052",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "hipcc",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.043990703008603305,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 359,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/compiler-version.stdout",
+              "sha256": "1ea4b187ec6c59cbe6aa5c7bee782c22e5acf4046363de0c26d15029dc5db021"
+            }
+          },
+          "control_build": {
+            "command": [
+              "hipcc",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-x",
+              "hip",
+              "--offload-arch=gfx942",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control"
+            ],
+            "exit_code": 0,
+            "seconds": 1.850691719999304,
+            "sources": [
+              {
+                "bytes": 866,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control.cpp",
+                "sha256": "036d3ea8d30fe8b851f9eeceaec40aa8fc5e16948f6e3f6d4bafebd778a54eb3"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 0.49718304799171165,
+            "stderr": {
+              "bytes": 50,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control-run.stderr",
+              "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "hip name=AMD Radeon Graphics arch=9.4",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "hipcc",
+                "-std=c++20",
+                "-O0",
+                "-fno-fast-math",
+                "-x",
+                "hip",
+                "--offload-arch=gfx942",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory.cpp",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 2.355132644006517,
+              "sources": [
+                {
+                  "bytes": 3449,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory.cpp",
+                  "sha256": "ea3385487cf0832d24d31c46b74aed4a94623eec1cf947b7675c8385d9b28ae8"
+                }
+              ],
+              "stderr": {
+                "bytes": 1376,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory-build.stderr",
+                "sha256": "2d2c34df391545b186f2d072f79f703f152d02ce67dbf9f728ea274dcbd12d64"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 0.7157207069976721,
+              "stderr": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory-run.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O0/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "ea3385487cf0832d24d31c46b74aed4a94623eec1cf947b7675c8385d9b28ae8",
+            "status": "pass"
+          },
+          "optimization": 0,
+          "route": "hip",
+          "status": "completed"
+        },
+        {
+          "cases": [
+            {
+              "actual_bytes": 16,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 2.3884479440166615,
+                "sources": [
+                  {
+                    "bytes": 872,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0.cpp",
+                    "sha256": "da1dd504e0833d624a834897ed9e78db5eacfb1ca9b1475dfc97ca8e8e552564"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 0.3878907629987225,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/literal.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 16,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/literal.stdout",
+                  "sha256": "831fdd374094b747120bebee8a234630c7dec952cb56a2672206caa2cec7dfad"
+                }
+              },
+              "expected_bytes": 16,
+              "family": "literal",
+              "id": "literal",
+              "source_sha256": "da1dd504e0833d624a834897ed9e78db5eacfb1ca9b1475dfc97ca8e8e552564",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 14,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1"
+                ],
+                "exit_code": 0,
+                "seconds": 3.364230238017626,
+                "sources": [
+                  {
+                    "bytes": 871,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1.cpp",
+                    "sha256": "7fd5766d108d3f91112cb6a428465afb8fd14b2fbe1a24f648ebb5db213f7b9c"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-1-1",
+                  "1"
+                ],
+                "exit_code": 0,
+                "seconds": 0.38802748601301573,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/dynamic-width.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 14,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/dynamic-width.stdout",
+                  "sha256": "3f48208fe9ce33be4388820a0ab6ff29264dd58d35a04d5906734ef0ea01f244"
+                }
+              },
+              "expected_bytes": 14,
+              "family": "dynamic",
+              "id": "dynamic-width",
+              "source_sha256": "7fd5766d108d3f91112cb6a428465afb8fd14b2fbe1a24f648ebb5db213f7b9c",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 6,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2"
+                ],
+                "exit_code": 0,
+                "seconds": 4.170470576995285,
+                "sources": [
+                  {
+                    "bytes": 875,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2.cpp",
+                    "sha256": "8fcbe4c087dfc2817344f59cdc35d1f8a6931ce065443dc324627d2335f796b6"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-2-2",
+                  "2"
+                ],
+                "exit_code": 0,
+                "seconds": 0.38440412998897955,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/dynamic-precision.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 6,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/dynamic-precision.stdout",
+                  "sha256": "8d20c40394785ada3ea23013403c0b990d9aba7ec8fbd489f9e10607f8b52e67"
+                }
+              },
+              "expected_bytes": 6,
+              "family": "dynamic",
+              "id": "dynamic-precision",
+              "source_sha256": "8fcbe4c087dfc2817344f59cdc35d1f8a6931ce065443dc324627d2335f796b6",
+              "status": "pass"
+            },
+            {
+              "actual_bytes": 4,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3.cpp",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3"
+                ],
+                "exit_code": 0,
+                "seconds": 3.168911088985624,
+                "sources": [
+                  {
+                    "bytes": 879,
+                    "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3.cpp",
+                    "sha256": "2924e07f9f2550c41a4cbfae74ed1346799a72c0a315bf423c9509a9234cc052"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/cases-3-3",
+                  "3"
+                ],
+                "exit_code": 0,
+                "seconds": 0.38628652700572275,
+                "stderr": {
+                  "bytes": 50,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/runtime-format.stderr",
+                  "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+                },
+                "stdout": {
+                  "bytes": 4,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/runtime-format.stdout",
+                  "sha256": "42a7a909af4a19e9aef2e94d69c63736ecc68e61f1c9849607063f61b27b79de"
+                }
+              },
+              "expected_bytes": 4,
+              "family": "runtime",
+              "id": "runtime-format",
+              "source_sha256": "2924e07f9f2550c41a4cbfae74ed1346799a72c0a315bf423c9509a9234cc052",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "hipcc",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.04409052198752761,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 359,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/compiler-version.stdout",
+              "sha256": "1ea4b187ec6c59cbe6aa5c7bee782c22e5acf4046363de0c26d15029dc5db021"
+            }
+          },
+          "control_build": {
+            "command": [
+              "hipcc",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-x",
+              "hip",
+              "--offload-arch=gfx942",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control.cpp",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control"
+            ],
+            "exit_code": 0,
+            "seconds": 3.236459701991407,
+            "sources": [
+              {
+                "bytes": 866,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control.cpp",
+                "sha256": "036d3ea8d30fe8b851f9eeceaec40aa8fc5e16948f6e3f6d4bafebd778a54eb3"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 0.38666518800891936,
+            "stderr": {
+              "bytes": 50,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control-run.stderr",
+              "sha256": "1f81dc5556773750f66ee7ddd6dbc96b4027c3e6b2e2d855c8e9dea3833cc88b"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "hip name=AMD Radeon Graphics arch=9.4",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "hipcc",
+                "-std=c++20",
+                "-O2",
+                "-fno-fast-math",
+                "-x",
+                "hip",
+                "--offload-arch=gfx942",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory.cpp",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 8.819271554006264,
+              "sources": [
+                {
+                  "bytes": 3449,
+                  "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory.cpp",
+                  "sha256": "ea3385487cf0832d24d31c46b74aed4a94623eec1cf947b7675c8385d9b28ae8"
+                }
+              ],
+              "stderr": {
+                "bytes": 1376,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory-build.stderr",
+                "sha256": "1c2de64d6a01c7bc5cabbd14d536f3bfcd25f42930365021e939ecf6180170ac"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 0.42763440700946376,
+              "stderr": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory-run.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/mi300x/head-20261022T040835242752Z/hip-O2/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "ea3385487cf0832d24d31c46b74aed4a94623eec1cf947b7675c8385d9b28ae8",
+            "status": "pass"
+          },
+          "optimization": 2,
+          "route": "hip",
+          "status": "completed"
+        }
+      ],
+      "discovery": {
+        "bytes": 115269,
+        "path": "artifacts/mi300x/discovery-1011074.json",
+        "sha256": "0e764a21e298ef99e208c2f5945cdec8c233a8980e718749298b000a7538820b"
+      },
+      "execution_scope": "native_gpu_execution",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": {
+        "architecture": "x86_64",
+        "name": "amdgpu01",
+        "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+      },
+      "note": "Native HIP O0/O2: literal, dynamic-width, dynamic-precision and runtime-format, plus 26 independent numeric input records.",
+      "raw_manifest": {
+        "bytes": 174027,
+        "path": "artifacts/mi300x/head-20261022T040835242752Z/manifest.json",
+        "sha256": "034a90682d7d342700a15cf525fac277d68bf500a2cf27325e260bfb2d151a0e"
+      },
+      "revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+      "source_worktree": false
+    },
+    {
+      "cobalt_jobid": "1011074",
+      "discovery": {
+        "bytes": 115269,
+        "path": "artifacts/mi300x/discovery-1011074.json",
+        "sha256": "0e764a21e298ef99e208c2f5945cdec8c233a8980e718749298b000a7538820b"
+      },
+      "execution_scope": "compile_only",
+      "fixture_sha256": "2b4b850460611c5dc996a43694ff209f3de64c29391ea746b7025d802a6fcd7d",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": "amdgpu01",
+      "note": "Clang CUDA and NVCC at O0/O2 compiled the selected dynamic/literal fixtures for sm_86 while allocated on an AMD node; these four records are compile-only and do not claim NVIDIA execution.",
+      "raw_manifest": {
+        "bytes": 8618,
+        "path": "artifacts/mi300x/final-native-compile-1011074/manifest.json",
+        "sha256": "16338561f995cd22a3938005f0d46e50086a18f6184bd1cb6be50f7e4c8d3a74"
+      },
+      "results": [
+        {
+          "compile": {
+            "command": [
+              "/soft/compilers/cuda/cuda-12.9.1/bin/nvcc",
+              "-std=c++20",
+              "-O0",
+              "-x",
+              "cu",
+              "--extended-lambda",
+              "--expt-relaxed-constexpr",
+              "-arch=sm_86",
+              "-Xcompiler=-fno-fast-math",
+              "-ccbin=/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/source/include",
+              "-c",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/selected.cu",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/nvcc-O0.o"
+            ],
+            "exit_code": 0,
+            "seconds": 16.272731302015018,
+            "sources": [
+              {
+                "bytes": 1012,
+                "path": "artifacts/mi300x/final-native-compile-1011074/selected.cu",
+                "sha256": "2b4b850460611c5dc996a43694ff209f3de64c29391ea746b7025d802a6fcd7d"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-O0-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "compiler_version": {
+            "command": [
+              "/soft/compilers/cuda/cuda-12.9.1/bin/nvcc",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.03979247601819225,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 208,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-version.stdout",
+              "sha256": "77d7ef23109cd2437a8b9cf5efbc4e89996b816276077edb86143ee04f6d5269"
+            }
+          },
+          "object_sha256": "a506cd5077a68fb47e1c51fe4b15ecd3d1a02d9dd4aca989ab71758af5f7be41",
+          "opt": 0,
+          "status": "compiled"
+        },
+        {
+          "compile": {
+            "command": [
+              "/soft/compilers/cuda/cuda-12.9.1/bin/nvcc",
+              "-std=c++20",
+              "-O2",
+              "-x",
+              "cu",
+              "--extended-lambda",
+              "--expt-relaxed-constexpr",
+              "-arch=sm_86",
+              "-Xcompiler=-fno-fast-math",
+              "-ccbin=/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/source/include",
+              "-c",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/selected.cu",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/nvcc-O2.o"
+            ],
+            "exit_code": 0,
+            "seconds": 14.734283524012426,
+            "sources": [
+              {
+                "bytes": 1012,
+                "path": "artifacts/mi300x/final-native-compile-1011074/selected.cu",
+                "sha256": "2b4b850460611c5dc996a43694ff209f3de64c29391ea746b7025d802a6fcd7d"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-O2-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "compiler_version": {
+            "command": [
+              "/soft/compilers/cuda/cuda-12.9.1/bin/nvcc",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.03979247601819225,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 208,
+              "path": "artifacts/mi300x/final-native-compile-1011074/nvcc-version.stdout",
+              "sha256": "77d7ef23109cd2437a8b9cf5efbc4e89996b816276077edb86143ee04f6d5269"
+            }
+          },
+          "object_sha256": "d2e2ae781eb63e65631c4667bc3e68dda24bc38103b591e19780b3b129db3af0",
+          "opt": 2,
+          "status": "compiled"
+        },
+        {
+          "compile": {
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-x",
+              "cuda",
+              "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+              "--cuda-gpu-arch=sm_86",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+              "-lcudart",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/source/include",
+              "-c",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/selected.cu",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/cuda-O0.o"
+            ],
+            "exit_code": 0,
+            "seconds": 4.64633912499994,
+            "sources": [
+              {
+                "bytes": 1012,
+                "path": "artifacts/mi300x/final-native-compile-1011074/selected.cu",
+                "sha256": "2b4b850460611c5dc996a43694ff209f3de64c29391ea746b7025d802a6fcd7d"
+              }
+            ],
+            "stderr": {
+              "bytes": 302,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-O0-build.stderr",
+              "sha256": "d36caaa7550a9e7459a304479b9a620540e1bd748f68346554f947fae3187357"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-O0-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "compiler_version": {
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.009334732982097194,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 334,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-version.stdout",
+              "sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607"
+            }
+          },
+          "object_sha256": "e3030d136a206535a94b5b38ab3d15305e763a2f90bcac9f101ead6fba08174e",
+          "opt": 0,
+          "status": "compiled"
+        },
+        {
+          "compile": {
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-x",
+              "cuda",
+              "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+              "--cuda-gpu-arch=sm_86",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+              "-lcudart",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/source/include",
+              "-c",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/selected.cu",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/final-native-compile-1011074/cuda-O2.o"
+            ],
+            "exit_code": 0,
+            "seconds": 6.910453892982332,
+            "sources": [
+              {
+                "bytes": 1012,
+                "path": "artifacts/mi300x/final-native-compile-1011074/selected.cu",
+                "sha256": "2b4b850460611c5dc996a43694ff209f3de64c29391ea746b7025d802a6fcd7d"
+              }
+            ],
+            "stderr": {
+              "bytes": 302,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-O2-build.stderr",
+              "sha256": "d36caaa7550a9e7459a304479b9a620540e1bd748f68346554f947fae3187357"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-O2-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "compiler_version": {
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.009334732982097194,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 334,
+              "path": "artifacts/mi300x/final-native-compile-1011074/cuda-version.stdout",
+              "sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607"
+            }
+          },
+          "object_sha256": "fd7031bc1385c805191fe388b302cfc2416ed5f975223cf75d8def1ca9a8db43",
+          "opt": 2,
+          "status": "compiled"
+        }
+      ],
+      "revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+      "selected_cases": [
+        "literal",
+        "dynamic-width",
+        "dynamic-precision",
+        "runtime-format"
+      ],
+      "source_worktree": false,
+      "target_architecture": "sm_86"
+    }
+  ],
+  "generated_utc": "2026-10-22T04:35:00.827525+00:00",
+  "kokkos_actual_device_guards": [
+    {
+      "cobalt_jobid": "1011058",
+      "configurations": [
+        {
+          "cases": [
+            {
+              "actual_bytes": 70,
+              "build": {
+                "command": [
+                  "g++",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-DFFMT_BUFFER_PATH=1",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0.cpp",
+                  "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+                  "-lkokkoscontainers",
+                  "-lkokkoscore",
+                  "-ldl",
+                  "-pthread",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 5.159920831967611,
+                "sources": [
+                  {
+                    "bytes": 2056,
+                    "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0.cpp",
+                    "sha256": "83ef0077367ec855983776f9450858a05b0fcf37e32536e8238092f0fd6ba6c3"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 0.005217919999267906,
+                "stderr": {
+                  "bytes": 32,
+                  "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/bounded-family-padding.stderr",
+                  "sha256": "caf77d066352bb8dad6ef31f5ab48a55180b978a0d4ea4d0f0a8b8b555027f48"
+                },
+                "stdout": {
+                  "bytes": 70,
+                  "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/bounded-family-padding.stdout",
+                  "sha256": "27aee72117d251d222ab24033be2e16d59bbbfcca88b01fdfea88a4a5d9f0405"
+                }
+              },
+              "expected_bytes": 70,
+              "family": "range",
+              "id": "bounded-family-padding",
+              "source_sha256": "83ef0077367ec855983776f9450858a05b0fcf37e32536e8238092f0fd6ba6c3",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "g++",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.0020500720129348338,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 219,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/compiler-version.stdout",
+              "sha256": "3619f0f05f2e2d5acba88c4510c5be6594fbdf5587e7e92b2cefc4bca4f73981"
+            }
+          },
+          "control_build": {
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-DFFMT_BUFFER_PATH=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control"
+            ],
+            "exit_code": 0,
+            "seconds": 3.383380016020965,
+            "sources": [
+              {
+                "bytes": 771,
+                "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control.cpp",
+                "sha256": "60011582ab3c84ede7b35bebfd83f5145c6a861bd08384b7cc0b86fd9b05816c"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 0.004689626977778971,
+            "stderr": {
+              "bytes": 32,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control-run.stderr",
+              "sha256": "caf77d066352bb8dad6ef31f5ab48a55180b978a0d4ea4d0f0a8b8b555027f48"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "kokkos space=Serial",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "g++",
+                "-std=c++20",
+                "-O2",
+                "-fno-fast-math",
+                "-DFFMT_BUFFER_PATH=1",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory.cpp",
+                "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+                "-lkokkoscontainers",
+                "-lkokkoscore",
+                "-ldl",
+                "-pthread",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 5.148764252022374,
+              "sources": [
+                {
+                  "bytes": 3327,
+                  "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory.cpp",
+                  "sha256": "b5a5b83c0a3db9f2dc284e07316884dee9babd1013829410983c04886b2abdd3"
+                }
+              ],
+              "stderr": {
+                "bytes": 0,
+                "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory-build.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 0.005201290012337267,
+              "stderr": {
+                "bytes": 32,
+                "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory-run.stderr",
+                "sha256": "caf77d066352bb8dad6ef31f5ab48a55180b978a0d4ea4d0f0a8b8b555027f48"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/rome/head-20261022T032713Z/kokkos-serial-O2/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "b5a5b83c0a3db9f2dc284e07316884dee9babd1013829410983c04886b2abdd3",
+            "status": "pass"
+          },
+          "optimization": 2,
+          "route": "kokkos-serial",
+          "status": "completed"
+        }
+      ],
+      "discovery": {
+        "bytes": 39294,
+        "path": "artifacts/rome/discovery-1011058.json",
+        "sha256": "d33a4bac0d71fa7028ae330bd17d9b77594eec1028b971ffda652dd7c2e557e0"
+      },
+      "execution_scope": "native_cpu_execution",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": {
+        "architecture": "x86_64",
+        "name": "rome00",
+        "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+      },
+      "note": "One bounded-family-padding stdout case plus 26 independent numeric input records; the runner also validates actual execution space and selected device.",
+      "raw_manifest": {
+        "bytes": 72281,
+        "path": "artifacts/rome/head-20261022T032713Z/manifest.json",
+        "sha256": "ae20e49b1de9e6343616fb38bdd9db6d590d87459766fc874439c160da9dc0ce"
+      },
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    },
+    {
+      "cobalt_jobid": "1011059",
+      "configurations": [
+        {
+          "cases": [
+            {
+              "actual_bytes": 70,
+              "build": {
+                "command": [
+                  "hipcc",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "hip",
+                  "--offload-arch=gfx942",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/include",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0.cpp",
+                  "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/lib64",
+                  "-lkokkoscontainers",
+                  "-lkokkoscore",
+                  "-ldl",
+                  "-pthread",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 12.467450499010738,
+                "sources": [
+                  {
+                    "bytes": 2352,
+                    "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0.cpp",
+                    "sha256": "4828352e42dafa71c513f7ee0f742dd079915ed052a8f1061071c0b57588336a"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0-build.stderr",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 0.4035048160003498,
+                "stderr": {
+                  "bytes": 63,
+                  "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/bounded-family-padding.stderr",
+                  "sha256": "44f76bf09710b5d54a53a4ef34b6d6ff4f4b35fa9af7c3a6a167b7d0a29e738d"
+                },
+                "stdout": {
+                  "bytes": 70,
+                  "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/bounded-family-padding.stdout",
+                  "sha256": "27aee72117d251d222ab24033be2e16d59bbbfcca88b01fdfea88a4a5d9f0405"
+                }
+              },
+              "expected_bytes": 70,
+              "family": "range",
+              "id": "bounded-family-padding",
+              "source_sha256": "4828352e42dafa71c513f7ee0f742dd079915ed052a8f1061071c0b57588336a",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "hipcc",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.048409538008854724,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 359,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/compiler-version.stdout",
+              "sha256": "1ea4b187ec6c59cbe6aa5c7bee782c22e5acf4046363de0c26d15029dc5db021"
+            }
+          },
+          "control_build": {
+            "command": [
+              "hipcc",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-x",
+              "hip",
+              "--offload-arch=gfx942",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control"
+            ],
+            "exit_code": 0,
+            "seconds": 8.277246013996773,
+            "sources": [
+              {
+                "bytes": 1067,
+                "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control.cpp",
+                "sha256": "3b4c2f0d795460ebc625d9e0076a47eb8c6fa0a20029a5cba7d0c8414b804891"
+              }
+            ],
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control-build.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 0.41156723599124234,
+            "stderr": {
+              "bytes": 63,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control-run.stderr",
+              "sha256": "44f76bf09710b5d54a53a4ef34b6d6ff4f4b35fa9af7c3a6a167b7d0a29e738d"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "kokkos space=HIP name=AMD Radeon Graphics arch=9.4",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "hipcc",
+                "-std=c++20",
+                "-O2",
+                "-fno-fast-math",
+                "-x",
+                "hip",
+                "--offload-arch=gfx942",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/include",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory.cpp",
+                "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/mi300x/install/kokkos-hip/lib64",
+                "-lkokkoscontainers",
+                "-lkokkoscore",
+                "-ldl",
+                "-pthread",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 14.935140087996842,
+              "sources": [
+                {
+                  "bytes": 3623,
+                  "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory.cpp",
+                  "sha256": "084d67053be10ed985c34c3b05ab19fa8d04953d413f1a4d482e6a4304601e9d"
+                }
+              ],
+              "stderr": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory-build.stderr",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 0.44334314900333993,
+              "stderr": {
+                "bytes": 63,
+                "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory-run.stderr",
+                "sha256": "44f76bf09710b5d54a53a4ef34b6d6ff4f4b35fa9af7c3a6a167b7d0a29e738d"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/mi300x/head-20261022T032724Z/kokkos-hip-O2/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "084d67053be10ed985c34c3b05ab19fa8d04953d413f1a4d482e6a4304601e9d",
+            "status": "pass"
+          },
+          "optimization": 2,
+          "route": "kokkos-hip",
+          "status": "completed"
+        }
+      ],
+      "discovery": {
+        "bytes": 115119,
+        "path": "artifacts/mi300x/discovery-1011059.json",
+        "sha256": "92f6c281d121cd287feb20c18661894a8a18b2b5f0a79908a7048ca01d66161c"
+      },
+      "execution_scope": "native_gpu_execution",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": {
+        "architecture": "x86_64",
+        "name": "amdgpu01",
+        "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+      },
+      "note": "One bounded-family-padding stdout case plus 26 independent numeric input records; the runner also validates actual execution space and selected device.",
+      "raw_manifest": {
+        "bytes": 149038,
+        "path": "artifacts/mi300x/head-20261022T032724Z/manifest.json",
+        "sha256": "cbe596c8d75b509769b681e60cd153fd184a1e8e018e05b4ccce22b0a570490b"
+      },
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    },
+    {
+      "cobalt_jobid": "1011060",
+      "configurations": [
+        {
+          "cases": [
+            {
+              "actual_bytes": 70,
+              "build": {
+                "command": [
+                  "clang++",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-x",
+                  "cuda",
+                  "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+                  "--cuda-gpu-arch=sm_86",
+                  "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+                  "-lcudart",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/include",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0.cpp",
+                  "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/lib64",
+                  "-lkokkoscontainers",
+                  "-lkokkoscore",
+                  "-ldl",
+                  "-pthread",
+                  "-lcuda",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 25.811536758003058,
+                "sources": [
+                  {
+                    "bytes": 2354,
+                    "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0.cpp",
+                    "sha256": "0fe1f7fc69a069763aaec5b6a13bfe51ced5a88d5d3739489387a86897b0a2c5"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 26332,
+                  "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0-build.stderr",
+                  "sha256": "fea0be1fb51dd5685c501db7baa6928a180ed554de5c48cab1eb452fb0413262"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 0.3429627719888231,
+                "stderr": {
+                  "bytes": 55,
+                  "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/bounded-family-padding.stderr",
+                  "sha256": "c0a33c01869ea31309861ad0234bbb7dbd3a821479206ae2e98d4b5edf39aa3d"
+                },
+                "stdout": {
+                  "bytes": 70,
+                  "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/bounded-family-padding.stdout",
+                  "sha256": "27aee72117d251d222ab24033be2e16d59bbbfcca88b01fdfea88a4a5d9f0405"
+                }
+              },
+              "expected_bytes": 70,
+              "family": "range",
+              "id": "bounded-family-padding",
+              "source_sha256": "0fe1f7fc69a069763aaec5b6a13bfe51ced5a88d5d3739489387a86897b0a2c5",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "clang++",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.008451118002994917,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 334,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/compiler-version.stdout",
+              "sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607"
+            }
+          },
+          "control_build": {
+            "command": [
+              "clang++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-x",
+              "cuda",
+              "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+              "--cuda-gpu-arch=sm_86",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+              "-lcudart",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-lcuda",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control"
+            ],
+            "exit_code": 0,
+            "seconds": 16.952762614993844,
+            "sources": [
+              {
+                "bytes": 1069,
+                "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control.cpp",
+                "sha256": "d5e059ac5f56d4e4d09e275daf300e04d8d8a95412c8626ac725d89a6c83e873"
+              }
+            ],
+            "stderr": {
+              "bytes": 26324,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control-build.stderr",
+              "sha256": "0a5cd42de5fea72d70b589f3359de53791c243d6799aed9f0d68e67b74d3ba59"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 0.339946072010207,
+            "stderr": {
+              "bytes": 55,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control-run.stderr",
+              "sha256": "c0a33c01869ea31309861ad0234bbb7dbd3a821479206ae2e98d4b5edf39aa3d"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "kokkos space=Cuda name=NVIDIA A40 arch=8.6",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "clang++",
+                "-std=c++20",
+                "-O2",
+                "-fno-fast-math",
+                "-x",
+                "cuda",
+                "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+                "--cuda-gpu-arch=sm_86",
+                "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+                "-lcudart",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/include",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory.cpp",
+                "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/kokkos-cuda-sm86/lib64",
+                "-lkokkoscontainers",
+                "-lkokkoscore",
+                "-ldl",
+                "-pthread",
+                "-lcuda",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 23.094555742995,
+              "sources": [
+                {
+                  "bytes": 3625,
+                  "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory.cpp",
+                  "sha256": "9b16f91ac46253236b794f091746d2af9a5b5bc85cd207baf0195dc9d25df0ee"
+                }
+              ],
+              "stderr": {
+                "bytes": 26352,
+                "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory-build.stderr",
+                "sha256": "204267c7e57ed15bac8cc661cb80319b9266ee4ce2532f61bbfd5deab77afafe"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 0.3515755599946715,
+              "stderr": {
+                "bytes": 55,
+                "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory-run.stderr",
+                "sha256": "c0a33c01869ea31309861ad0234bbb7dbd3a821479206ae2e98d4b5edf39aa3d"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/h100/head-20261022T035237796814Z/kokkos-cuda-O2/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "9b16f91ac46253236b794f091746d2af9a5b5bc85cd207baf0195dc9d25df0ee",
+            "status": "pass"
+          },
+          "optimization": 2,
+          "route": "kokkos-cuda",
+          "status": "completed"
+        }
+      ],
+      "discovery": {
+        "bytes": 51247,
+        "path": "artifacts/h100/discovery-1011060.json",
+        "sha256": "3ad8beccf1332d5a245973a109afd113a34a6e9bad758a8c05d374e871be5685"
+      },
+      "execution_scope": "native_gpu_execution",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": {
+        "architecture": "x86_64",
+        "name": "gpu04",
+        "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+      },
+      "note": "One bounded-family-padding stdout case plus 26 independent numeric input records; the runner also validates actual execution space and selected device.",
+      "raw_manifest": {
+        "bytes": 87737,
+        "path": "artifacts/h100/head-20261022T035237796814Z/manifest.json",
+        "sha256": "4f45afe49bf3de848da54aecae6b97806d6c125ec1ff4cd7cf1e22191860c0c2"
+      },
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    },
+    {
+      "cobalt_jobid": "1011064",
+      "configurations": [
+        {
+          "cases": [
+            {
+              "actual_bytes": 70,
+              "build": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/intel-llvm/bin/clang++",
+                  "-std=c++20",
+                  "-O2",
+                  "-fno-fast-math",
+                  "-fsycl",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/include",
+                  "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/source/include",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0.cpp",
+                  "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/lib64",
+                  "-lkokkoscontainers",
+                  "-lkokkoscore",
+                  "-ldl",
+                  "-pthread",
+                  "-o",
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0"
+                ],
+                "exit_code": 0,
+                "seconds": 10.54226536299393,
+                "sources": [
+                  {
+                    "bytes": 2268,
+                    "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0.cpp",
+                    "sha256": "03e25eb1d52ca63330363eda24ff86c9163314caa4f825de7884d4dcc7c71851"
+                  }
+                ],
+                "stderr": {
+                  "bytes": 31688,
+                  "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0-build.stderr",
+                  "sha256": "ca047c23192ff4c463010bef359d521414ebcd7c541797f478c951b91fa31e62"
+                },
+                "stdout": {
+                  "bytes": 0,
+                  "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0-build.stdout",
+                  "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+                }
+              },
+              "execution": {
+                "command": [
+                  "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/cases-0-0",
+                  "0"
+                ],
+                "exit_code": 0,
+                "seconds": 34.786690249005915,
+                "stderr": {
+                  "bytes": 69,
+                  "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/bounded-family-padding.stderr",
+                  "sha256": "3bf9cbdbd15f7424af14db2c553310d5371fbb290ffff67e720de5fc0c279b0e"
+                },
+                "stdout": {
+                  "bytes": 70,
+                  "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/bounded-family-padding.stdout",
+                  "sha256": "27aee72117d251d222ab24033be2e16d59bbbfcca88b01fdfea88a4a5d9f0405"
+                }
+              },
+              "expected_bytes": 70,
+              "family": "range",
+              "id": "bounded-family-padding",
+              "source_sha256": "03e25eb1d52ca63330363eda24ff86c9163314caa4f825de7884d4dcc7c71851",
+              "status": "pass"
+            }
+          ],
+          "compiler_version": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/intel-llvm/bin/clang++",
+              "--version"
+            ],
+            "exit_code": 0,
+            "seconds": 0.01069655900937505,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/compiler-version.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 292,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/compiler-version.stdout",
+              "sha256": "33fb568bedb56c4951c7a03d1103e198233172e7f93eb39fa952462cd20a235f"
+            }
+          },
+          "control_build": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/intel-llvm/bin/clang++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-fsycl",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control"
+            ],
+            "exit_code": 0,
+            "seconds": 9.705750352994073,
+            "sources": [
+              {
+                "bytes": 983,
+                "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control.cpp",
+                "sha256": "7d2af88af497fd7cfb785d8b0706b000d5bb3105c830f4210e07942d7b74644b"
+              }
+            ],
+            "stderr": {
+              "bytes": 31664,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control-build.stderr",
+              "sha256": "445e14e9908ab67d001a588155212e9eab1dc3263d1241cc8541e7190bdf0055"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "control_run": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control",
+              "0"
+            ],
+            "exit_code": 0,
+            "seconds": 2.2786819150060182,
+            "stderr": {
+              "bytes": 69,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control-run.stderr",
+              "sha256": "3bf9cbdbd15f7424af14db2c553310d5371fbb290ffff67e720de5fc0c279b0e"
+            },
+            "stdout": {
+              "bytes": 9,
+              "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/control-run.stdout",
+              "sha256": "fd55d107298af4befdc0f39c71ca8d578862b7b83b637abdf45b7766fc8fa7a3"
+            }
+          },
+          "device": "kokkos space=SYCL name=Intel(R) Data Center GPU Max 1550",
+          "numeric_memory": {
+            "build": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/intel-llvm/bin/clang++",
+                "-std=c++20",
+                "-O2",
+                "-fno-fast-math",
+                "-fsycl",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/include",
+                "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/source/include",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory.cpp",
+                "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/chiatta/install/kokkos-sycl/lib64",
+                "-lkokkoscontainers",
+                "-lkokkoscore",
+                "-ldl",
+                "-pthread",
+                "-o",
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 11.223734367988072,
+              "sources": [
+                {
+                  "bytes": 3539,
+                  "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory.cpp",
+                  "sha256": "237606314fe9468dc0085120adcc8e83ce052b33169ca356061d386ea6844205"
+                }
+              ],
+              "stderr": {
+                "bytes": 31748,
+                "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory-build.stderr",
+                "sha256": "b75099f5b324fecf2c0f9a2aeff07f3722eb68395dd460ece1b6e7db2d4c2ac7"
+              },
+              "stdout": {
+                "bytes": 0,
+                "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory-build.stdout",
+                "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+              }
+            },
+            "execution": {
+              "command": [
+                "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory"
+              ],
+              "exit_code": 0,
+              "seconds": 86.06254491400614,
+              "stderr": {
+                "bytes": 69,
+                "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory-run.stderr",
+                "sha256": "3bf9cbdbd15f7424af14db2c553310d5371fbb290ffff67e720de5fc0c279b0e"
+              },
+              "stdout": {
+                "bytes": 2713,
+                "path": "artifacts/chiatta/head-20261022T034101Z/kokkos-sycl-O2/numeric-memory-run.stdout",
+                "sha256": "4fb6c98f722dba85007a6037a9be7a6836d3463447856105314076d4275bc1b6"
+              }
+            },
+            "failed": 0,
+            "formats_per_input": 5,
+            "input_cases": 26,
+            "passed": 26,
+            "seed": "0x4d595df4d0f33173",
+            "source_sha256": "237606314fe9468dc0085120adcc8e83ce052b33169ca356061d386ea6844205",
+            "status": "pass"
+          },
+          "optimization": 2,
+          "route": "kokkos-sycl",
+          "status": "completed"
+        }
+      ],
+      "discovery": {
+        "bytes": 70623,
+        "path": "artifacts/chiatta/discovery-1011064.json",
+        "sha256": "275f306df87bb0882b6b3cb44bf988dfc1b2f99f02ffee08d9fec4b9084e47f9"
+      },
+      "execution_scope": "native_gpu_execution",
+      "header_sha256": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "hostname": {
+        "architecture": "x86_64",
+        "name": "chiatta02",
+        "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+      },
+      "note": "One bounded-family-padding stdout case plus 26 independent numeric input records; the runner also validates actual execution space and selected device.",
+      "raw_manifest": {
+        "bytes": 105468,
+        "path": "artifacts/chiatta/head-20261022T034101Z/manifest.json",
+        "sha256": "95f4c9c4ce518b30b17eaceb7f2a0ae2bf967f99ffe55a3d93652159150af43e"
+      },
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "source_worktree": false
+    }
+  ],
+  "kokkos_wrong_serial_prefix_control": {
+    "cobalt_jobid": "1011027",
+    "configurations": [
+      {
+        "cases": [
+          {
+            "family": "literal",
+            "id": "literal",
+            "status": "not_run"
+          }
+        ],
+        "compiler_version": {
+          "command": [
+            "clang++",
+            "--version"
+          ],
+          "exit_code": 0,
+          "seconds": 0.008565786993131042,
+          "stderr": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/compiler-version.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 334,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/compiler-version.stdout",
+            "sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607"
+          }
+        },
+        "control_build": {
+          "command": [
+            "clang++",
+            "-std=c++20",
+            "-O0",
+            "-fno-fast-math",
+            "-x",
+            "cuda",
+            "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+            "--cuda-gpu-arch=sm_86",
+            "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+            "-lcudart",
+            "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+            "-L/soft/compilers/cuda/cuda-12.9.1/lib64/stubs",
+            "-no-pie",
+            "-Wl,-rpath,/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/guard-only-cuda-stub/lib",
+            "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/source/include",
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control.cpp",
+            "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+            "-lkokkoscontainers",
+            "-lkokkoscore",
+            "-ldl",
+            "-pthread",
+            "-lcuda",
+            "-o",
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control"
+          ],
+          "exit_code": 0,
+          "seconds": 10.468633654993027,
+          "sources": [
+            {
+              "bytes": 848,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control.cpp",
+              "sha256": "f3773a99c001d8e12357748e6145962d7629bd37eaa70ade3b4af8d855823fb7"
+            }
+          ],
+          "stderr": {
+            "bytes": 89,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control-build.stderr",
+            "sha256": "87da3ad943e6646a36e471644692ce13a11f27d3d72d3656088755d70e101b47"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control-build.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "control_run": {
+          "command": [
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control",
+            "0"
+          ],
+          "exit_code": 77,
+          "seconds": 0.013271979987621307,
+          "stderr": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control-run.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/control-run.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "device": null,
+        "numeric_memory": {
+          "build": {
+            "command": [
+              "clang++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-x",
+              "cuda",
+              "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+              "--cuda-gpu-arch=sm_86",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+              "-lcudart",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64/stubs",
+              "-no-pie",
+              "-Wl,-rpath,/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/guard-only-cuda-stub/lib",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-lcuda",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory"
+            ],
+            "exit_code": 0,
+            "seconds": 11.540829254023265,
+            "sources": [
+              {
+                "bytes": 3411,
+                "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory.cpp",
+                "sha256": "385125fcfe43b8570645b1ddc2f51a9c7a25b69b3479d32463265545f0c7c667"
+              }
+            ],
+            "stderr": {
+              "bytes": 89,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory-build.stderr",
+              "sha256": "87da3ad943e6646a36e471644692ce13a11f27d3d72d3656088755d70e101b47"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory"
+            ],
+            "exit_code": 77,
+            "seconds": 0.007767967996187508,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory-run.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O0/numeric-memory-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "source_sha256": "385125fcfe43b8570645b1ddc2f51a9c7a25b69b3479d32463265545f0c7c667",
+          "status": "execution_failure"
+        },
+        "optimization": 0,
+        "route": "kokkos-cuda",
+        "status": "control_execution_failure"
+      },
+      {
+        "cases": [
+          {
+            "family": "literal",
+            "id": "literal",
+            "status": "not_run"
+          }
+        ],
+        "compiler_version": {
+          "command": [
+            "clang++",
+            "--version"
+          ],
+          "exit_code": 0,
+          "seconds": 0.007987115008290857,
+          "stderr": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/compiler-version.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 334,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/compiler-version.stdout",
+            "sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607"
+          }
+        },
+        "control_build": {
+          "command": [
+            "clang++",
+            "-std=c++20",
+            "-O2",
+            "-fno-fast-math",
+            "-x",
+            "cuda",
+            "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+            "--cuda-gpu-arch=sm_86",
+            "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+            "-lcudart",
+            "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+            "-L/soft/compilers/cuda/cuda-12.9.1/lib64/stubs",
+            "-no-pie",
+            "-Wl,-rpath,/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/guard-only-cuda-stub/lib",
+            "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/source/include",
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control.cpp",
+            "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+            "-lkokkoscontainers",
+            "-lkokkoscore",
+            "-ldl",
+            "-pthread",
+            "-lcuda",
+            "-o",
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control"
+          ],
+          "exit_code": 0,
+          "seconds": 11.23229854402598,
+          "sources": [
+            {
+              "bytes": 848,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control.cpp",
+              "sha256": "f3773a99c001d8e12357748e6145962d7629bd37eaa70ade3b4af8d855823fb7"
+            }
+          ],
+          "stderr": {
+            "bytes": 89,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control-build.stderr",
+            "sha256": "87da3ad943e6646a36e471644692ce13a11f27d3d72d3656088755d70e101b47"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control-build.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "control_run": {
+          "command": [
+            "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control",
+            "0"
+          ],
+          "exit_code": 77,
+          "seconds": 0.008040677988901734,
+          "stderr": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control-run.stderr",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          },
+          "stdout": {
+            "bytes": 0,
+            "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/control-run.stdout",
+            "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+          }
+        },
+        "device": null,
+        "numeric_memory": {
+          "build": {
+            "command": [
+              "clang++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-x",
+              "cuda",
+              "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+              "--cuda-gpu-arch=sm_86",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64",
+              "-lcudart",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/include",
+              "-L/soft/compilers/cuda/cuda-12.9.1/lib64/stubs",
+              "-no-pie",
+              "-Wl,-rpath,/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/h100/install/guard-only-cuda-stub/lib",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/source/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory.cpp",
+              "-L/vast/projects/datascience/nnichols/ffmt_project/ffmt/software/rome/install/kokkos-serial/lib64",
+              "-lkokkoscontainers",
+              "-lkokkoscore",
+              "-ldl",
+              "-pthread",
+              "-lcuda",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory"
+            ],
+            "exit_code": 0,
+            "seconds": 14.704572201997507,
+            "sources": [
+              {
+                "bytes": 3411,
+                "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory.cpp",
+                "sha256": "385125fcfe43b8570645b1ddc2f51a9c7a25b69b3479d32463265545f0c7c667"
+              }
+            ],
+            "stderr": {
+              "bytes": 89,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory-build.stderr",
+              "sha256": "87da3ad943e6646a36e471644692ce13a11f27d3d72d3656088755d70e101b47"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory-build.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "execution": {
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory"
+            ],
+            "exit_code": 77,
+            "seconds": 0.008141708967741579,
+            "stderr": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory-run.stderr",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            },
+            "stdout": {
+              "bytes": 0,
+              "path": "artifacts/h100/head-20261022T024256Z/kokkos-cuda-O2/numeric-memory-run.stdout",
+              "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+            }
+          },
+          "source_sha256": "385125fcfe43b8570645b1ddc2f51a9c7a25b69b3479d32463265545f0c7c667",
+          "status": "execution_failure"
+        },
+        "optimization": 2,
+        "route": "kokkos-cuda",
+        "status": "control_execution_failure"
+      }
+    ],
+    "discovery": {
+      "bytes": 49032,
+      "path": "artifacts/h100/discovery-1011027.json",
+      "sha256": "8205ebe62eb97a1c72eabf9c014a55cf022e1833e8edaeeb39642689f5ed3d1c"
+    },
+    "execution_scope": "host_guard_execution_accelerator_workload_rejected",
+    "header_sha256": {
+      "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+      "include/ffmt/base.hpp": "4f400c8c1219599a0dbc873d72c1ac06ceabbf57807510482e190c594b561593",
+      "include/ffmt/chrono.hpp": "bb0a68acd995c4edb8326e91983a90aa0208980ee45de9e0c055d7ae91ebec1a",
+      "include/ffmt/color.hpp": "3ab22388e5870728b0463e76794a43b50abb149162fabbde4b969eeb9245d522",
+      "include/ffmt/core.hpp": "69558ae9502e328e71b81934e46317852e89fd4dc0ddc90c4f9d633d16bd7583",
+      "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+      "include/ffmt/detail/family.hpp": "d8dd1656cf9ae45e9abff66b749c1dd8dcf77d0b5071db7d7c7efd281b287feb",
+      "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+      "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+      "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+      "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+      "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+      "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+      "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+      "include/ffmt/ranges.hpp": "de91b1f2955a97a6f1f5aa18f776eb81ebc3320765d508b034282871ea9c6c5d",
+      "include/ffmt/std.hpp": "5f2e04bf8d7236c11a54b6f0b58c14deaed792bec944e771c123e82bc1a12e41",
+      "include/ffmt/std23.hpp": "3d21ec564caafb7c406e6a5b75826af28d13a73685fa94c98465b74a8d785f14"
+    },
+    "hostname": {
+      "architecture": "x86_64",
+      "name": "cascade10",
+      "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+    },
+    "note": "Deliberately paired Kokkos Serial installation with kokkos-cuda route. Both stdout and independent numeric guards reject with exit 77 at O0/O2, before any CUDA conformance work. The allocated hardware inventory contains an A40; this fixture does not claim CUDA execution.",
+    "raw_manifest": {
+      "bytes": 68369,
+      "path": "artifacts/h100/head-20261022T024256Z/manifest.json",
+      "sha256": "df4b90f4a16d4cb6d8a0f5d0b1c1c719954e3d355ddcf8f4b660647d80765c63"
+    },
+    "revision": "WORKTREE",
+    "source_base_commit": "0be0a26241fb4b8647f99882d1e2b0dc59b20361",
+    "source_worktree": true
+  },
+  "schema_version": 1,
+  "scope": "Supplemental device-guard, raw-transport and final-source smoke controls; primary 54-case campaigns are selected separately.",
+  "status_policy": "Nonzero exits, compile failures and 77 guard rejections are preserved; they are never counted as conformance passes. Compile-only CUDA evidence makes no accelerator execution claim."
+}

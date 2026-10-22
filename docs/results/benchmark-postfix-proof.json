@@ -1,0 +1,27 @@
+{
+  "revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+  "source_files": {
+    "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+    "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+    "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+    "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+    "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+    "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+    "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+    "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+    "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+    "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+    "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+    "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+    "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+    "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+    "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+    "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+    "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+  },
+  "manifest": "artifacts/chiatta/benchmark-20261022T041434108940Z-1011073/manifest.json",
+  "manifest_sha256": "979da9831a1737a20f76c508d92c0c444a90f0fecea2f4a321dfd68d5172d31b",
+  "headers_match_revision": true,
+  "runner_commit": "17cdd60938bc872e1cc545e86c45ab889afbe848",
+  "differences": []
+}

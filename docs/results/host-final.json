@@ -1,0 +1,2256 @@
+{
+  "runs": [
+    {
+      "schema_version": 1,
+      "profile": "rome",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "cobalt_jobid": "1011046",
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+      "compiler": {
+        "exit_code": 0,
+        "command": [
+          "g++",
+          "--version"
+        ],
+        "seconds": 0.002233785984572023,
+        "stdout_file": "artifacts/rome/host-tests-1011046/compiler-version.stdout",
+        "stderr_file": "artifacts/rome/host-tests-1011046/compiler-version.stderr"
+      },
+      "compiler_macros": {
+        "exit_code": 0,
+        "command": [
+          "g++",
+          "-std=c++20",
+          "-dM",
+          "-E",
+          "-x",
+          "c++",
+          "/dev/null"
+        ],
+        "seconds": 0.014451881987042725,
+        "stdout_file": "artifacts/rome/host-tests-1011046/compiler-macros.stdout",
+        "stderr_file": "artifacts/rome/host-tests-1011046/compiler-macros.stderr"
+      },
+      "fmt_build": {
+        "exit_code": 0,
+        "command": [
+          "g++",
+          "-std=c++20",
+          "-O2",
+          "-fno-fast-math",
+          "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/src/format.cc",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o"
+        ],
+        "seconds": 3.927049893012736,
+        "stdout_file": "artifacts/rome/host-tests-1011046/fmt-build.stdout",
+        "stderr_file": "artifacts/rome/host-tests-1011046/fmt-build.stderr"
+      },
+      "raw_manifest": "artifacts/rome/host-tests-1011046/manifest.json",
+      "raw_manifest_sha256": "db05312eb6e4ac4aee80185ae424474f02a1af32d63e7bb738dd4f9101548898",
+      "counts": {
+        "pass": 24,
+        "unsupported": 2
+      },
+      "tests": [
+        {
+          "test": "test_engine.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine-O0"
+            ],
+            "seconds": 6.961178936006036,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine-O0"
+            ],
+            "seconds": 2.962681978009641,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine-O2"
+            ],
+            "seconds": 17.076705150015187,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine-O2"
+            ],
+            "seconds": 0.7580688609741628,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_transport.cpp",
+          "fixture": "test_engine_transport.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "5ebbaa8d85b7c43786bde16128cbb0119444a10ba12e21c108952dbbcb1ce5e9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport-O0"
+            ],
+            "seconds": 0.9068826439906843,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport-O0"
+            ],
+            "seconds": 0.004518063040450215,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_transport.cpp",
+          "fixture": "test_engine_transport.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "5ebbaa8d85b7c43786bde16128cbb0119444a10ba12e21c108952dbbcb1ce5e9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport-O2"
+            ],
+            "seconds": 1.807995362963993,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_transport-O2"
+            ],
+            "seconds": 0.006579155044164509,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_transport-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_legacy_hook.cpp",
+          "fixture": "test_engine_legacy_hook.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0"
+            ],
+            "seconds": 0.7574485059594736,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0"
+            ],
+            "seconds": 0.0062011260306462646,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_legacy_hook.cpp",
+          "fixture": "test_engine_legacy_hook.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2"
+            ],
+            "seconds": 1.5136928309802897,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2"
+            ],
+            "seconds": 0.005960459006018937,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_legacy_hook-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_extended.cpp",
+          "fixture": "test_engine_extended.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended-O0"
+            ],
+            "seconds": 0.8951429690350778,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended-O0"
+            ],
+            "seconds": 1.739175829978194,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_extended.cpp",
+          "fixture": "test_engine_extended.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended-O2"
+            ],
+            "seconds": 1.5075327660306357,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_extended-O2"
+            ],
+            "seconds": 1.2528182350215502,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_extended-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_bitint.cpp",
+          "fixture": "test_engine_bitint.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "01ceed4c4ad2088b3070bd93261c73efa7af9877aafa9fc1c56ee4eaec049d30",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint-O0"
+            ],
+            "seconds": 1.7586387259652838,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O0-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint-O0"
+            ],
+            "seconds": 0.007343303004745394,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_bitint.cpp",
+          "fixture": "test_engine_bitint.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "01ceed4c4ad2088b3070bd93261c73efa7af9877aafa9fc1c56ee4eaec049d30",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint-O2"
+            ],
+            "seconds": 1.7505529639893211,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O2-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_bitint-O2"
+            ],
+            "seconds": 0.0063857799977995455,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_bitint-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_quad.cpp",
+          "fixture": "test_engine_quad.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFMT_USE_FLOAT128=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFMT_USE_FLOAT128=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad-O0"
+            ],
+            "seconds": 1.2928097750409506,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad-O0"
+            ],
+            "seconds": 0.18394896102836356,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_quad.cpp",
+          "fixture": "test_engine_quad.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFMT_USE_FLOAT128=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFMT_USE_FLOAT128=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad-O2"
+            ],
+            "seconds": 2.485340172017459,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_quad-O2"
+            ],
+            "seconds": 0.06216297496575862,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_quad-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_portable.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFFMT_PORTABLE_SHORTEST=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFFMT_PORTABLE_SHORTEST=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable-O0"
+            ],
+            "seconds": 6.849453293019906,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable-O0"
+            ],
+            "seconds": 3.2182060800259933,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_portable.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFFMT_PORTABLE_SHORTEST=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFFMT_PORTABLE_SHORTEST=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable-O2"
+            ],
+            "seconds": 17.114436573989224,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_portable-O2"
+            ],
+            "seconds": 0.9317131719435565,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_portable-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_forwarding.cpp",
+          "fixture": "test_engine_forwarding.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "da7c221eb1865824f1e2092b7275444baca9e761280d3435319eee9d8233deff",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding-O0"
+            ],
+            "seconds": 1.7115762159810401,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding-O0"
+            ],
+            "seconds": 0.007388834957964718,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_forwarding.cpp",
+          "fixture": "test_engine_forwarding.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "da7c221eb1865824f1e2092b7275444baca9e761280d3435319eee9d8233deff",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding-O2"
+            ],
+            "seconds": 4.634668749989942,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_forwarding-O2"
+            ],
+            "seconds": 0.006781178992241621,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_forwarding-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_fast_math.cpp",
+          "fixture": "test_engine_fast_math.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-ffast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "b6e4fcd394eca46c33bab7a2537fad35b7399e14d2ba463c2f8e86e9752dbb6b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-ffast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math-O0"
+            ],
+            "seconds": 0.7958902639802545,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math-O0"
+            ],
+            "seconds": 0.005847166001331061,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_fast_math.cpp",
+          "fixture": "test_engine_fast_math.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-ffast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "b6e4fcd394eca46c33bab7a2537fad35b7399e14d2ba463c2f8e86e9752dbb6b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-ffast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math-O2"
+            ],
+            "seconds": 1.7631109439535066,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_engine_fast_math-O2"
+            ],
+            "seconds": 0.004639697028324008,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_engine_fast_math-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families.cpp",
+          "fixture": "test_families.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "926914fef1a0de4a02f6ff09a85c65cda12d701f3bd83588ecd68ad08d6ef48b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families-O0"
+            ],
+            "seconds": 20.098837908008136,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families-O0"
+            ],
+            "seconds": 0.013924497994594276,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families.cpp",
+          "fixture": "test_families.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "926914fef1a0de4a02f6ff09a85c65cda12d701f3bd83588ecd68ad08d6ef48b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families-O2"
+            ],
+            "seconds": 67.31760544300778,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families-O2"
+            ],
+            "seconds": 0.011622771969996393,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_ranges.cpp",
+          "fixture": "test_families_ranges.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "d4268d5c9c14bf78a89ab82acca17b2a8f192932ca840e761be4e63ca331feda",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges-O0"
+            ],
+            "seconds": 4.40764620405389,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges-O0"
+            ],
+            "seconds": 0.007929750019684434,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_ranges.cpp",
+          "fixture": "test_families_ranges.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "d4268d5c9c14bf78a89ab82acca17b2a8f192932ca840e761be4e63ca331feda",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges-O2"
+            ],
+            "seconds": 10.372713762044441,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_ranges-O2"
+            ],
+            "seconds": 0.007855547009967268,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_ranges-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_printf.cpp",
+          "fixture": "test_families_printf.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf-O0"
+            ],
+            "seconds": 6.26658660301473,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_printf-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_printf-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf-O0"
+            ],
+            "seconds": 0.04556183598469943,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_printf-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_printf-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_printf.cpp",
+          "fixture": "test_families_printf.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf-O2"
+            ],
+            "seconds": 18.731789702025708,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_printf-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_printf-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_printf-O2"
+            ],
+            "seconds": 0.016564216988626868,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_printf-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_printf-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_std23.cpp",
+          "fixture": "test_families_std23.cpp",
+          "standard": "c++23",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++23",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23-O0"
+            ],
+            "seconds": 2.7487278730259277,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_std23-O0-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_std23-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23-O0"
+            ],
+            "seconds": 0.006913513992913067,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_std23-O0-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_std23-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_std23.cpp",
+          "fixture": "test_families_std23.cpp",
+          "standard": "c++23",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "g++",
+              "-std=c++23",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23-O2"
+            ],
+            "seconds": 4.317153504991438,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_std23-O2-build.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_std23-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/host-tests-1011046/test_families_std23-O2"
+            ],
+            "seconds": 0.006983365979976952,
+            "stdout_file": "artifacts/rome/host-tests-1011046/test_families_std23-O2-run.stdout",
+            "stderr_file": "artifacts/rome/host-tests-1011046/test_families_std23-O2-run.stderr"
+          }
+        }
+      ]
+    },
+    {
+      "schema_version": 1,
+      "profile": "gh200",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "cobalt_jobid": "1011050",
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      },
+      "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+      "compiler": {
+        "exit_code": 0,
+        "command": [
+          "/usr/bin/g++-14",
+          "--version"
+        ],
+        "seconds": 0.0008527369936928153,
+        "stdout_file": "artifacts/gh200/host-tests-1011050/compiler-version.stdout",
+        "stderr_file": "artifacts/gh200/host-tests-1011050/compiler-version.stderr"
+      },
+      "compiler_macros": {
+        "exit_code": 0,
+        "command": [
+          "/usr/bin/g++-14",
+          "-std=c++20",
+          "-dM",
+          "-E",
+          "-x",
+          "c++",
+          "/dev/null"
+        ],
+        "seconds": 0.011456113075837493,
+        "stdout_file": "artifacts/gh200/host-tests-1011050/compiler-macros.stdout",
+        "stderr_file": "artifacts/gh200/host-tests-1011050/compiler-macros.stderr"
+      },
+      "fmt_build": {
+        "exit_code": 0,
+        "command": [
+          "/usr/bin/g++-14",
+          "-std=c++20",
+          "-O2",
+          "-fno-fast-math",
+          "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/src/format.cc",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o"
+        ],
+        "seconds": 2.9177034399472177,
+        "stdout_file": "artifacts/gh200/host-tests-1011050/fmt-build.stdout",
+        "stderr_file": "artifacts/gh200/host-tests-1011050/fmt-build.stderr"
+      },
+      "raw_manifest": "artifacts/gh200/host-tests-1011050/manifest.json",
+      "raw_manifest_sha256": "bf39ebcbc87a26291a380f347681ca50c3c409c9403c791544656f948d7cf78d",
+      "counts": {
+        "pass": 22,
+        "unsupported": 4
+      },
+      "tests": [
+        {
+          "test": "test_engine.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine-O0"
+            ],
+            "seconds": 4.532038355013356,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine-O0"
+            ],
+            "seconds": 2.824356292025186,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine-O2"
+            ],
+            "seconds": 12.876828503911383,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine-O2"
+            ],
+            "seconds": 0.458752371952869,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_transport.cpp",
+          "fixture": "test_engine_transport.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "5ebbaa8d85b7c43786bde16128cbb0119444a10ba12e21c108952dbbcb1ce5e9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport-O0"
+            ],
+            "seconds": 0.5961366109549999,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport-O0"
+            ],
+            "seconds": 0.004441063036210835,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_transport.cpp",
+          "fixture": "test_engine_transport.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "5ebbaa8d85b7c43786bde16128cbb0119444a10ba12e21c108952dbbcb1ce5e9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport-O2"
+            ],
+            "seconds": 1.361072325031273,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_transport-O2"
+            ],
+            "seconds": 0.0045588870998471975,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_transport-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_legacy_hook.cpp",
+          "fixture": "test_engine_legacy_hook.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0"
+            ],
+            "seconds": 0.49657335598021746,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0"
+            ],
+            "seconds": 0.004573862999677658,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_legacy_hook.cpp",
+          "fixture": "test_engine_legacy_hook.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2"
+            ],
+            "seconds": 1.0288202069932595,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2"
+            ],
+            "seconds": 0.006879049935378134,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_legacy_hook-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_extended.cpp",
+          "fixture": "test_engine_extended.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended-O0"
+            ],
+            "seconds": 0.5796145689673722,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended-O0"
+            ],
+            "seconds": 2.6047711269930005,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_extended.cpp",
+          "fixture": "test_engine_extended.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended-O2"
+            ],
+            "seconds": 1.046219912939705,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_extended-O2"
+            ],
+            "seconds": 1.3364087019581348,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_extended-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_bitint.cpp",
+          "fixture": "test_engine_bitint.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "01ceed4c4ad2088b3070bd93261c73efa7af9877aafa9fc1c56ee4eaec049d30",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint-O0"
+            ],
+            "seconds": 1.3043112140148878,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O0-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint-O0"
+            ],
+            "seconds": 0.005632008076645434,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_bitint.cpp",
+          "fixture": "test_engine_bitint.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "01ceed4c4ad2088b3070bd93261c73efa7af9877aafa9fc1c56ee4eaec049d30",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint-O2"
+            ],
+            "seconds": 1.3131222679512575,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O2-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_bitint-O2"
+            ],
+            "seconds": 0.006164137041196227,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_bitint-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_quad.cpp",
+          "fixture": "test_engine_quad.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad-O0"
+            ],
+            "seconds": 0.4291362629737705,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O0-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad-O0"
+            ],
+            "seconds": 0.005733992904424667,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_quad.cpp",
+          "fixture": "test_engine_quad.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad-O2"
+            ],
+            "seconds": 0.4246924159815535,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O2-build.stderr"
+          },
+          "status": "unsupported",
+          "execution": {
+            "exit_code": 77,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_quad-O2"
+            ],
+            "seconds": 0.004611015086993575,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_quad-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_portable.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFFMT_PORTABLE_SHORTEST=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFFMT_PORTABLE_SHORTEST=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable-O0"
+            ],
+            "seconds": 4.4645658660447225,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable-O0"
+            ],
+            "seconds": 3.15560696402099,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_portable.cpp",
+          "fixture": "test_engine.cpp",
+          "standard": "c++20",
+          "defines": [
+            "-DFFMT_PORTABLE_SHORTEST=1"
+          ],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-DFFMT_PORTABLE_SHORTEST=1",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable-O2"
+            ],
+            "seconds": 12.847916641971096,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_portable-O2"
+            ],
+            "seconds": 0.5712836119346321,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_portable-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_forwarding.cpp",
+          "fixture": "test_engine_forwarding.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "da7c221eb1865824f1e2092b7275444baca9e761280d3435319eee9d8233deff",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0"
+            ],
+            "seconds": 1.1331967160804197,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0"
+            ],
+            "seconds": 0.005994984996505082,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_forwarding.cpp",
+          "fixture": "test_engine_forwarding.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "da7c221eb1865824f1e2092b7275444baca9e761280d3435319eee9d8233deff",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2"
+            ],
+            "seconds": 3.483530304976739,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2"
+            ],
+            "seconds": 0.005881064105778933,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_forwarding-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_fast_math.cpp",
+          "fixture": "test_engine_fast_math.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-ffast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "b6e4fcd394eca46c33bab7a2537fad35b7399e14d2ba463c2f8e86e9752dbb6b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-ffast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0"
+            ],
+            "seconds": 0.526415545027703,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0"
+            ],
+            "seconds": 0.005423975992016494,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_engine_fast_math.cpp",
+          "fixture": "test_engine_fast_math.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-ffast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "b6e4fcd394eca46c33bab7a2537fad35b7399e14d2ba463c2f8e86e9752dbb6b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-ffast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2"
+            ],
+            "seconds": 1.3062235040124506,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2"
+            ],
+            "seconds": 0.010509999934583902,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_engine_fast_math-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families.cpp",
+          "fixture": "test_families.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "926914fef1a0de4a02f6ff09a85c65cda12d701f3bd83588ecd68ad08d6ef48b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families-O0"
+            ],
+            "seconds": 14.317632833961397,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families-O0"
+            ],
+            "seconds": 0.014829142019152641,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families.cpp",
+          "fixture": "test_families.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "926914fef1a0de4a02f6ff09a85c65cda12d701f3bd83588ecd68ad08d6ef48b",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families-O2"
+            ],
+            "seconds": 55.24143264989834,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families-O2"
+            ],
+            "seconds": 0.013241683947853744,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_ranges.cpp",
+          "fixture": "test_families_ranges.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "d4268d5c9c14bf78a89ab82acca17b2a8f192932ca840e761be4e63ca331feda",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges-O0"
+            ],
+            "seconds": 3.0899827630491927,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges-O0"
+            ],
+            "seconds": 0.009960687020793557,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_ranges.cpp",
+          "fixture": "test_families_ranges.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "d4268d5c9c14bf78a89ab82acca17b2a8f192932ca840e761be4e63ca331feda",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges-O2"
+            ],
+            "seconds": 7.940420908969827,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_ranges-O2"
+            ],
+            "seconds": 0.007613035035319626,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_ranges-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_printf.cpp",
+          "fixture": "test_families_printf.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf-O0"
+            ],
+            "seconds": 4.395852820016444,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf-O0"
+            ],
+            "seconds": 0.03836018906440586,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_printf.cpp",
+          "fixture": "test_families_printf.cpp",
+          "standard": "c++20",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++20",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf-O2"
+            ],
+            "seconds": 14.920902459998615,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_printf-O2"
+            ],
+            "seconds": 0.012362227076664567,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_printf-O2-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_std23.cpp",
+          "fixture": "test_families_std23.cpp",
+          "standard": "c++23",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 0,
+          "source_sha256": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++23",
+              "-O0",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23-O0"
+            ],
+            "seconds": 2.060523272957653,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O0-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O0-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23-O0"
+            ],
+            "seconds": 0.005954665946774185,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O0-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O0-run.stderr"
+          }
+        },
+        {
+          "test": "test_families_std23.cpp",
+          "fixture": "test_families_std23.cpp",
+          "standard": "c++23",
+          "defines": [],
+          "floating_point_flags": [
+            "-fno-fast-math"
+          ],
+          "opt": 2,
+          "source_sha256": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6",
+          "build": {
+            "exit_code": 0,
+            "command": [
+              "/usr/bin/g++-14",
+              "-std=c++23",
+              "-O2",
+              "-fno-fast-math",
+              "-UNDEBUG",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/source/include",
+              "-I/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23.cpp",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/fmt.o",
+              "-o",
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23-O2"
+            ],
+            "seconds": 3.437468499992974,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O2-build.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O2-build.stderr"
+          },
+          "status": "pass",
+          "execution": {
+            "exit_code": 0,
+            "command": [
+              "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/gh200/host-tests-1011050/test_families_std23-O2"
+            ],
+            "seconds": 0.004639560007490218,
+            "stdout_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O2-run.stdout",
+            "stderr_file": "artifacts/gh200/host-tests-1011050/test_families_std23-O2-run.stderr"
+          }
+        }
+      ]
+    }
+  ],
+  "raw_compact_manifest": "artifacts/local/final-host-tests.json",
+  "raw_compact_sha256": "fd98a6549e23a60ddc35a36110f1f9096976554dd04a3fe5cb6cf1d20f999210"
+}

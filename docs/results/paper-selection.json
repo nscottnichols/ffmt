@@ -1,0 +1,1845 @@
+{
+  "policy": "Latest captured measured run per profile/route/engine/family/sink/presentation; one call, capacity 128, single TU",
+  "rows": [
+    {
+      "key": [
+        "chiatta",
+        "chipstar",
+        "ffmt",
+        "float",
+        "memory",
+        "shortest"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T041434108940Z-1011073/manifest.json",
+      "raw_manifest_sha256": "979da9831a1737a20f76c508d92c0c444a90f0fecea2f4a321dfd68d5172d31b",
+      "headers_fingerprint": "334ca65c",
+      "revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "ffmt",
+        "float",
+        "memory",
+        "shortest"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T041434108940Z-1011073/manifest.json",
+      "raw_manifest_sha256": "979da9831a1737a20f76c508d92c0c444a90f0fecea2f4a321dfd68d5172d31b",
+      "headers_fingerprint": "334ca65c",
+      "revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "chiatta",
+        "sycl",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "raw_manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Intel(R) Data Center GPU Max 1550"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "fmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "fmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-buffer",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "fmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "fmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "gh200",
+        "host-specifiers",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "raw_manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "Neoverse-V2 (aarch64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "h100",
+        "nvcc",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "raw_manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "NVIDIA A40"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "mi300x",
+        "hip",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "raw_manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+      "actual_devices": [
+        "AMD Radeon Graphics (gfx942)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "fmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "fmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-buffer",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "raw_manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_fingerprint": "332a7a7f",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+        "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+        "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+        "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+        "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+        "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+        "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+        "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+        "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+        "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+        "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "ffmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "ffmt",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "ffmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "ffmt",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "fmt",
+        "float",
+        "memory",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "fmt",
+        "integer",
+        "memory",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "printf",
+        "float",
+        "print",
+        "explicit_e8"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    },
+    {
+      "key": [
+        "rome",
+        "host-specifiers",
+        "printf",
+        "integer",
+        "print",
+        "integer_d"
+      ],
+      "raw_manifest": "artifacts/rome/benchmark-20261022T013619Z/manifest.json",
+      "raw_manifest_sha256": "e4fa990a5b061c8da1a9a2dca1b5f07e7f8c60868bd21dcbbbe6fa20a87ae0de",
+      "headers_fingerprint": "e73f2c71",
+      "revision": "WORKTREE",
+      "actual_devices": [
+        "AMD EPYC 7742 64-Core Processor (x86_64)"
+      ],
+      "source_files": {
+        "include/ffmt/args.hpp": "1cf8c0664f67adde24de9cad269baa5e36371c54d4e09de50224ef7546f00b2f",
+        "include/ffmt/base.hpp": "f4bd3a45681c312338eb539a95e5e147871cd81d1475160277b79c7c1390e441",
+        "include/ffmt/chrono.hpp": "1e921c0944a3ff0d6d18e7e438210ec4c3737f49082c5758efb2a492cb7fa4c5",
+        "include/ffmt/color.hpp": "ac354b81e0a9187773ff2dd69ae1b23b402f8f3c2156c12b458fc1cacb896155",
+        "include/ffmt/core.hpp": "de82b982250123d481b4c4bbda8af843d22f101f9ad9780c8106dd10735236a2",
+        "include/ffmt/detail/family.hpp": "c36309af52dfdb88572a8ebc2011f24e8535a1b4bc874128d298bcf15ac2f52b",
+        "include/ffmt/detail/numeric.hpp": "ff3413cee8ffceb02ab0b49384d6ec6b7fe455720c7d1dab0463250a5c28db50",
+        "include/ffmt/detail/text.hpp": "65ebc14c7642e9cb62987927f216bf359cd092d9c33614404a11e96618409a0d",
+        "include/ffmt/detail/transport.hpp": "73cdb105c5e661e93bc372eb7b978a61a5fa00681128192c7a164d27b6d1c25d",
+        "include/ffmt/detail/unicode.hpp": "207b2ca5a11344f3db0c485fb8c3c8b6fa2870bbaad1640d4f0d372bab93a8f3",
+        "include/ffmt/ranges.hpp": "6bb4dd5032a3122a2bf37b9d6e1a5d79e14c05d0ea43a2e69a395105e370960b",
+        "include/ffmt/std.hpp": "2b45191ef7ca7cb322dae7bde632e1aa82adba60a4e86708f17cda7017656570",
+        "include/ffmt/std23.hpp": "c7f66468c5e8f2b40fa44c3d1586d1621af86d1ae6bcdb03ea2fa73794993046"
+      }
+    }
+  ]
+}

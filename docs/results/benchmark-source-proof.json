@@ -1,0 +1,66 @@
+{
+  "revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+  "source_files": {
+    "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+    "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+    "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+    "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+    "include/ffmt/core.hpp": "9d84f5a6b448d9f576948765fd56bf1c1ecd80881a029b2e88fba58dca5091e5",
+    "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+    "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+    "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+    "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+    "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+    "include/ffmt/detail/transport.hpp": "5a53ebd359bb77b3a22fa1beeca525ce13fd636d4b6a4aa3a47585a101134c2f",
+    "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+    "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+    "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+    "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+    "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+    "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d"
+  },
+  "runs": [
+    {
+      "manifest": "artifacts/rome/benchmark-20261022T030227Z-1011037/manifest.json",
+      "manifest_sha256": "b9d7cff6795dc03a1df72192e456a58948ce1d99f6568af4fe9f761f6fc4844e",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/mi300x/benchmark-20261022T030227Z-1011036/manifest.json",
+      "manifest_sha256": "2f32ccd2c683da06c99cf4847a308908b40101d6be404f2ad147ef8b69245777",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/h100/benchmark-20261022T030237Z-1011035/manifest.json",
+      "manifest_sha256": "8247540f2889d7c817801ff54096cefd70e3847549a61b8db186b8b6e3b5c7ff",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/mi300x/benchmark-20261022T033045Z-1011061/manifest.json",
+      "manifest_sha256": "10e6668d00233b65e3618b6b7adbc5eb28a6ef6e8e5309ea48daaf2ecb958ec4",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/gh200/benchmark-20261022T034302Z-1011066/manifest.json",
+      "manifest_sha256": "bb23b4e5cd1589c6f59d67d59d9f7fce08ea604a4805c385ce5874ed2900edb4",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/h100/benchmark-20261022T035630Z-1011067/manifest.json",
+      "manifest_sha256": "a44294805d45e995801ba7e223f5539cfaa26af116bd7388ab698920270917f7",
+      "headers_match_revision": true,
+      "differences": []
+    },
+    {
+      "manifest": "artifacts/chiatta/benchmark-20261022T035410Z-1011069/manifest.json",
+      "manifest_sha256": "5ef34b1b8197221543050a540746e38a79148d01e13634dffd2754553bfea510",
+      "headers_match_revision": true,
+      "differences": []
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "policy": "All terminal configurations from the five primary and three focused campaigns, plus final98 chipStar; no failed terminal configuration excluded",
+  "manifests": [
+    "artifacts/rome/head-20261022T031215Z/manifest.json",
+    "artifacts/gh200/head-20261022T030813Z/manifest.json",
+    "artifacts/mi300x/head-20261022T030853Z/manifest.json",
+    "artifacts/h100/head-20261022T030743Z/manifest.json",
+    "artifacts/chiatta/head-20261022T030712Z/manifest.json",
+    "artifacts/h100/head-20261022T035952033756Z/manifest.json",
+    "artifacts/mi300x/head-20261022T041338072912Z/manifest.json",
+    "artifacts/chiatta/head-20261022T041428747719Z/manifest.json",
+    "artifacts/chiatta/head-20261022T040624605234Z/manifest.json"
+  ],
+  "command": [
+    "/home/nnichols/.local/bin/python3",
+    "tools/report.py",
+    "--label",
+    "representative",
+    "--terminal-configurations-only",
+    "--output",
+    "docs/results/qualification",
+    "--manifest",
+    "artifacts/rome/head-20261022T031215Z/manifest.json",
+    "--manifest",
+    "artifacts/gh200/head-20261022T030813Z/manifest.json",
+    "--manifest",
+    "artifacts/mi300x/head-20261022T030853Z/manifest.json",
+    "--manifest",
+    "artifacts/h100/head-20261022T030743Z/manifest.json",
+    "--manifest",
+    "artifacts/chiatta/head-20261022T030712Z/manifest.json",
+    "--manifest",
+    "artifacts/h100/head-20261022T035952033756Z/manifest.json",
+    "--manifest",
+    "artifacts/mi300x/head-20261022T041338072912Z/manifest.json",
+    "--manifest",
+    "artifacts/chiatta/head-20261022T041428747719Z/manifest.json",
+    "--manifest",
+    "artifacts/chiatta/head-20261022T040624605234Z/manifest.json"
+  ]
+}

@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "source": {
+    "path": "test/regressions/amd_omp_callback.cpp",
+    "sha256": "e8efb0de16e4786e65c8a7b67c980b36eb10776aacb3d9c84e4548c300e509a4",
+    "tested_path": "artifacts/engine-omp/nested-1011053/reference-O0.cpp"
+  },
+  "device": {
+    "system": "mi300x",
+    "hostname": "amdgpu01",
+    "architecture": "gfx942",
+    "cobalt_jobid": "1011053",
+    "discovery": "artifacts/mi300x/discovery-1011053.json"
+  },
+  "compiler": {
+    "path": "/soft/compilers/rocm/rocm-7.0.2/llvm/bin/clang++",
+    "version": "AMD clang version 20.0.0git (https://github.com/RadeonOpenCompute/llvm-project roc-7.0.2 25385 0dda3adf56766e0aac0d03173ced3759e1ffecbc)"
+  },
+  "runtime_prefix": "/soft/compilers/rocm/rocm-7.0.2/llvm",
+  "input_records": 8216,
+  "native": [
+    {
+      "configuration": "reference-O0",
+      "build_command": [
+        "/soft/compilers/rocm/rocm-7.0.2/llvm/bin/clang++",
+        "-std=c++20",
+        "-O0",
+        "-fno-fast-math",
+        "-fopenmp",
+        "--offload-arch=gfx942",
+        "--rocm-path=/soft/compilers/rocm/rocm-7.0.2",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-1011053/reference-O0.cpp",
+        "-o",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-1011053/reference-O0"
+      ],
+      "build_exit_code": 0,
+      "execution_exit_code": -6,
+      "status": "execution_failure",
+      "observation": "GPU memory access fault at nullptr",
+      "stdout": "",
+      "binary_sha256": "aa864fcc9d3a011a1f45c04cbac5880aa172acf4c8e63e81515aee6831324bd6"
+    },
+    {
+      "configuration": "reference-O2",
+      "build_command": [
+        "/soft/compilers/rocm/rocm-7.0.2/llvm/bin/clang++",
+        "-std=c++20",
+        "-O2",
+        "-fno-fast-math",
+        "-fopenmp",
+        "--offload-arch=gfx942",
+        "--rocm-path=/soft/compilers/rocm/rocm-7.0.2",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-1011053/reference-O2.cpp",
+        "-o",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-1011053/reference-O2"
+      ],
+      "build_exit_code": 0,
+      "execution_exit_code": 0,
+      "status": "pass",
+      "observation": "Exact PASS8216 output; host fallback rejected",
+      "stdout": "PASS8216\n",
+      "binary_sha256": "1a06c228fdfa97d3c81f88f158fd20f41e6f1aa4e3f56113a863c97b41752795"
+    }
+  ],
+  "host_control": {
+    "source_change": "Only initial-device gate changes from rejecting CPU fallback to requiring CPU execution; helper code and data unchanged.",
+    "source_sha256": "977723f319fc14325bb6aeb6191c9927d932eec56850fb77f930bdd1764ff117",
+    "compiler": "g++ (GCC) 13.3.0",
+    "build_command": [
+      "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+      "-std=c++20",
+      "-O1",
+      "-g",
+      "-fno-fast-math",
+      "-fsanitize=address,undefined",
+      "-fopenmp",
+      "-foffload=disable",
+      "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-host-control.cpp",
+      "-o",
+      "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/engine-omp/nested-host-sanitized"
+    ],
+    "environment": {
+      "OMP_TARGET_OFFLOAD": "DISABLED",
+      "OMP_NUM_THREADS": "4"
+    },
+    "build_exit_code": 0,
+    "execution_exit_code": 0,
+    "stdout": "PASS8216\n",
+    "stderr": "",
+    "status": "pass"
+  },
+  "scope": "Observed compiler/runtime boundary under matched ROCm 7.0.2 LLVM20 at O0. O2 passes. This evidence does not identify the exact faulty compiler pass or runtime routine. No formatting-library workaround applied.",
+  "raw_artifacts": {
+    "summary": "artifacts/engine-omp/boundary-summary.json",
+    "native": "artifacts/engine-omp/nested-1011053/manifest.json"
+  },
+  "standard_reference": "https://www.openmp.org/spec-html/5.2/openmpse85.html",
+  "observation_date_utc": "2026-10-22"
+}

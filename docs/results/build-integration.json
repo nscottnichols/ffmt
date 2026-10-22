@@ -1,0 +1,3353 @@
+{
+  "schema_version": 1,
+  "revision": "0c2cb764d8ee436bc0221e88cefe417dcbb8d678",
+  "profile": "rome",
+  "cobalt_jobid": "1011080",
+  "steps": [
+    {
+      "name": "checkout",
+      "exit_code": 0,
+      "command": [
+        "git",
+        "worktree",
+        "add",
+        "--detach",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source",
+        "0c2cb764d8ee436bc0221e88cefe417dcbb8d678"
+      ],
+      "seconds": 1.5279526970116422,
+      "stdout_file": "artifacts/rome/build-checks-1011080/checkout.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/checkout.stderr",
+      "stdout_sha256": "7d13bbf6e729a31e19f86ce30811ad9451203bc7c1c35a9eb21f59de054db400",
+      "stderr_sha256": "52b554249ff8d3f3faa189944b5eceada188b92354cd2a642119cb3dcfb4020e"
+    },
+    {
+      "name": "compiler",
+      "exit_code": 0,
+      "command": [
+        "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+        "--version"
+      ],
+      "seconds": 0.01571634999709204,
+      "stdout_file": "artifacts/rome/build-checks-1011080/compiler.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/compiler.stderr",
+      "stdout_sha256": "49a9007929e2683b7defa034217c14fcda3fc4ccf711b7eda7a42b6356e11607",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "configure",
+      "exit_code": 0,
+      "command": [
+        "cmake",
+        "-S",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source",
+        "-B",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/cmake",
+        "-DFFMT_BUILD_TESTS=ON",
+        "-DFFMT_BUILD_CXX23_TESTS=ON",
+        "-DCMAKE_BUILD_TYPE=Release",
+        "-DCMAKE_CXX_COMPILER=/soft/compilers/llvm/release-22.1.8/bin/clang++",
+        "-DFFMT_FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+      ],
+      "seconds": 2.4672187640098855,
+      "stdout_file": "artifacts/rome/build-checks-1011080/configure.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/configure.stderr",
+      "stdout_sha256": "d3f830e9fd5083ed7dd14ce6ce883ed13a9fc44ff5e9f4d69d534a828deb2eec",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "build",
+      "exit_code": 0,
+      "command": [
+        "cmake",
+        "--build",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/cmake",
+        "-j2"
+      ],
+      "seconds": 109.95270823698957,
+      "stdout_file": "artifacts/rome/build-checks-1011080/build.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/build.stderr",
+      "stdout_sha256": "2a335b0e546d31c0104f6ae23aa5bcb5da52181e274dd5370303f821231fc414",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "ctest",
+      "exit_code": 0,
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/cmake",
+        "--output-on-failure",
+        "-j2"
+      ],
+      "seconds": 93.67066282802261,
+      "stdout_file": "artifacts/rome/build-checks-1011080/ctest.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/ctest.stderr",
+      "stdout_sha256": "55b3339d9cc3072b8d0d5c6a47a329df539f13e12ba615a00d38886afcf45fc2",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "make-tests",
+      "exit_code": 0,
+      "command": [
+        "make",
+        "-C",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source",
+        "-j2",
+        "test-host",
+        "test-fast-math",
+        "test-negative",
+        "CXX=/soft/compilers/llvm/release-22.1.8/bin/clang++",
+        "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+      ],
+      "seconds": 91.16464711498702,
+      "stdout_file": "artifacts/rome/build-checks-1011080/make-tests.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/make-tests.stderr",
+      "stdout_sha256": "7181f67c7dea5ccbcf90c1d072e7374e6aba38d1aa1da5b6dd21dd896edbbeab",
+      "stderr_sha256": "6d409cc423ad53c8ee06640d22a37a689facf529adf4e0704b6e2f2678a4cae9"
+    },
+    {
+      "name": "coverage",
+      "exit_code": 0,
+      "command": [
+        "make",
+        "-C",
+        "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source",
+        "-j2",
+        "coverage",
+        "CXX=/soft/compilers/llvm/release-22.1.8/bin/clang++",
+        "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+      ],
+      "seconds": 137.61923191696405,
+      "stdout_file": "artifacts/rome/build-checks-1011080/coverage.stdout",
+      "stderr_file": "artifacts/rome/build-checks-1011080/coverage.stderr",
+      "stdout_sha256": "3a389f695bd25611d8916ad3ae5f4f8cf723dde7cab030615a48dcb2cefd8c30",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "status": "pass",
+  "raw_manifest": "artifacts/rome/build-checks-1011080/manifest.json",
+  "raw_manifest_sha256": "f1d8f288ab4456dbf9f8906e2077f3c96b9374c3fe374de39c44d5c56995c779",
+  "ctest_summary": "100% tests passed, 0 tests failed out of 15\n\nTotal Test time (real) =  93.65 sec",
+  "negative_manifest": "artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/manifest.json",
+  "negative_manifest_sha256": "d5efeed829214b6d305a4a3fe4555f61f0fedba17d703b6e0727994d26081e8a",
+  "negative_counts": {
+    "pass": 3,
+    "expected_rejection": 123
+  },
+  "negative_cases": [
+    {
+      "id": "control",
+      "variant": "specifiers",
+      "status": "pass"
+    },
+    {
+      "id": "control",
+      "variant": "buffer",
+      "status": "pass"
+    },
+    {
+      "id": "control",
+      "variant": "fmt",
+      "status": "pass"
+    },
+    {
+      "id": "reject_alt_on_pointer",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.02734115900238976,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_alt_on_pointer",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.02734115900238976,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_alt_on_pointer",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.02734115900238976,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_alt_on_string",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03130954096559435,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_alt_on_string",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03130954096559435,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_alt_on_string",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_alt_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03130954096559435,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_alt_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_dynamic_in_manual",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_dynamic_in_manual.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030900450015906245,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_dynamic_in_manual",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_dynamic_in_manual.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030900450015906245,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_dynamic_in_manual",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_dynamic_in_manual.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030900450015906245,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_dynamic_in_manual-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_then_manual_index",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_then_manual_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03151247597998008,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_then_manual_index",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_then_manual_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03151247597998008,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_auto_then_manual_index",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_auto_then_manual_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03151247597998008,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_auto_then_manual_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_brace_as_fill",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_brace_as_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030944941972848028,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_brace_as_fill",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_brace_as_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030944941972848028,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_brace_as_fill",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_brace_as_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030944941972848028,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_brace_as_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_bool",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030975601985119283,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_bool",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030975601985119283,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_bool",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030975601985119283,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_float",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031555286957882345,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_float",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031555286957882345,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_c_on_float",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_c_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031555286957882345,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_c_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_precision",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_precision.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030732746003195643,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_precision",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_precision.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030732746003195643,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_precision",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_precision.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030732746003195643,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_precision-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_width",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031388441973831505,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_width",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031388441973831505,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_dynamic_width",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_dynamic_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031388441973831505,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_dynamic_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_spec_on_int",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_spec_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030953240988310426,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_spec_on_int",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_spec_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030953240988310426,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_float_spec_on_int",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_float_spec_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030953240988310426,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_float_spec_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_arg_id",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0467995370272547,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_arg_id",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0467995370272547,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_arg_id",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0467995370272547,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_width",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03129506000550464,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_width",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03129506000550464,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_garbage_after_width",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_garbage_after_width.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03129506000550464,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_garbage_after_width-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_int_spec_on_float",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_int_spec_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03145732398843393,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_int_spec_on_float",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_int_spec_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03145732398843393,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_int_spec_on_float",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_int_spec_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03145732398843393,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_int_spec_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_invalid_utf8_fill",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_invalid_utf8_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03144897398306057,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_invalid_utf8_fill",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_invalid_utf8_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03144897398306057,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_invalid_utf8_fill",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_invalid_utf8_fill.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03144897398306057,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_invalid_utf8_fill-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_dynamic_in_auto",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_dynamic_in_auto.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0306511539965868,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_dynamic_in_auto",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_dynamic_in_auto.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0306511539965868,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_dynamic_in_auto",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_dynamic_in_auto.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0306511539965868,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_dynamic_in_auto-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_then_auto_index",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_then_auto_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031190237030386925,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_then_auto_index",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_then_auto_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031190237030386925,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_manual_then_auto_index",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_manual_then_auto_index.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.031190237030386925,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_manual_then_auto_index-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_non_numeric_arg_id",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_non_numeric_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.029814702982548624,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_non_numeric_arg_id",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_non_numeric_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.029814702982548624,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_non_numeric_arg_id",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_non_numeric_arg_id.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.029814702982548624,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_non_numeric_arg_id-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_bool",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030993952008429915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_bool",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030993952008429915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_bool",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.030993952008429915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_char",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0312153379782103,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_char",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0312153379782103,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_char",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0312153379782103,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_int",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03112121601589024,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_int",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03112121601589024,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_int",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03112121601589024,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_pointer",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0314837449695915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_pointer",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0314837449695915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_precision_on_pointer",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_precision_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0314837449695915,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_precision_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_float",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03803012199932709,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_float",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03803012199932709,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_float",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_float.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03803012199932709,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_float-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_int",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03764376201434061,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_int",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03764376201434061,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_s_on_int",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_s_on_int.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03764376201434061,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_s_on_int-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_char",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03802784200524911,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_char",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03802784200524911,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_char",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03802784200524911,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_pointer",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0380874439724721,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_pointer",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0380874439724721,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_pointer",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.0380874439724721,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_string",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03741316695231944,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_string",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03741316695231944,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_string",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03741316695231944,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_minus",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_minus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038704618986230344,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_minus",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_minus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038704618986230344,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_minus",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_minus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038704618986230344,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_minus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037542060017585754,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037542060017585754,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037542060017585754,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus_bool",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03945886896690354,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus_bool",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03945886896690354,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_plus_bool",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_plus_bool.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03945886896690354,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_plus_bool-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_space",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_space.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03698457503924146,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_space",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_space.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03698457503924146,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_sign_on_unsigned_space",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_sign_on_unsigned_space.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03698457503924146,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_sign_on_unsigned_space-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_spec_on_custom_formatter",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_spec_on_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037833926966413856,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_spec_on_custom_formatter",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_spec_on_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037833926966413856,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_spec_on_custom_formatter",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_spec_on_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.037833926966413856,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_spec_on_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_stray_closing_brace",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_stray_closing_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038526973978150636,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_stray_closing_brace",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_stray_closing_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038526973978150636,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_stray_closing_brace",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_stray_closing_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038526973978150636,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_stray_closing_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042552558006718755,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042552558006718755,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042552558006718755,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args_custom_formatter",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03791775897843763,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args_custom_formatter",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03791775897843763,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_too_few_args_custom_formatter",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_too_few_args_custom_formatter.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03791775897843763,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_too_few_args_custom_formatter-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_two_types",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_two_types.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03890855505596846,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_two_types",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_two_types.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03890855505596846,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_two_types",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_two_types.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03890855505596846,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_two_types-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unclosed_brace",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unclosed_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042051565018482506,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unclosed_brace",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unclosed_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042051565018482506,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unclosed_brace",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unclosed_brace.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.042051565018482506,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unclosed_brace-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unknown_type",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unknown_type.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.041854759969282895,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unknown_type",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unknown_type.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.041854759969282895,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unknown_type",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unknown_type.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.041854759969282895,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unknown_type-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unterminated_spec",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unterminated_spec.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03856955602532253,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unterminated_spec",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unterminated_spec.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03856955602532253,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_unterminated_spec",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_unterminated_spec.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03856955602532253,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_unterminated_spec-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_char",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038771531952079386,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_char",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038771531952079386,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_char",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_char.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.038771531952079386,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_char-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_pointer",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03848073503468186,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_pointer",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03848073503468186,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_pointer",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_pointer.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.03848073503468186,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_pointer-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_string",
+      "variant": "specifiers",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.039904930046759546,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_string",
+      "variant": "buffer",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.039904930046759546,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stderr"
+      }
+    },
+    {
+      "id": "reject_zero_on_string",
+      "variant": "fmt",
+      "status": "expected_rejection",
+      "syntax": {
+        "exit_code": 0,
+        "command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-Wall",
+          "-Werror",
+          "-fno-fast-math",
+          "-Iinclude",
+          "-isystem",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt/include",
+          "-DNEG_SYNTAX_CHECK",
+          "-c",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/test/negative/reject_zero_on_string.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/rome/build-checks-1011080/source/artifacts/negative/20261022T043946Z/syntax.o"
+        ],
+        "seconds": 0.039904930046759546,
+        "stdout_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stdout",
+        "stderr_file": "artifacts/negative/20261022T043946Z/reject_zero_on_string-syntax.stderr"
+      }
+    }
+  ]
+}

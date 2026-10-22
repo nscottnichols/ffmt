@@ -48,13 +48,19 @@ Stdout uses bounded staging chunks, with `FFMT_BUFFER_SIZE=128` by default.
 Long output is streamed completely; the staging size is not an output limit.
 Use the same configuration macros across translation units.
 `FFMT_BUFFER_PATH=0` and `=1` remain accepted and select the shared engine.
+Captured stdout qualification uses one active work item. Concurrent writers
+and runtime printf FIFO saturation remain unqualified; staging capacity and
+runtime output capacity are separate limits.
 
 Wide buffer formatting preserves wide code units. Wide stdout is encoded as
 UTF-8; invalid code points or unmatched UTF-16 surrogates return an error.
 Narrow memory output preserves embedded NULs. Device stdout transport
 capabilities are qualified separately: the tested Intel SPIR-V printf runtime
-drops NUL characters, so ffmt reports `transport_error` for such chunks.
-`FFMT_SPIRV_NUL_SUPPORTED=1` is an opt-in for a separately validated runtime.
+drops NUL characters, and the AdaptiveCpp SSCP device print builtin accepts
+null-terminated strings. Checked printing reports `transport_error` for chunks
+containing NUL on these routes. `FFMT_SPIRV_NUL_SUPPORTED=1` opts into a
+separately validated SPIR-V printf runtime; it does not change the SSCP
+builtin's string contract.
 
 ## Formatting and custom types
 
@@ -144,17 +150,32 @@ outside that coverage denominator. Optional C++23 tests use
 
 See [the conformance guide](docs/CONFORMANCE.md) for raw-byte comparisons,
 the seeded device-memory numeric corpus, and reproducible commands.
+[Current qualification](docs/results/qualification.md) and the
+[evidence guide](docs/results/README.md) identify tested configurations and
+coverage gaps. The main 54-case captures use snapshot `21f9f5e`; subsequent
+GCC sanitizer, BitInt and shortest-candidate storage repairs have
+[focused validation](docs/results/portability-regressions.json).
+The later counted-view repair also passes full GCC sanitizer suites and checks
+valid empty narrow/wide formats against fmt.
+Captured results retain their original source hashes. Reports may select
+terminal configurations from a partial campaign while retaining failed
+controls and unfinished scope in the JSON.
 [Baseline evidence](docs/results/baseline.md) records the original implementation;
-[the milestone ledger](docs/MILESTONES.md) tracks current qualification work.
+[the milestone ledger](docs/MILESTONES.md) records the completed campaign.
 Compiler success, output agreement, device execution, source coverage, and
 performance are reported separately. Fast-math has a separate assessment;
 strict runs use `-fno-fast-math`.
+The [working manuscript](docs/paper/ffmt.pdf) includes generated evidence tables.
+The [JLSE development skill](skills/ffmt-jlse-development/SKILL.md) describes
+worker ownership, allocation use and reproducible validation.
 
 ## JLSE development
 
 [Profiles](platforms/profiles.json) cover Rome x86_64, H100 CUDA, MI300X HIP,
 Intel Max SYCL/SPIR-V, and GH200 Arm/CUDA. Additional routes include OpenMP,
 Kokkos, AdaptiveCpp and chipStar. A configured route is not a passing result.
+The published `h100` campaign used an NVIDIA A40 fallback; the recorded actual
+device determines the hardware covered by each result.
 
 ```sh
 python3 tools/jlse/submit.py discovery rome h100 mi300x chiatta gh200

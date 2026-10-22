@@ -1,0 +1,302 @@
+{
+  "branches": {
+    "count": 2540,
+    "covered": 2119,
+    "percent": 83.4251968503937
+  },
+  "count": 3519,
+  "covered": 3244,
+  "exclusions": [
+    "Device-only code and uninstantiated template bodies are not instrumented.",
+    "Compile-time evaluation is not runtime coverage."
+  ],
+  "files": {
+    "include/ffmt/args.hpp": {
+      "branches": {
+        "count": 0,
+        "covered": 0,
+        "percent": null
+      },
+      "lines": {
+        "count": 1,
+        "covered": 1,
+        "percent": 100.0
+      },
+      "regions": {
+        "count": 1,
+        "covered": 1,
+        "percent": 100.0
+      }
+    },
+    "include/ffmt/base.hpp": {
+      "branches": {
+        "count": 166,
+        "covered": 155,
+        "percent": 93.37349397590361
+      },
+      "lines": {
+        "count": 549,
+        "covered": 516,
+        "percent": 93.98907103825137
+      },
+      "regions": {
+        "count": 282,
+        "covered": 274,
+        "percent": 97.16312056737588
+      }
+    },
+    "include/ffmt/chrono.hpp": {
+      "branches": {
+        "count": 456,
+        "covered": 354,
+        "percent": 77.63157894736842
+      },
+      "lines": {
+        "count": 453,
+        "covered": 421,
+        "percent": 92.93598233995586
+      },
+      "regions": {
+        "count": 583,
+        "covered": 506,
+        "percent": 86.79245283018868
+      }
+    },
+    "include/ffmt/color.hpp": {
+      "branches": {
+        "count": 54,
+        "covered": 34,
+        "percent": 62.96296296296296
+      },
+      "lines": {
+        "count": 84,
+        "covered": 71,
+        "percent": 84.52380952380952
+      },
+      "regions": {
+        "count": 93,
+        "covered": 74,
+        "percent": 79.56989247311827
+      }
+    },
+    "include/ffmt/core.hpp": {
+      "branches": {
+        "count": 476,
+        "covered": 378,
+        "percent": 79.41176470588235
+      },
+      "lines": {
+        "count": 674,
+        "covered": 580,
+        "percent": 86.05341246290801
+      },
+      "regions": {
+        "count": 656,
+        "covered": 594,
+        "percent": 90.54878048780488
+      }
+    },
+    "include/ffmt/detail/extended.hpp": {
+      "branches": {
+        "count": 114,
+        "covered": 93,
+        "percent": 81.57894736842105
+      },
+      "lines": {
+        "count": 123,
+        "covered": 119,
+        "percent": 96.7479674796748
+      },
+      "regions": {
+        "count": 144,
+        "covered": 135,
+        "percent": 93.75
+      }
+    },
+    "include/ffmt/detail/family.hpp": {
+      "branches": {
+        "count": 110,
+        "covered": 82,
+        "percent": 74.54545454545455
+      },
+      "lines": {
+        "count": 153,
+        "covered": 138,
+        "percent": 90.19607843137256
+      },
+      "regions": {
+        "count": 168,
+        "covered": 148,
+        "percent": 88.0952380952381
+      }
+    },
+    "include/ffmt/detail/floating.hpp": {
+      "branches": {
+        "count": 198,
+        "covered": 177,
+        "percent": 89.39393939393939
+      },
+      "lines": {
+        "count": 298,
+        "covered": 284,
+        "percent": 95.30201342281879
+      },
+      "regions": {
+        "count": 271,
+        "covered": 255,
+        "percent": 94.09594095940959
+      }
+    },
+    "include/ffmt/detail/numeric.hpp": {
+      "branches": {
+        "count": 306,
+        "covered": 294,
+        "percent": 96.07843137254902
+      },
+      "lines": {
+        "count": 333,
+        "covered": 331,
+        "percent": 99.3993993993994
+      },
+      "regions": {
+        "count": 394,
+        "covered": 386,
+        "percent": 97.96954314720813
+      }
+    },
+    "include/ffmt/detail/text.hpp": {
+      "branches": {
+        "count": 118,
+        "covered": 101,
+        "percent": 85.59322033898304
+      },
+      "lines": {
+        "count": 165,
+        "covered": 147,
+        "percent": 89.0909090909091
+      },
+      "regions": {
+        "count": 159,
+        "covered": 142,
+        "percent": 89.30817610062893
+      }
+    },
+    "include/ffmt/detail/transport.hpp": {
+      "branches": {
+        "count": 46,
+        "covered": 33,
+        "percent": 71.73913043478261
+      },
+      "lines": {
+        "count": 180,
+        "covered": 117,
+        "percent": 65.0
+      },
+      "regions": {
+        "count": 77,
+        "covered": 71,
+        "percent": 92.20779220779221
+      }
+    },
+    "include/ffmt/detail/unicode.hpp": {
+      "branches": {
+        "count": 56,
+        "covered": 35,
+        "percent": 62.5
+      },
+      "lines": {
+        "count": 185,
+        "covered": 184,
+        "percent": 99.45945945945945
+      },
+      "regions": {
+        "count": 77,
+        "covered": 67,
+        "percent": 87.01298701298701
+      }
+    },
+    "include/ffmt/enum.hpp": {
+      "branches": {
+        "count": 0,
+        "covered": 0,
+        "percent": null
+      },
+      "lines": {
+        "count": 6,
+        "covered": 6,
+        "percent": 100.0
+      },
+      "regions": {
+        "count": 2,
+        "covered": 2,
+        "percent": 100.0
+      }
+    },
+    "include/ffmt/printf.hpp": {
+      "branches": {
+        "count": 262,
+        "covered": 228,
+        "percent": 87.02290076335878
+      },
+      "lines": {
+        "count": 209,
+        "covered": 204,
+        "percent": 97.60765550239235
+      },
+      "regions": {
+        "count": 317,
+        "covered": 299,
+        "percent": 94.3217665615142
+      }
+    },
+    "include/ffmt/ranges.hpp": {
+      "branches": {
+        "count": 128,
+        "covered": 112,
+        "percent": 87.5
+      },
+      "lines": {
+        "count": 220,
+        "covered": 219,
+        "percent": 99.54545454545455
+      },
+      "regions": {
+        "count": 211,
+        "covered": 208,
+        "percent": 98.5781990521327
+      }
+    },
+    "include/ffmt/std.hpp": {
+      "branches": {
+        "count": 50,
+        "covered": 43,
+        "percent": 86.0
+      },
+      "lines": {
+        "count": 107,
+        "covered": 107,
+        "percent": 100.0
+      },
+      "regions": {
+        "count": 84,
+        "covered": 82,
+        "percent": 97.61904761904762
+      }
+    }
+  },
+  "instrumented_scope": "include/ffmt",
+  "lines": {
+    "count": 3740,
+    "covered": 3445,
+    "percent": 92.11229946524064
+  },
+  "percent": 92.18527990906507,
+  "source_revision": "0c2cb764d8ee436bc0221e88cefe417dcbb8d678",
+  "profile": "rome",
+  "cobalt_jobid": "1011080",
+  "raw_manifest": "artifacts/rome/build-checks-1011080/manifest.json",
+  "raw_manifest_sha256": "f1d8f288ab4456dbf9f8906e2077f3c96b9374c3fe374de39c44d5c56995c779",
+  "raw_coverage": "artifacts/rome/build-checks-1011080/coverage.json",
+  "raw_coverage_sha256": "1bc3a4d57d01ee64e9878638df28fb9fe60354902b853f53e470cab0015cd540",
+  "compiler": "clang version 22.1.8 (https://ye-luo@github.com/llvm/llvm-project.git ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)\nTarget: x86_64-unknown-linux-gnu\nThread model: posix\nInstalledDir: /soft/compilers/llvm/release-22.1.8/bin\nBuild config: +assertions\nConfiguration file: /soft/compilers/llvm/release-22.1.8/bin/x86_64-unknown-linux-gnu.cfg"
+}

@@ -27,7 +27,9 @@ Working fork: https://github.com/nscottnichols/ffmt. Upstream starts at
 
 PR: https://github.com/nscottnichols/ffmt/pull/1. The binary-safe runner,
 diagnostic classifier, Cobalt profiles and baseline evidence are committed.
-Seventeen harness regressions pass. Further routes and evidence are integrated
+Twenty-four harness regressions pass, including descendant-process timeout cleanup,
+interrupted auxiliary suites and failed-build isolation evidence.
+Further routes and evidence are integrated
 with their corresponding implementation/qualification changes.
 
 Build a binary-safe differential runner, diagnostic-aware negative tests,
@@ -36,7 +38,7 @@ CMake/CTest and Make entry points. Capture baseline output and manifests before
 implementation. Add focused tests of harness failure detection. Open the first
 small PR in the fork.
 
-## M2 — shared formatting engine (implemented; qualification in progress)
+## M2 — shared formatting engine (complete for this campaign)
 
 PR: https://github.com/nscottnichols/ffmt/pull/2 (stacked on PR1).
 
@@ -51,7 +53,7 @@ numerical and bounds defects, support host/CUDA/HIP/OMP/SYCL emission. Preserve
 existing source calls and custom formatter protocol. Add regressions and open a
 stacked implementation PR.
 
-## M3 — expanded format families (implemented; integration in progress)
+## M3 — expanded format families (complete for this campaign)
 
 PR: https://github.com/nscottnichols/ffmt/pull/3 (stacked on PR2).
 
@@ -67,15 +69,28 @@ and explicit ANSI style. Provide fmt-like formatter contexts while keeping legac
 specializations. Test family semantics against pinned fmt; expose genuine device
 type restrictions. Keep changes in focused stacked PRs.
 
-## M4 — representative JLSE qualification (in progress)
+## M4 — representative JLSE qualification (complete)
 
 PR: https://github.com/nscottnichols/ffmt/pull/4 (tooling, stacked on PR3).
+Portability follow-up: https://github.com/nscottnichols/ffmt/pull/5.
+Campaign tooling: https://github.com/nscottnichols/ffmt/pull/6.
 
-Native CUDA and HIP have passed the 40-case core stdout corpus and 8,216
-device-memory numeric records at both optimization levels on captured snapshots.
-The expanded 54-case corpus and final committed snapshots still require runs.
-Intel cold JIT, transport NUL limitations, OpenMP numeric execution failures,
-and AdaptiveCpp/chipStar dependency builds remain under investigation.
+The committed `21f9f5e` snapshot passes all 54 stdout cases and 8,216 memory
+numeric records on native CUDA/NVCC (A40 and GH200), native HIP, Arm/x86 host,
+Kokkos Serial and Kokkos HIP at both optimization levels. Intel SYCL and Kokkos
+SYCL pass memory records but retain the stdout NUL transport gap. The
+[selected report](results/qualification.md) contains 41 terminal configurations
+from nine primary/focused campaigns, including failing configurations. Kokkos,
+AdaptiveCpp, chipStar and OpenMP have measured outcomes. Final `98dba67`
+chipStar checks pass all eight focused stdout cases and 8,216 numeric records
+at both optimization levels. A minimized independent AMD OpenMP callback
+failure preserves a compiler/runtime boundary at -O0; the same program passes
+on NVIDIA, whose separate full-numeric -O0 failure remains unresolved.
+The [gap ledger](results/gaps.md) records transport limits, compilation/JIT
+timeouts and sampled scope. Reports retain actual hardware: the `h100` profile
+used an A40 fallback. Final integration at `0c2cb76` passes all 15 CTest entries,
+Make legacy/fast-math checks and 123 diagnostic-aware negative tests with three
+positive controls. Full GCC13 sanitizer suites pass at -O0 and -O2.
 
 Use Rome x86_64 host; H100 CUDA/OpenMP; MI300X native HIP/OpenMP;
 Chiatta Intel Max SYCL/SPIR-V/OpenMP/chipStar; GH200 Arm host/CUDA.
@@ -86,12 +101,19 @@ driver/runtime/compiler versions, commands, flags, source state and outcomes.
 Re-run affected configurations after fixes. Both -O0 and -O2, strict floating
 point, host sanitizers; fast-math is a separate assessment.
 
-## M5 — measurements and working manuscript (in progress)
+## M5 — measurements and working manuscript (complete)
 
-Host/Arm/HIP timing and resource manifests exist under artifacts; they need a
-final source pass and compact publication. First-batch timing is not cold JIT
-measurement. An explicit cache-disabled SYCL kernel-bundle build measurement is
-being added. The supplied manuscript still needs import and revision.
+The [compact measurements](results/benchmarks.json) contain 768 measured timing
+groups and 112 resource probes from 20 explicitly selected runs. Source proofs
+and an exact paper selection ledger retain historical and later snapshots.
+First-batch timing is not cold JIT measurement. Intel SYCL records explicit
+cache-disabled kernel-bundle preparation and device-event timing. The supplied
+outline is preserved in `docs/paper`. The [revised manuscript](paper/ffmt.pdf)
+compiles with generated tables from the selected qualification, measurements
+and source coverage evidence. The instrumented host union covers 92.11% of
+executable lines and 83.43% of branch edges; these are not GPU or fmt feature
+coverage percentages. Publication, compact evidence and minimized reproducers
+are the final stacked results change.
 
 Measure formatting separately from printing, cold compilation/JIT separately
 from warm execution, with five warm-up batches and thirty measured samples.

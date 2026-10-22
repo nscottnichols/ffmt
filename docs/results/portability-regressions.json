@@ -1,0 +1,650 @@
+{
+  "schema_version": 1,
+  "source_revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+  "scope": "Focused host portability checks; main native campaign remains snapshot21f. Native chipStar correction is separately qualified.",
+  "header_files": {
+    "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+    "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+    "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+    "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+    "include/ffmt/core.hpp": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+    "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+    "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+    "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+    "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+    "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d",
+    "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+    "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+    "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+    "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+    "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+    "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+    "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+    "test/test_engine.cpp": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+    "test/test_engine_extended.cpp": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34"
+  },
+  "validations": [
+    {
+      "manifest": "artifacts/ci-audit/fixed/validation.json",
+      "sha256": "64cff0dc2d2579485c93f43afed05da992dfb4e7e2ebb1eb22532e1f77882bc6",
+      "evidence": {
+        "core_sha256": "b64bf7e48fd798b0ef3d0799cd295c684f3b74cfa71ea80038a417b76ca5820f",
+        "test_sha256": "36c0104d5981a6254abcbb4340199ae4998b10428142f42c26d1a9d9c3f7ee79",
+        "bitint_validation": "bitint-validation.json",
+        "dynamic_validation": "dynamic-validation.json",
+        "libcpp_oracle_object_sha256": "c6775219708b7f2803690756357dd1ee32316976cadcfe47cc412092c2f03ade",
+        "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+        "dynamic_build_commands": [
+          [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O0",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/ci-audit/fixed/include",
+            "artifacts/ci-audit/fixed/dynamic.cpp",
+            "-Wl,-rpath,/soft/compilers/gcc/13.3.0/x86_64-suse-linux/lib64",
+            "-o",
+            "artifacts/ci-audit/fixed/dynamic-O0"
+          ],
+          [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O2",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/ci-audit/fixed/include",
+            "artifacts/ci-audit/fixed/dynamic.cpp",
+            "-Wl,-rpath,/soft/compilers/gcc/13.3.0/x86_64-suse-linux/lib64",
+            "-o",
+            "artifacts/ci-audit/fixed/dynamic-O2"
+          ]
+        ],
+        "libcpp_oracle_build_command": [
+          "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+          "-std=c++20",
+          "-O2",
+          "-fno-fast-math",
+          "-stdlib=libc++",
+          "-Ithird_party/fmt/include",
+          "-c",
+          "third_party/fmt/src/format.cc",
+          "-o",
+          "artifacts/ci-audit/fixed/fmt-libcpp.o"
+        ],
+        "compiler_versions": {
+          "gcc13": "g++ (GCC) 13.3.0",
+          "llvm22": "clang version 22.1.8 (https://ye-luo@github.com/llvm/llvm-project.git ca7933e47d3a3451d81e72ac174dcb5aa28b59d1)"
+        }
+      }
+    },
+    {
+      "manifest": "artifacts/ci-audit/fixed/bitint-validation.json",
+      "sha256": "e1e68922391ad3511261c808c4f3a697f1aecc25616f320a84bfd70ba30b898f",
+      "evidence": [
+        {
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O0",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-stdlib=libstdc++",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/ci-audit/fixed/test_engine_bitint.cpp",
+            "build/fmt.o",
+            "-o",
+            "artifacts/ci-audit/fixed/bitint-libstdc++-O0"
+          ],
+          "build_status": 0,
+          "run_status": 0
+        },
+        {
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O2",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-stdlib=libstdc++",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/ci-audit/fixed/test_engine_bitint.cpp",
+            "build/fmt.o",
+            "-o",
+            "artifacts/ci-audit/fixed/bitint-libstdc++-O2"
+          ],
+          "build_status": 0,
+          "run_status": 0
+        },
+        {
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O0",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-stdlib=libc++",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/ci-audit/fixed/test_engine_bitint.cpp",
+            "artifacts/ci-audit/fixed/fmt-libcpp.o",
+            "-Wl,-rpath,/soft/compilers/llvm/release-22.1.8/lib/x86_64-unknown-linux-gnu",
+            "-o",
+            "artifacts/ci-audit/fixed/bitint-libcpp-independent-O0"
+          ],
+          "build_status": 0,
+          "run_status": 0
+        },
+        {
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O2",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-fno-omit-frame-pointer",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-stdlib=libc++",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/ci-audit/fixed/test_engine_bitint.cpp",
+            "artifacts/ci-audit/fixed/fmt-libcpp.o",
+            "-Wl,-rpath,/soft/compilers/llvm/release-22.1.8/lib/x86_64-unknown-linux-gnu",
+            "-o",
+            "artifacts/ci-audit/fixed/bitint-libcpp-independent-O2"
+          ],
+          "build_status": 0,
+          "run_status": 0
+        }
+      ]
+    },
+    {
+      "manifest": "artifacts/ci-audit/fixed/dynamic-validation.json",
+      "sha256": "ccf0f8c145c1e2cafc6e19f85fe8ad88d26b633c7249819505ae9795cbdfc13f",
+      "evidence": [
+        {
+          "name": "positive-runtime-O0",
+          "status": 0,
+          "binary": "artifacts/ci-audit/fixed/dynamic-O0",
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O0",
+            "-fsanitize=address,undefined",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-fsyntax-only",
+            "-x",
+            "c++",
+            "-"
+          ],
+          "source": "#include <ffmt/base.hpp>\nvoid check(){char out[32];(void)ffmt::format_to_n(out,32,\"{:>{}}\",42,1.0);}\n",
+          "expected_rejection": true,
+          "status": 1,
+          "diagnostics": "artifacts/ci-audit/fixed/invalid-width-1.0-O0.stderr"
+        },
+        {
+          "command": [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O0",
+            "-fsanitize=address,undefined",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-fsyntax-only",
+            "-x",
+            "c++",
+            "-"
+          ],
+          "source": "#include <ffmt/base.hpp>\nvoid check(){char out[32];(void)ffmt::format_to_n(out,32,\"{:>{}}\",42,true);}\n",
+          "expected_rejection": true,
+          "status": 1,
+          "diagnostics": "artifacts/ci-audit/fixed/invalid-width-true-O0.stderr"
+        },
+        {
+          "name": "positive-runtime-O2",
+          "status": 0,
+          "binary": "artifacts/ci-audit/fixed/dynamic-O2",
+          "stdout": "",
+          "stderr": ""
+        },
+        {
+          "command": [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O2",
+            "-fsanitize=address,undefined",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-fsyntax-only",
+            "-x",
+            "c++",
+            "-"
+          ],
+          "source": "#include <ffmt/base.hpp>\nvoid check(){char out[32];(void)ffmt::format_to_n(out,32,\"{:>{}}\",42,1.0);}\n",
+          "expected_rejection": true,
+          "status": 1,
+          "diagnostics": "artifacts/ci-audit/fixed/invalid-width-1.0-O2.stderr"
+        },
+        {
+          "command": [
+            "/soft/compilers/gcc/13.3.0/x86_64-suse-linux/bin/g++",
+            "-std=c++20",
+            "-O2",
+            "-fsanitize=address,undefined",
+            "-Iartifacts/ci-audit/fixed/include",
+            "-fsyntax-only",
+            "-x",
+            "c++",
+            "-"
+          ],
+          "source": "#include <ffmt/base.hpp>\nvoid check(){char out[32];(void)ffmt::format_to_n(out,32,\"{:>{}}\",42,true);}\n",
+          "expected_rejection": true,
+          "status": 1,
+          "diagnostics": "artifacts/ci-audit/fixed/invalid-width-true-O2.stderr"
+        }
+      ]
+    },
+    {
+      "manifest": "artifacts/engine-chipstar/final/validation.json",
+      "sha256": "3ed76224fda8b5a7c4f4380e180f349e3a6472d91c3d0ac711da3abc84fa2fed",
+      "evidence": {
+        "schema_version": 1,
+        "header_sha256": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+        "native_probe": "artifacts/engine-chipstar/job-1011069/manifest.json",
+        "checks": [
+          {
+            "name": "engine",
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "-std=c++20",
+              "-O1",
+              "-g",
+              "-fno-fast-math",
+              "-Wall",
+              "-Wextra",
+              "-Werror",
+              "-fsanitize=address,undefined",
+              "-DFFMT_PORTABLE_SHORTEST=1",
+              "-Iartifacts/engine-chipstar/final/include",
+              "-Ithird_party/fmt/include",
+              "artifacts/engine-chipstar/final/test/test_engine.cpp",
+              "artifacts/engine-chipstar/final/fmt.o",
+              "-o",
+              "artifacts/engine-chipstar/final/engine-sanitized"
+            ],
+            "build_exit_code": 0,
+            "execution_exit_code": 0,
+            "stdout": "engine checks: 57365\n",
+            "comparisons": 57365,
+            "binary_sha256": "2c6beef35b759e958e9b71fb9339812479244899923f00dfe3921c4ae01c14c4"
+          },
+          {
+            "name": "extended",
+            "command": [
+              "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+              "-std=c++20",
+              "-O1",
+              "-g",
+              "-fno-fast-math",
+              "-Wall",
+              "-Wextra",
+              "-Werror",
+              "-fsanitize=address,undefined",
+              "-Iartifacts/engine-chipstar/final/include",
+              "-Ithird_party/fmt/include",
+              "artifacts/engine-chipstar/final/test/test_engine_extended.cpp",
+              "artifacts/engine-chipstar/final/fmt.o",
+              "-o",
+              "artifacts/engine-chipstar/final/extended-sanitized"
+            ],
+            "build_exit_code": 0,
+            "execution_exit_code": 0,
+            "stdout": "extended checks: 1276 (digits=64)\n",
+            "comparisons": 1276,
+            "binary_sha256": "b7fca6ca743134f5dacd50855b0cab601c7021c43201a413b356da73d48f89ee"
+          }
+        ],
+        "runner": {
+          "command": [
+            "python3",
+            "-m",
+            "unittest",
+            "discover",
+            "-s",
+            "test/conformance",
+            "-p",
+            "test_runner.py"
+          ],
+          "exit_code": 0,
+          "tests": 20
+        }
+      }
+    }
+  ],
+  "subsequent_counted_view_validation": {
+    "source_revision": "0c2cb764d8ee436bc0221e88cefe417dcbb8d678",
+    "scope": "Full GCC13 ASan/UBSan Make suites at O0/O2; negative subprocesses use sanitizer flags at compiler-default optimization. Valid empty views are compared with fmt; invalid null/nonempty rejection is defensive ffmt API behavior.",
+    "records": [
+      {
+        "manifest": "artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/manifest.json",
+        "sha256": "11ffde877df9113343696f753d79323ee4fb8f1a3e72f4cc5a69a4fc2f8ad937",
+        "evidence": {
+          "schema_version": 1,
+          "base_revision": "48aae9b3d2b478d68216d5ae06187defec740b4f",
+          "source_files": {
+            "Makefile": "cfa4e4c7320de67860ce418d81cb07c10da05948313c2e815dd64fba44bb8631",
+            "include/ffmt/args.hpp": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+            "include/ffmt/base.hpp": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+            "include/ffmt/chrono.hpp": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+            "include/ffmt/color.hpp": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+            "include/ffmt/core.hpp": "54abfadff1d1a5d8ab4f9f1bdd10342142516032257fbe517f048239833e686c",
+            "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+            "include/ffmt/detail/family.hpp": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+            "include/ffmt/detail/floating.hpp": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+            "include/ffmt/detail/numeric.hpp": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+            "include/ffmt/detail/text.hpp": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+            "include/ffmt/detail/transport.hpp": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+            "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+            "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+            "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+            "include/ffmt/ranges.hpp": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+            "include/ffmt/std.hpp": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+            "include/ffmt/std23.hpp": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d",
+            "platforms/dependencies.json": "45ab27aec7bab4b3009ba76b79c736ad11ab3811fce65c75641ce5dcc35bb4ec",
+            "platforms/profiles.json": "c96e8e74e10c89f11cc6db3bfd493abb7c380f0118cdfddac0f056d75e06cfb4",
+            "test/capture.hpp": "c406ebce772daa3cb8f574bd59db0486d74dc1082c4314a6a45b97319cc5a0af",
+            "test/conformance/benchmark.cpp": "607be05afcd5cda738b310d39cd821ecc096139cf5b42ca50fa102dd785e672c",
+            "test/conformance/benchmark_calls.hpp": "fdcc3b262d77659ed22393945a380cfa9c0dfc2e94031a579a6e11cd73ddb8b7",
+            "test/conformance/benchmark_extra.cpp": "37292eb97df496a9ea23bed922acc225e17d15b6bef22419ec85014a95ad3199",
+            "test/conformance/benchmark_resource.cpp": "a652363ea299ac1966d968a6752c7de3eb4535d2382ab050a4f2f1e4b5903bb6",
+            "test/conformance/cases.py": "b50ecda885148c5fef472f44593781140dc1bfdd9d1700d1d109a78141c54342",
+            "test/conformance/test_engine.cpp": "298a7fa8a9940768147a3814d106715afabf23f63329543e119a2426c6c4bf23",
+            "test/conformance/test_engine_bitint.cpp": "36c0104d5981a6254abcbb4340199ae4998b10428142f42c26d1a9d9c3f7ee79",
+            "test/conformance/test_engine_extended.cpp": "3a791aa5223c697e60e4e5c2bc942c6890d5c4f31f3e6a2b916fa3b481796f34",
+            "test/conformance/test_engine_fast_math.cpp": "b6e4fcd394eca46c33bab7a2537fad35b7399e14d2ba463c2f8e86e9752dbb6b",
+            "test/conformance/test_engine_forwarding.cpp": "da7c221eb1865824f1e2092b7275444baca9e761280d3435319eee9d8233deff",
+            "test/conformance/test_engine_legacy_hook.cpp": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+            "test/conformance/test_engine_quad.cpp": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+            "test/conformance/test_engine_transport.cpp": "f2a6fc4b7ba8b0bddeee565dd9e66d724e4a617d2b78ea90e4b4170d1b6b016a",
+            "test/conformance/test_families.cpp": "926914fef1a0de4a02f6ff09a85c65cda12d701f3bd83588ecd68ad08d6ef48b",
+            "test/conformance/test_families_printf.cpp": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+            "test/conformance/test_families_ranges.cpp": "d4268d5c9c14bf78a89ab82acca17b2a8f192932ca840e761be4e63ca331feda",
+            "test/conformance/test_families_std23.cpp": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6",
+            "test/conformance/test_runner.py": "7252d04b2a84f90243832f25f35daba5aa3dd1fb8572e35312b28a2aa7947eaf",
+            "test/negative/control/accept_valid.cpp": "99fedd765e44b94230893d8a196a70a9a9b4eb3580d55d9cb362443ab3fb2164",
+            "test/negative/negative.hpp": "8e8c8e6d7b9598752ba932d49673cf4759dec6888bd1ccae396499059926b98a",
+            "test/negative/reject_alt_on_pointer.cpp": "bd2f5e5782fffe31d74855c1fe8b4d48af6a0693fc66af233e5d544135f0a26c",
+            "test/negative/reject_alt_on_string.cpp": "6903337d79a4e11923f20ea1dc5ff1e7bf1b1eab0be8ded3b704c99e9d2d9a29",
+            "test/negative/reject_auto_dynamic_in_manual.cpp": "78ea7e6758a1926d35c19165a95f884f22a94456e8b51f7bd3917abeb44db01b",
+            "test/negative/reject_auto_then_manual_index.cpp": "2a9922c7eff1dcf763fba07da8431931584e1d70fc58aa1e3cfddf8da8576a80",
+            "test/negative/reject_brace_as_fill.cpp": "c704950990053a81fda4ad774eef1c44b27c26dfdb985c3fb41801d49140bb39",
+            "test/negative/reject_c_on_bool.cpp": "9e19d65ad4adb245390c47fbd00d13b660829a3135ea11a9af087b98984310e2",
+            "test/negative/reject_c_on_float.cpp": "b7bb10185b78760c7b8276d61f387f8136c5a5db8f1c4a11744aa02135b02885",
+            "test/negative/reject_float_dynamic_precision.cpp": "6d87ff78fac130dfde4ab8d785ce7549d4e8e1b66a90e0198dfcc2b36df0de55",
+            "test/negative/reject_float_dynamic_width.cpp": "6e495c6319161abdf443c57789f2ce94efb4681632df253a3b1c3be8fad0bbd8",
+            "test/negative/reject_float_spec_on_int.cpp": "dc85af36e777bbe52057202ef71dd9f2c51b4963f35dcb28a188e9a9d4fa66e5",
+            "test/negative/reject_garbage_after_arg_id.cpp": "5950cb1e8e0cc3efce5a53ed42f22d0247129e4cb2d3cb32e3642416daecd76e",
+            "test/negative/reject_garbage_after_width.cpp": "29b2d624ae238a485b8090604931f21eb399a41da001d9d9dd85bdb8fee9ca76",
+            "test/negative/reject_int_spec_on_float.cpp": "2e9ec008018a68dad87f5e0ad853701cc01f328e0a7497995a184f9248df9448",
+            "test/negative/reject_invalid_utf8_fill.cpp": "cd8f1e38cb015ed0c7f7b4a4b9adf6c5387300e06923ddbd29305277c1669b39",
+            "test/negative/reject_manual_dynamic_in_auto.cpp": "5f51cd243a33188631485322eb8e94c8270972df005c92cc9e938ba8bbd04031",
+            "test/negative/reject_manual_then_auto_index.cpp": "58af4a10da7a7d9ca4b0d0e536da273fc5d0b5417301688defdc1e1c249f5588",
+            "test/negative/reject_non_numeric_arg_id.cpp": "60a9fe2faf3ce1c051e729a724d1fca06183d7076f1f9d90d7e4cd29deadf114",
+            "test/negative/reject_precision_on_bool.cpp": "f14474fbcb8799f3bfe7b2de1322b393ecda7211765694f867ba0f0caed74b62",
+            "test/negative/reject_precision_on_char.cpp": "fcc37fc752674c8f53673cfc45b63fe470808e439083d169d8ac16a74f340f5a",
+            "test/negative/reject_precision_on_int.cpp": "04d943b48e383926245c37a666d9ccbcb5c27e57f41e760279764ccbb2b7cd63",
+            "test/negative/reject_precision_on_pointer.cpp": "bedcb5779addc50aed1cdb48930c128ac041e709e928840839f86eb86da62812",
+            "test/negative/reject_s_on_float.cpp": "81ff0948de1cdbee299a9948a373868bc9978bedbce53877f17778e75151ffd5",
+            "test/negative/reject_s_on_int.cpp": "4db35759347fb686bb60b0d7a7df5e8be57d24be4f9f7ab6a7b1cf7818898860",
+            "test/negative/reject_sign_on_char.cpp": "63f5a4686e742431ad7f9414ad1c0594907b020fb1cff5100aea4c18bf3f3ace",
+            "test/negative/reject_sign_on_pointer.cpp": "90a26ce97a3142ddc19badeded107cd8c543d65d53b8dc9ee3263432cad16105",
+            "test/negative/reject_sign_on_string.cpp": "01f5b72ba051e73e4909bc390d343bf9a6d89b6b6c1ac92c4e8a0398accc2220",
+            "test/negative/reject_sign_on_unsigned_minus.cpp": "617febcca6ad247e6cf070e3b686daaeebe017a9a5198342611fb9e40eb58d18",
+            "test/negative/reject_sign_on_unsigned_plus.cpp": "983a81dcce5f9bdfb9ceb58b480419a373e081fc96e5d64879245a75f2d07498",
+            "test/negative/reject_sign_on_unsigned_plus_bool.cpp": "9d2a7f6eff7143f2df66fbde806d23a9ee8f39b00cbc550ed9104427f5e7169c",
+            "test/negative/reject_sign_on_unsigned_space.cpp": "d1dc72c8ddebe198abc5c122c4f1fee5b9c42021ed5ca4a1fa373d5fdca53005",
+            "test/negative/reject_spec_on_custom_formatter.cpp": "6c4a313aa352d4a86ed0ef3335508d9e9b256fbf431bd8359c175a868ed71960",
+            "test/negative/reject_stray_closing_brace.cpp": "f75cb5dd732590ac5cd985a03da1230ca3903516508e9d9bfa724244024f30a5",
+            "test/negative/reject_too_few_args.cpp": "78f3e0ea1f0ef33086f16045c647eab162e83c3b1644a603c198466cbf99ff4a",
+            "test/negative/reject_too_few_args_custom_formatter.cpp": "27725737ba08491af29441d972648f68ba35463af92745d252f1b109c2f40c2c",
+            "test/negative/reject_two_types.cpp": "e5d0ff0a66802a44610c468c99380a991fc0c15db0ad9a696a784c3bd9592663",
+            "test/negative/reject_unclosed_brace.cpp": "8eb80f19f161a57fc7039bb0da1362ca43442f0fe255d2896073deef52102e59",
+            "test/negative/reject_unknown_type.cpp": "3a8a7435415265f0cff5e0b34184a4561da0e5421d9a16a3dfb4a8838246409e",
+            "test/negative/reject_unterminated_spec.cpp": "2d5ab2bb7d240b79604e9a297ce05db8b86b1f17bdbe53e0d3dd1c8f816b95e7",
+            "test/negative/reject_zero_on_char.cpp": "46022a8f7e65c2c182293cb768a59d427d204d7ca4fcbdd212340cd8bf9bf52f",
+            "test/negative/reject_zero_on_pointer.cpp": "d3801a55a1517d096d5b1f185db88d554727488563bc3915367ff8360612fe60",
+            "test/negative/reject_zero_on_string.cpp": "c809cf8a9c491a014faa12f3ac926b7a3c0ab01abd6c4a714b9484e57d799cbf",
+            "test/sycl_std_formatters.hpp": "97ba39129f1f6199c80fbdc57d718322da2c4c02e14f86bba3baa58c6dc671a2",
+            "test/test_body.inc": "c6a5f6ecada0786ba25218cc6fd2597604f8e48ef0201b322ea47f40ea0684dc",
+            "test/test_body_cuda.inc": "088a072bb2a7ae04dfe66d42a61817e834d1d34d36174db2eca78dc3bf1122a8",
+            "test/test_body_host.inc": "58588b888d01221cde01d96cbfffbadb48a3b3bab73617e75c172b1c422b84aa",
+            "test/test_body_omp.inc": "153d28452a20212641cf7f6912beca34325463561464ca3b13a3a7768014ac4c",
+            "test/test_buffer_path.cpp": "948fe3dfed250ebc65b52980413bb1ba386a865539d5a6499e9ac8fab9d100fe",
+            "test/test_escape_percent.cpp": "3277b1805e5a4baef95e1763de682032b31f89ff04730308ff2c188e6827d774",
+            "test/test_fast_math.cpp": "1b7ea998438d512faa3f2c9909dcbd7967130ff265b994798a2bd5c105772937",
+            "test/test_floats.cpp": "47e76d154e5a702cd479b09e1c575f8e43119829291d5063221e6198f7d300c6",
+            "test/test_formatter.cpp": "383eb9de225d22259d4e568e7f536a99584a3bf46cfb25d1759be2b0a3b0b08a",
+            "test/test_integers.cpp": "345854ed8ab40b4b60114a1a7a756ea47fe01454e763e346b3c067cab7c1e2c7",
+            "test/test_layout.cpp": "f0545c4a7b8b6d773c212121cba5f78f07ec1270bdb1839ecf8c48adce95eac8",
+            "test/test_main_host.cpp": "849d009f46875562a9f05444b84cbae6b0e37d24256cfc801732b549df17c0e6",
+            "test/test_main_omp.cpp": "849d009f46875562a9f05444b84cbae6b0e37d24256cfc801732b549df17c0e6",
+            "test/test_main_sycl.cpp": "6fa96a7a89e6e57d9ff33d7028bfa1a03918e8c8a1597dc19249850049b65318",
+            "test/test_misc.cpp": "03dd507ba9b000171a7ba8c00659cbda527a33291b5c72738f4cbad38be3a23e",
+            "test/test_select_body.inc": "7319fb560fc96214c7ad7402d4177768d7137b375c82b61260ee781721299356",
+            "test/test_strings.cpp": "f011e84f5f81db45a9b819872785e423f06fdb192eaaccea170b9d79ae7f3915",
+            "tools/benchmark.py": "24019cfd4a481cfb220871cc0a697061044ca6bd8bfcc5204572e7de8c8562dd",
+            "tools/benchmark_report.py": "648b5e424e3d1f4318f36e34d675e8ab19a1e9984761f26927633b084b2ca297",
+            "tools/conformance.py": "ef6196478e82033601bf17057b792b865202eba12cc6af5f6448d4a4601b90c8",
+            "tools/jlse/README.md": "b24080752f6fbd5f6b7fa812acc15c46de631cd45040b36f0f86f957306a6302",
+            "tools/jlse/build_checks.py": "446ae330382a94a641bf0cecbb8bdf20c104c361cf7c51a7385a43934feec179",
+            "tools/jlse/build_checks.sh": "c43ac89d884d4942d8578f2d85f03c8bbb17a016e7ab295ef946a9e3532f138d",
+            "tools/jlse/diagnose.py": "0ee098bf7fca73793e225b5ee6c4f6c2e1d123ab65a85e4318e7bef51d1ac3f8",
+            "tools/jlse/discover.py": "e93be744580c73afc3ed67595d0551b79f0986b2d0a18c7273b4da4c18df1464",
+            "tools/jlse/environment.sh": "4ae68c7b6cf0a5137b21fc4a38aafbe4bda77d6bc714ebc2a7a0d9a09640e5a0",
+            "tools/jlse/host_tests.py": "9e6096cb3cd9792589d2bd84b0c7f4eb069a82940c26042d4f97e78c8af4cb5e",
+            "tools/jlse/job.sh": "fbb5d1b207fd135ddc959dcc4ac4672e247ccd031fd0b2270d0e1511f96de7b2",
+            "tools/jlse/numeric_probe.cpp": "f37ab53bc8bb96e3b7a8b219485c9232603c0650211c731dc473942dcb66462a",
+            "tools/jlse/omp_memory_probe.py": "53bcdc999abfd0f0a5351ea2ada8e14596cc59c621794c2534834ca029238261",
+            "tools/jlse/provision.py": "6441cebec8ed3f636008d608c0bc0b7238d847e289ac70bfd1fc51a7af0ea25f",
+            "tools/jlse/submit.py": "6dfcf551b5a01b11266828ecef3b1bc7160d029ed447869f0a3c5856e508f27f",
+            "tools/negative.py": "b69904cbb35ba494dda1f77ee972d2b09ee75aab89ace4668ef19ee7d3fc09b2",
+            "tools/numeric_memory.py": "66d9ad86020da124ae4588ece16e2e3c318b52d71280e665eeea18713dd822e1",
+            "tools/report.py": "e207ce39ee007ddd91afeca1d7add6dadb517140d240556f3388ba3e3310fd22"
+          },
+          "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+          "source_snapshot": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/source",
+          "configuration_results": [
+            {
+              "label": "make-full-O0",
+              "command": [
+                "make",
+                "-j2",
+                "test-host",
+                "test-focused",
+                "conformance-harness",
+                "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+              ],
+              "cwd": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/run-O0",
+              "exit_code": 0,
+              "timeout": false,
+              "duration_seconds": 139.4666042327881,
+              "stdout": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-full-O0.stdout",
+              "stderr": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-full-O0.stderr"
+            },
+            {
+              "label": "make-negative-O0",
+              "command": [
+                "make",
+                "test-negative",
+                "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+              ],
+              "cwd": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/run-O0",
+              "exit_code": 0,
+              "timeout": false,
+              "duration_seconds": 70.39233875274658,
+              "stdout": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-negative-O0.stdout",
+              "stderr": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-negative-O0.stderr"
+            },
+            {
+              "label": "make-full-O2",
+              "command": [
+                "make",
+                "-j2",
+                "test-host",
+                "test-focused",
+                "conformance-harness",
+                "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+              ],
+              "cwd": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/run-O2",
+              "exit_code": 0,
+              "timeout": false,
+              "duration_seconds": 367.9135961532593,
+              "stdout": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-full-O2.stdout",
+              "stderr": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-full-O2.stderr"
+            },
+            {
+              "label": "make-negative-O2",
+              "command": [
+                "make",
+                "test-negative",
+                "FMT_DIR=/vast/projects/datascience/nnichols/ffmt_project/ffmt/third_party/fmt"
+              ],
+              "cwd": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/run-O2",
+              "exit_code": 0,
+              "timeout": false,
+              "duration_seconds": 70.29133439064026,
+              "stdout": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-negative-O2.stdout",
+              "stderr": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/make-negative-O2.stderr"
+            }
+          ],
+          "cobalt_jobid": "1011078",
+          "hostname": "rome00",
+          "started_at": "2026-10-22T04:24:33.208450+00:00",
+          "compiler_version": "g++ (GCC) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+          "python_version": "3.14.4 (main, Apr 14 2026, 14:26:14) [Clang 22.1.3 ]",
+          "environment": {
+            "ASAN_OPTIONS": "detect_leaks=1:strict_string_checks=1:detect_stack_use_after_return=1",
+            "UBSAN_OPTIONS": "halt_on_error=1:print_stacktrace=1",
+            "EXTRA_CXXFLAGS": "-fsanitize=address,undefined"
+          },
+          "finished_at": "2026-10-22T04:35:23.633486+00:00",
+          "status": "pass",
+          "verified_revision": "0c2cb764d8ee436bc0221e88cefe417dcbb8d678",
+          "committed_source_proof": "committed-source-proof.json",
+          "notes": [
+            "Both complete Make builds use HOST_OPT=-O0/-O2 and unchanged workflow ASan/UBSan settings.",
+            "The Make test-negative target does not add HOST_OPT; its captured subprocesses use CXXFLAGS, including ASan/UBSan, at the default compiler optimization.",
+            "GCC13 does not implement native BitInt; the focused BitInt fixture explicitly exits77 and is reported as skipped.",
+            "Default empty narrow/wide formats match pinned fmt; runtime null nonempty counted-view rejection is a defensive checked ffmt API behavior."
+          ]
+        }
+      },
+      {
+        "manifest": "artifacts/ci-audit/constexpr-view-gcc-20261022T042325Z/committed-source-proof.json",
+        "sha256": "b2f1b193b405d6192a4f583f65000b73dcfb539174da7caf3948574b2c104d76",
+        "evidence": {
+          "revision": "0c2cb764d8ee436bc0221e88cefe417dcbb8d678",
+          "files": {
+            "include/ffmt/args.hpp": {
+              "sha256": "9deedd4a976d06cb6b7a6ab3a74ffb4b2f70e53c92563851d58922ac20c3a680",
+              "matches": true
+            },
+            "include/ffmt/base.hpp": {
+              "sha256": "bfed30cc7038744a909624af737d0412818e864379a4cee8cdbef9eddb5d8d8a",
+              "matches": true
+            },
+            "include/ffmt/chrono.hpp": {
+              "sha256": "d46a0095117a89471540964a54826c006b1268f2a07a7ca5078cfe63f8fe05a3",
+              "matches": true
+            },
+            "include/ffmt/color.hpp": {
+              "sha256": "9031c793805ba169037bcf8f0690403ee2ee267551323f69da893675b662dbf7",
+              "matches": true
+            },
+            "include/ffmt/core.hpp": {
+              "sha256": "54abfadff1d1a5d8ab4f9f1bdd10342142516032257fbe517f048239833e686c",
+              "matches": true
+            },
+            "include/ffmt/detail/extended.hpp": {
+              "sha256": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+              "matches": true
+            },
+            "include/ffmt/detail/family.hpp": {
+              "sha256": "6c736f81a6ff1c465ee2e21eb6d74fd2381e778fcebde2bb21b042b0ab59ea3f",
+              "matches": true
+            },
+            "include/ffmt/detail/floating.hpp": {
+              "sha256": "6abfce405bc268b9b6029ec8434b45f3c920be3b1f4a96d73d8636517b9fc097",
+              "matches": true
+            },
+            "include/ffmt/detail/numeric.hpp": {
+              "sha256": "e44f4bf0c899ef801b15b3bc1547077a8cb88f47c3a48c73dc6bc87322c3433e",
+              "matches": true
+            },
+            "include/ffmt/detail/text.hpp": {
+              "sha256": "27572505436e750c3438ac845ebd25fbedb9da132bd42795dde8fa9cc3719e4d",
+              "matches": true
+            },
+            "include/ffmt/detail/transport.hpp": {
+              "sha256": "a0dfbba5ec9c01b8b3ee124e5799da0092bcd7bf74d8136b3431352ecb695356",
+              "matches": true
+            },
+            "include/ffmt/detail/unicode.hpp": {
+              "sha256": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+              "matches": true
+            },
+            "include/ffmt/enum.hpp": {
+              "sha256": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+              "matches": true
+            },
+            "include/ffmt/printf.hpp": {
+              "sha256": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+              "matches": true
+            },
+            "include/ffmt/ranges.hpp": {
+              "sha256": "a12a658aef99c0f6f47032ab9285e189b19ff0d3c5971b8af70610671ef3f829",
+              "matches": true
+            },
+            "include/ffmt/std.hpp": {
+              "sha256": "fea3d9675d2199d74e47c57d19a6882b0909657d330edaf5f0bfadc0b8bb3175",
+              "matches": true
+            },
+            "include/ffmt/std23.hpp": {
+              "sha256": "151430d643119e04e9d577053094273a6cc39c323c7fc941b1076118faf7466d",
+              "matches": true
+            },
+            "test/conformance/test_engine_transport.cpp": {
+              "sha256": "f2a6fc4b7ba8b0bddeee565dd9e66d724e4a617d2b78ea90e4b4170d1b6b016a",
+              "matches": true
+            }
+          },
+          "all_match": true
+        }
+      }
+    ]
+  }
+}

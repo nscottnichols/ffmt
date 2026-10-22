@@ -5,6 +5,7 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
+from benchmark_report import hardware_identity
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -16,7 +17,17 @@ def device_label(run, config):
         device = device.split(" name=", 1)[1].split(" arch=", 1)[0].split(" fp64=", 1)[0]
     elif device == "host" or device == "kokkos space=Serial":
         device = "host " + run["host"]["architecture"]
+    elif device != "unavailable":
+        api = "cuda" if "cuda" in config["route"] else "hip" if "hip" in config["route"] else "sycl"
+        names = {x["name"] for x in run.get("hardware", {}).get("discovered_accelerators", []) if x["api"] == api}
+        if len(names) == 1:
+            device = next(iter(names)) + " [" + device + "]"
     return device.replace("|", "\\|").replace("\n", " ")
+
+
+def source_label(run):
+    source = run["source"]
+    return (source.get("commit") or "unknown")[:8] + ("+W" if source.get("worktree") else "")
 
 
 def read_log(config, key, stream="stdout"):
@@ -58,6 +69,7 @@ def summarize(path, terminal_only=False):
             control_run=c.get("control_run"),
             shard_failures=c.get("shard_failures", []),
             positive_counts=dict(Counter(x["status"] for x in cases)),
+            positive_execution_attempts=sum("execution" in x for x in cases),
             positive_executions=sum("execution" in x and x["execution"]["exit_code"] == 0 for x in cases) if c.get("status") == "completed" else 0,
             unique_logical_cases=len({x["id"] for x in cases}),
             negative_counts=dict(Counter(x["status"] for x in c.get("negative_cases", []))),
@@ -75,6 +87,7 @@ def summarize(path, terminal_only=False):
                 corpus_sha256=m.get("corpus_sha256"), timeouts=m.get("timeouts"),
                 runner_files=m.get("runner_files"),
                 cobalt_jobid=m.get("cobalt_jobid"), discovery=m.get("discovery"),
+                hardware=hardware_identity(dict(hostname=m["host"].get("name"), machine=m["host"].get("architecture")), m.get("discovery")),
                 configurations=configurations)
 
 
@@ -94,17 +107,22 @@ def main():
             runs.append(summarize(path, a.terminal_configurations_only))
     target = ROOT / a.output
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.with_suffix(".json").write_text(json.dumps(dict(schema_version=1, runs=runs), indent=2, sort_keys=True) + "\n")
-    lines = ["# " + a.label + " qualification", "", "Exact byte comparisons against the pinned host fmt oracle. Counts are executions per configuration; logical case IDs remain stable across configurations.", "",
+    publisher = dict(tool="tools/report.py", sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        hardware_helper_sha256=hashlib.sha256((ROOT / "tools/benchmark_report.py").read_bytes()).hexdigest(),
+        terminal_configurations_only=a.terminal_configurations_only, include_incomplete=a.include_incomplete,
+        label=a.label)
+    target.with_suffix(".json").write_text(json.dumps(dict(schema_version=1, publisher=publisher, runs=runs), indent=2, sort_keys=True) + "\n")
+    lines = ["# " + a.label + " qualification", "", "Exact byte comparisons against the pinned host fmt oracle. Completed/attempted counts summarize recorded per-case stdout executions; shared-shard failures are retained separately. Logical case IDs remain stable across configurations. Compile failures and unsupported cases are not execution attempts.", "",
         "A failed positive control means cases were not exercised. Unsupported or compile-failing cases are not counted as executions. Hardware availability and compiler failures are separate from output agreement.", "",
-        "| Profile | Actual device | Route | Opt | Executed | Exact | Mismatch | Unsupported | Other failures | Negative rejection |", "|---|---|---|---:|---:|---:|---:|---:|---:|---:|"]
+        "Source identifies the captured library commit; +W means captured working-tree headers, whose hashes are retained in JSON.", "",
+        "| Profile | Actual device | Route | Opt | Source | Completed/attempted | Exact | Mismatch | Unsupported | Other failures | Negative rejection |", "|---|---|---|---:|---|---:|---:|---:|---:|---:|---:|"]
     for run in runs:
         for c in run["configurations"]:
             counts = c["positive_counts"]
             other = sum(v for k, v in counts.items() if k not in ("pass", "mismatch", "unsupported"))
             negatives = c["negative_counts"]
-            lines.append("| %s | %s | %s | O%d | %d | %d | %d | %d | %d | %d/%d |" %
-                (run["profile"], device_label(run, c), c["route"], c["optimization"], c["positive_executions"], counts.get("pass", 0), counts.get("mismatch", 0), counts.get("unsupported", 0), other, negatives.get("expected_rejection", 0), sum(negatives.values())))
+            lines.append("| %s | %s | %s | O%d | %s | %d/%d | %d | %d | %d | %d | %d/%d |" %
+                (run["profile"], device_label(run, c), c["route"], c["optimization"], source_label(run), c["positive_executions"], c["positive_execution_attempts"], counts.get("pass", 0), counts.get("mismatch", 0), counts.get("unsupported", 0), other, negatives.get("expected_rejection", 0), sum(negatives.values())))
     lines += ["", "## Observed gaps", ""]
     for run in runs:
         if not run["finished"]:
@@ -113,7 +131,7 @@ def main():
             failures = [x for x in c["cases"] if x["status"] != "pass"]
             if not failures:
                 continue
-            label = "%s / %s / O%d" % (run["profile"], c["route"], c["optimization"])
+            label = "%s / %s / O%d / %s" % (run["profile"], c["route"], c["optimization"], source_label(run))
             if c["status"] in ("infrastructure_failure", "control_compile_failure", "control_execution_failure"):
                 lines.append("- **%s:** positive control failed; no conformance claim. See control diagnostics in the JSON record." % label)
             else:
@@ -124,13 +142,13 @@ def main():
                     lines.append("- **%s, %s:** %s." % (label, status, ", ".join(ids)))
     lines += ["", "## Device-memory numeric comparisons", "",
               "Each input record combines five independently referenced formats. Counts are input records, not stdout cases.", "",
-              "| Profile | Actual device | Route | Opt | Status | Exact/input records |", "|---|---|---|---:|---|---:|"]
+              "| Profile | Actual device | Route | Opt | Source | Status | Exact/input records |", "|---|---|---|---:|---|---|---:|"]
     for run in runs:
         for c in run["configurations"]:
             memory = c.get("numeric_memory")
             if memory:
-                lines.append("| %s | %s | %s | O%d | %s | %s/%s |" %
-                    (run["profile"], device_label(run, c), c["route"], c["optimization"], memory["status"],
+                lines.append("| %s | %s | %s | O%d | %s | %s | %s/%s |" %
+                    (run["profile"], device_label(run, c), c["route"], c["optimization"], source_label(run), memory["status"],
                      memory.get("passed", "—"), memory.get("input_cases", "—")))
     lines += ["", "The companion JSON contains compiler/device identity, source file hashes, commands, per-case outcomes, and hashes/paths for raw evidence retained under artifacts/. Code coverage and performance are measured separately.", ""]
     target.with_suffix(".md").write_text("\n".join(lines))

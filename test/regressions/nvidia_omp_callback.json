@@ -1,0 +1,125 @@
+{
+  "actual_device": "NVIDIA A40",
+  "cobalt_jobid": "1011079",
+  "compiler": "Clang 22.1.8 OpenMP, selected compiler version captured in linked discovery",
+  "discovery": {
+    "bytes": 51247,
+    "path": "artifacts/h100/discovery-1011079.json",
+    "sha256": "054fdb4cc83a7534ceffeac7822389c56e1abc685eec0565569c87929b10ecd1"
+  },
+  "driver_version": "615.71.10",
+  "execution_scope": "native_gpu_execution",
+  "expected_stdout_base64": "UEFTUzgyMTYK",
+  "hostname": "gpu04",
+  "interpretation": "The independent AMD no-ffmt callback reproducer passes on NVIDIA at both O0/O2. It does not reproduce or explain the separate NVIDIA O0 full numeric-memory illegal access; that remains unresolved.",
+  "raw_manifest": {
+    "bytes": 2669,
+    "path": "artifacts/h100/omp-callback-1011079/manifest.json",
+    "sha256": "be84d0386d922c7888ed9161c1b19cf4faa9e39ef23f13c727c682ba2f4ff7b1"
+  },
+  "results": [
+    {
+      "build": {
+        "command": [
+          "clang++",
+          "-std=c++20",
+          "-O0",
+          "-fno-fast-math",
+          "-fopenmp",
+          "--offload-arch=sm_86",
+          "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/amd_omp_callback.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/callback-O0"
+        ],
+        "exit_code": 0,
+        "seconds": 1.3373463439929765,
+        "stderr": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O0-build.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O0-build.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "execution": {
+        "command": [
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/callback-O0"
+        ],
+        "exit_code": 0,
+        "seconds": 0.3136858689977089,
+        "stderr": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O0-run.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 9,
+          "path": "artifacts/h100/omp-callback-1011079/O0-run.stdout",
+          "sha256": "cb896583577e10beb14665d69b45d1322e77ca7b542d7363e33eff03718b4057"
+        }
+      },
+      "optimization": 0,
+      "status": "pass"
+    },
+    {
+      "build": {
+        "command": [
+          "clang++",
+          "-std=c++20",
+          "-O2",
+          "-fno-fast-math",
+          "-fopenmp",
+          "--offload-arch=sm_86",
+          "--cuda-path=/soft/compilers/cuda/cuda-12.9.1",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/amd_omp_callback.cpp",
+          "-o",
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/callback-O2"
+        ],
+        "exit_code": 0,
+        "seconds": 2.0228381019987864,
+        "stderr": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O2-build.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O2-build.stdout",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      },
+      "execution": {
+        "command": [
+          "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/h100/omp-callback-1011079/callback-O2"
+        ],
+        "exit_code": 0,
+        "seconds": 0.24334194399125408,
+        "stderr": {
+          "bytes": 0,
+          "path": "artifacts/h100/omp-callback-1011079/O2-run.stderr",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        "stdout": {
+          "bytes": 9,
+          "path": "artifacts/h100/omp-callback-1011079/O2-run.stdout",
+          "sha256": "cb896583577e10beb14665d69b45d1322e77ca7b542d7363e33eff03718b4057"
+        }
+      },
+      "optimization": 2,
+      "status": "pass"
+    }
+  ],
+  "runner_commit": "4a5e0619b8c4bbf3f998bc8011d0e9eccb8c3130",
+  "schema_version": 1,
+  "source": {
+    "bytes": 5099,
+    "path": "artifacts/h100/omp-callback-1011079/amd_omp_callback.cpp",
+    "sha256": "e8efb0de16e4786e65c8a7b67c980b36eb10776aacb3d9c84e4548c300e509a4"
+  },
+  "source_origin": "test/regressions/amd_omp_callback.cpp (copied byte-identically at job start)",
+  "target_architecture": "sm_86"
+}

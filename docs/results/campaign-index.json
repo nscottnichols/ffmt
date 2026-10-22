@@ -1,0 +1,1224 @@
+{
+  "generated_utc": "2026-10-22T04:43:01.337431+00:00",
+  "groups": {
+    "final98_chipstar": [
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "hip name=Intel(R) Data Center GPU Max 1550 arch=2.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "chipstar",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "hip name=Intel(R) Data Center GPU Max 1550 arch=2.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "chipstar",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T04:14:33.995147+00:00",
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "chiatta02",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011073",
+        "library_revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+        "manifest": "artifacts/chiatta/head-20261022T040624605234Z/manifest.json",
+        "profile": "chiatta",
+        "selection": {
+          "case_ids": [
+            "literal",
+            "float-shortest",
+            "runtime-format",
+            "range-nested-spec",
+            "chrono-duration",
+            "chrono-calendar",
+            "bounded-family-padding",
+            "stream-left-family-padding"
+          ],
+          "memory": true,
+          "negative": true,
+          "numeric_samples": 4096,
+          "optimizations": [
+            0,
+            2
+          ],
+          "routes": [
+            "chipstar"
+          ],
+          "shard_size": 1
+        },
+        "sha256": "96b6cbeb68847cccc9848d209df71b22f5a545b8b55d5b519fecbdcaca245c4a"
+      }
+    ],
+    "focused_wrappers": [
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "kokkos space=Cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "kokkos-cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "kokkos space=Cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "kokkos-cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "status": "execution_failure"
+            },
+            "optimization": 0,
+            "route": "omp-cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "omp-cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_timeout": 1,
+              "pass": 7
+            },
+            "device": "sycl name=NVIDIA A40 fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-calendar",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "acpp",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_timeout": 1,
+              "pass": 7
+            },
+            "device": "sycl name=NVIDIA A40 fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-calendar",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "acpp",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T04:40:21.629441+00:00",
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "gpu04",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011070",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/h100/head-20261022T035952033756Z/manifest.json",
+        "profile": "h100",
+        "selection": {
+          "case_ids": [
+            "literal",
+            "float-shortest",
+            "runtime-format",
+            "range-nested-spec",
+            "chrono-duration",
+            "chrono-calendar",
+            "bounded-family-padding",
+            "stream-left-family-padding"
+          ],
+          "memory": true,
+          "negative": true,
+          "numeric_samples": 4096,
+          "optimizations": [
+            0,
+            2
+          ],
+          "routes": [
+            "kokkos-cuda",
+            "omp-cuda",
+            "acpp"
+          ],
+          "shard_size": 1
+        },
+        "sha256": "b5c954481404409edfeaed7d009cd0cab5c25b1c5909eda7371ea22d9f7c3cf1"
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 8
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "status": "execution_failure"
+            },
+            "optimization": 0,
+            "route": "omp-hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "compile_failure": 2,
+              "pass": 6
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-calendar",
+                "status": "compile_failure"
+              },
+              {
+                "id": "bounded-family-padding",
+                "status": "compile_failure"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "omp-hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_timeout": 1,
+              "pass": 7
+            },
+            "device": "sycl name=AMD Radeon Graphics fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-calendar",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "acpp",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_timeout": 1,
+              "pass": 7
+            },
+            "device": "sycl name=AMD Radeon Graphics fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-calendar",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "acpp",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T04:41:28.020842+00:00",
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "amdgpu01",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011076",
+        "library_revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+        "manifest": "artifacts/mi300x/head-20261022T041338072912Z/manifest.json",
+        "profile": "mi300x",
+        "selection": {
+          "case_ids": [
+            "literal",
+            "float-shortest",
+            "runtime-format",
+            "range-nested-spec",
+            "chrono-duration",
+            "chrono-calendar",
+            "bounded-family-padding",
+            "stream-left-family-padding"
+          ],
+          "memory": true,
+          "negative": true,
+          "numeric_samples": 4096,
+          "optimizations": [
+            0,
+            2
+          ],
+          "routes": [
+            "omp-hip",
+            "acpp"
+          ],
+          "shard_size": 1
+        },
+        "sha256": "1a6f0eb5e916f0a3cebfb014d565750a558f969ef935ad1396bc8da6bce42e62"
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "compile_failure": 2,
+              "execution_failure": 1,
+              "execution_timeout": 1,
+              "pass": 4
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "chrono-duration",
+                "status": "compile_failure"
+              },
+              {
+                "id": "chrono-calendar",
+                "status": "compile_failure"
+              },
+              {
+                "id": "bounded-family-padding",
+                "status": "execution_failure"
+              },
+              {
+                "id": "stream-left-family-padding",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "omp-spirv",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T04:33:50.549794+00:00",
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "chiatta01",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011077",
+        "library_revision": "98dba67cdb2dc4686cc512736ad92fdeaebeb63a",
+        "manifest": "artifacts/chiatta/head-20261022T041428747719Z/manifest.json",
+        "profile": "chiatta",
+        "selection": {
+          "case_ids": [
+            "literal",
+            "signed-hex",
+            "float-shortest",
+            "range-nested-spec",
+            "chrono-duration",
+            "chrono-calendar",
+            "bounded-family-padding",
+            "stream-left-family-padding"
+          ],
+          "memory": true,
+          "negative": true,
+          "numeric_samples": 4096,
+          "optimizations": [
+            2
+          ],
+          "routes": [
+            "omp-spirv"
+          ],
+          "shard_size": 1
+        },
+        "sha256": "976893860ec5424b23b638f4fbc9142a43250ced7e4bc36d5a44788f90a06c22"
+      }
+    ],
+    "primary_21f": [
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "host-buffer",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "host-buffer",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "host-specifiers",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "host-specifiers",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "kokkos space=Serial",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "kokkos-serial",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "kokkos space=Serial",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "kokkos-serial",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T03:15:53.350921+00:00",
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "rome00",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011047",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/rome/head-20261022T031215Z/manifest.json",
+        "profile": "rome",
+        "selection": null,
+        "sha256": "44281ffd5437369c65448a50b5bbf0632b343636c498a12af2de17fa29a089c6"
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "host-buffer",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "host-buffer",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "host-specifiers",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "host",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "host-specifiers",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA GH200 480GB arch=9.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA GH200 480GB arch=9.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA GH200 480GB arch=9.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "nvcc",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA GH200 480GB arch=9.0",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "nvcc",
+            "status": "completed"
+          }
+        ],
+        "finished": "2026-10-22T03:38:17.446652+00:00",
+        "hostname": {
+          "architecture": "aarch64",
+          "name": "grace01",
+          "os": "Linux-6.4.0-150600.23.103-default-aarch64-with-glibc2.38"
+        },
+        "job": "1011052",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/gh200/head-20261022T030813Z/manifest.json",
+        "profile": "gh200",
+        "selection": null,
+        "sha256": "285fd447abab0330e19fe06f4d68e89ebc367653dc676cdc83986d7fe7a3014f"
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "hip name=AMD Radeon Graphics arch=9.4",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "hip name=AMD Radeon Graphics arch=9.4",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "kokkos space=HIP",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "kokkos-hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "kokkos space=HIP",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "kokkos-hip",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_timeout": 1,
+              "mismatch": 1,
+              "pass": 52
+            },
+            "device": "sycl name=AMD Radeon Graphics fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              },
+              {
+                "id": "chrono-calendar",
+                "status": "execution_timeout"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "acpp",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "execution_failure": 3,
+              "mismatch": 1,
+              "pass": 7
+            },
+            "device": "sycl name=AMD Radeon Graphics fp64=1",
+            "negative_counts": {},
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              },
+              {
+                "id": "uint-max",
+                "status": "execution_failure"
+              },
+              {
+                "id": "uint-d",
+                "status": "execution_failure"
+              },
+              {
+                "id": "zero-alt",
+                "status": "execution_failure"
+              }
+            ],
+            "numeric": {},
+            "optimization": 2,
+            "route": "acpp"
+          }
+        ],
+        "finished": null,
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "amdgpu00",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011051",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/mi300x/head-20261022T030853Z/manifest.json",
+        "profile": "mi300x",
+        "selection": null,
+        "sha256": "24f8df8cebc66f3f149bee3437d10aebc670c77cefc4a5492bcf88c6e8cd9ef0",
+        "termination": {
+          "path": "artifacts/mi300x/head-20261022T030853Z/termination.json",
+          "sha256": "9b225d46c9e5a1db8d863f64766fa7acad97213b47d45fe6151acbe631fdeb46"
+        }
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "cuda",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "nvcc",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 54
+            },
+            "device": "cuda name=NVIDIA A40 arch=8.6",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "nvcc",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "pass": 16
+            },
+            "device": "kokkos space=Cuda",
+            "negative_counts": {},
+            "nonpassing_cases": [],
+            "numeric": {},
+            "optimization": 0,
+            "route": "kokkos-cuda"
+          }
+        ],
+        "finished": null,
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "gpu04",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011048",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/h100/head-20261022T030743Z/manifest.json",
+        "profile": "h100",
+        "selection": null,
+        "sha256": "afeb4dfe3a4c7dbd33a611547f5d77141ccb9144dee05f50f8d58eab8123ecbe",
+        "termination": {
+          "path": "artifacts/h100/head-20261022T030743Z/termination.json",
+          "sha256": "f3a2466496c2fb974571feba06783192b97058ff9e67d329072b160facf9e740"
+        }
+      },
+      {
+        "configurations": [
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 53
+            },
+            "device": "sycl name=Intel(R) Data Center GPU Max 1550 fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "sycl",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 53
+            },
+            "device": "sycl name=Intel(R) Data Center GPU Max 1550 fp64=1",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "sycl",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 53
+            },
+            "device": "kokkos space=SYCL",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "kokkos-sycl",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 53
+            },
+            "device": "kokkos space=SYCL",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 2,
+            "route": "kokkos-sycl",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 53
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {
+              "expected_rejection": 9
+            },
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {
+              "failed": 0,
+              "formats_per_input": 5,
+              "input_cases": 8216,
+              "passed": 8216,
+              "status": "pass"
+            },
+            "optimization": 0,
+            "route": "omp-spirv",
+            "status": "completed"
+          },
+          {
+            "case_counts": {
+              "mismatch": 1,
+              "pass": 11
+            },
+            "device": "openmp device=0 initial_device=false",
+            "negative_counts": {},
+            "nonpassing_cases": [
+              {
+                "id": "nul-char",
+                "status": "mismatch"
+              }
+            ],
+            "numeric": {},
+            "optimization": 2,
+            "route": "omp-spirv"
+          }
+        ],
+        "finished": null,
+        "hostname": {
+          "architecture": "x86_64",
+          "name": "chiatta01",
+          "os": "Linux-6.4.0-150600.23.103-default-x86_64-with-glibc2.38"
+        },
+        "job": "1011049",
+        "library_revision": "21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8",
+        "manifest": "artifacts/chiatta/head-20261022T030712Z/manifest.json",
+        "profile": "chiatta",
+        "selection": null,
+        "sha256": "3737c84effc22b0a633031fcf4ae6e983877db492a9ef8168882f580d501862b",
+        "termination": {
+          "path": "artifacts/chiatta/head-20261022T030712Z/termination.json",
+          "sha256": "9e07490bb8cff68f52cb1169bd06c73d68afb7f1ce4f4e7b7374a36a2d8786fb"
+        }
+      }
+    ]
+  },
+  "policy": "Primary partial campaigns retain termination.json and unfinished configurations. Export their terminal configurations only; retain all failed cases within those configurations. Focused wrapper selections do not replace attempted full-scope failures. Numerical counts are input records, each containing five floating-point formats plus integer checks.",
+  "schema_version": 1
+}

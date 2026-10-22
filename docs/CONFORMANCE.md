@@ -5,6 +5,17 @@ The oracle is a separate host build of fmt commit
 include fmt headers. The corpus lives in `test/conformance/cases.py`; each ID
 denotes the same logical case across compiler/backend configurations.
 
+The [current qualification report](results/qualification.md) and
+[evidence guide](results/README.md) describe the selected captures and gaps.
+The main 54-case campaign uses commit
+`21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8`. Later repairs to GCC sanitizer
+constant evaluation, BitInt type classification and shortest-candidate storage
+have [focused checks](results/portability-regressions.json);
+those checks are separate from the earlier device captures. Each result keeps
+its captured revision and header hashes, including historical benchmark runs.
+The subsequent counted-view repair (`0c2cb76`) has full GCC sanitizer builds at
+both optimization levels and independent empty narrow/wide-format regressions.
+
 Prepare the reference once, using an empty destination:
 
 ```sh
@@ -33,6 +44,17 @@ binaries are also isolated, preserving the original shard failure in the
 manifest. No test payload is parsed as
 an output-control marker. Empty output, embedded NULs, and missing newlines
 remain observable.
+
+Each generated stdout probe uses one active work item. Exact byte agreement
+applies to the captured output volume. Concurrent-writer interleaving and
+runtime printf FIFO saturation have not been qualified by this campaign.
+
+Narrow memory formatting preserves embedded NULs. The tested Intel SPIR-V
+printf runtime and AdaptiveCpp SSCP device print builtin cannot deliver NUL
+through stdout; checked printing reports `transport_error` for affected chunks.
+The AdaptiveCpp restriction is specific to its SSCP print builtin. Such stdout
+limitations remain observable failures in exact-byte comparisons and are
+separate from device-memory formatting results.
 
 The new engine also runs the device-memory numeric suite automatically: 4,096
 seeded bit patterns each for float and double plus explicit boundary encodings,
@@ -67,11 +89,37 @@ evidence is under `artifacts/`. Local software belongs in
 recipes and environment selection remain tracked. GPU routes select GPUs
 explicitly, check launch/synchronization errors, and prohibit OpenMP host
 fallback. Arm jobs use native tools rather than inherited x86 executables.
+The selected `h100` campaign ran on an NVIDIA A40 fallback. Use the recorded
+actual device and discovery evidence when interpreting hardware coverage.
 
 ## Reports and CMake
 
 ```sh
-python3 tools/report.py --label baseline --output docs/results/baseline
+python3 tools/report.py --label representative --output docs/results/qualification \
+  --terminal-configurations-only \
+  --manifest artifacts/rome/head-20261022T031215Z/manifest.json \
+  --manifest artifacts/gh200/head-20261022T030813Z/manifest.json \
+  --manifest artifacts/mi300x/head-20261022T030853Z/manifest.json \
+  --manifest artifacts/h100/head-20261022T030743Z/manifest.json \
+  --manifest artifacts/chiatta/head-20261022T030712Z/manifest.json \
+  --manifest artifacts/h100/head-20261022T035952033756Z/manifest.json \
+  --manifest artifacts/mi300x/head-20261022T041338072912Z/manifest.json \
+  --manifest artifacts/chiatta/head-20261022T041428747719Z/manifest.json \
+  --manifest artifacts/chiatta/head-20261022T040624605234Z/manifest.json
+```
+
+This reproduces the selected report from retained raw artifacts. The default
+export includes completed campaigns. `--terminal-configurations-only` also
+selects terminal configurations from partial campaigns, including failed
+controls and failing comparisons. It preserves the campaign's unfinished
+configurations and termination evidence in the JSON. A terminal status records
+that the configuration ended; it does not imply that its tests passed or that
+the remaining campaign ran. Exact manifest paths keep the selection reproducible.
+The [selection ledger](results/qualification-selection.json) retains this command
+and all nine input paths; the [campaign index](results/campaign-index.json)
+records their scope and checksums.
+
+```sh
 cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DCMAKE_CXX_COMPILER=g++
 cmake --build build/cmake -j2
 ctest --test-dir build/cmake --output-on-failure
