@@ -85,6 +85,8 @@ consteval auto flen(const fixed_string<N, Char> &) {
 struct index_state {
   int next = 0;
   bool automatic = false, manual = false;
+  // GCC ASan cannot constant-evaluate a null comparison of the static table.
+  bool has_dynamic_types = false;
   int available = -1;
   const bool *dynamic_types = nullptr;
 };
@@ -130,6 +132,10 @@ inline constexpr bool integer = std::is_integral_v<T> || extended_integer<T>;
 template <int N> inline constexpr bool extended_integer<_BitInt(N)> = N <= 64;
 template <int N>
 inline constexpr bool extended_integer<unsigned _BitInt(N)> = N <= 64;
+// libc++ recognizes every _BitInt width as integral, unlike libstdc++.
+// Keep the supported surface independent of that standard-library trait.
+template <int N> inline constexpr bool integer<_BitInt(N)> = N <= 64;
+template <int N> inline constexpr bool integer<unsigned _BitInt(N)> = N <= 64;
 #endif
 template <typename T> struct unsigned_type {
   using type = std::make_unsigned_t<T>;
@@ -257,7 +263,7 @@ public:
     if (id >= 0 && state_->available >= 0) {
       if (id >= state_->available)
         on_error(format_error::argument_out_of_range);
-      else if (state_->dynamic_types && !state_->dynamic_types[id])
+      else if (state_->has_dynamic_types && !state_->dynamic_types[id])
         on_error(format_error::invalid_dynamic_spec);
     }
   }
@@ -947,6 +953,7 @@ template <typename Char, typename... Args> struct validation_handler {
   FMT_HD constexpr void initialize(index_state &state) {
     state.available = sizeof...(Args);
     state.dynamic_types = dynamic_types;
+    state.has_dynamic_types = true;
   }
   FMT_HD constexpr void literal(Char) {}
   FMT_HD constexpr format_error argument(int index,
