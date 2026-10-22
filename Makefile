@@ -272,7 +272,7 @@ test-host: build/test_main_host_specifiers build/test_main_host_buffer
 
 # Focused core/family regressions, independently linked to the pinned oracle.
 # Optional compiler types return 77 when unavailable, never a conformance pass.
-FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad engine_fast_math
+FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad engine_forwarding engine_fast_math families_ranges
 QUAD_TEST_FLAGS := $(if $(shell $(CXX) -dM -E -x c++ /dev/null 2>/dev/null | sed -n '/__SIZEOF_FLOAT128__/p'),-DFMT_USE_FLOAT128=1)
 FOCUSED_SOURCES := $(wildcard $(addprefix test/conformance/test_,$(addsuffix .cpp,$(FOCUSED_SUITES))))
 FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/focused_%,$(FOCUSED_SOURCES)) build/focused_engine_portable

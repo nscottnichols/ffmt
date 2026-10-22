@@ -89,6 +89,25 @@ The original static `formatter<T>::format(value)` protocol returning
 id/range/item formatters. Its outer format accepts an empty specification.
 ADL `format_as` can map a type to another formattable value.
 
+Include the headers for additional families explicitly:
+
+| Header | Surface |
+|---|---|
+| `ffmt/args.hpp` | Named arguments with `ffmt::arg` |
+| `ffmt/ranges.hpp` | Ranges, sets/maps, tuples, joins and container adapters |
+| `ffmt/enum.hpp` | Enum underlying-value helpers |
+
+For example, including `ffmt/ranges.hpp` allows
+`FFMT_PRINTLN("{:n}", std::array{1, 2, 3})` to print `1, 2, 3`.
+The contained objects and their operations must also be usable on the device.
+Left-aligned family bodies render once on every destination. Bounded writable
+pointer buffers also handle right/center alignment in one pass, including an
+exact truncated prefix. On stdout or other iterators, right/center family
+alignment requires replayable built-in values and forward ranges. Unknown custom
+formatters and consuming ranges return `unsupported_type` for that combination.
+The library does not implement host filesystem, stream, locale/timezone-database,
+RTTI, thread-ID or exception-traversal services.
+
 ## Build and test
 
 The library is header-only. Add `include/` to the include path and use a
