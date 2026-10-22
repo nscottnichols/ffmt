@@ -38,6 +38,8 @@ small PR in the fork.
 
 ## M2 — shared formatting engine (implemented; qualification in progress)
 
+PR: https://github.com/nscottnichols/ffmt/pull/2 (stacked on PR1).
+
 Core regressions: 57,361 comparisons; portable shortest conversion, native
 extended precision, BitInt, binary128, bounded canaries, wide output, and
 legacy/custom formatter protocols have focused tests. Host strict warnings and

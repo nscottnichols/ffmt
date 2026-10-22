@@ -85,6 +85,29 @@ The original static `formatter<T>::format(value)` protocol returning
 id/range/item formatters. Its outer format accepts an empty specification.
 ADL `format_as` can map a type to another formattable value.
 
+Include the headers for additional families explicitly:
+
+| Header | Surface |
+|---|---|
+| `ffmt/args.hpp` | Named arguments with `ffmt::arg` |
+| `ffmt/ranges.hpp` | Ranges, sets/maps, tuples, joins and container adapters |
+| `ffmt/chrono.hpp` | Locale-independent durations, calendar values, `tm`, system/local time points |
+| `ffmt/std.hpp` | Optional/variant, bitsets, bytes, reference wrappers, atomics, complex, source location and pointer views |
+| `ffmt/std23.hpp` | Optional C++23 expected/unexpected |
+| `ffmt/color.hpp` | Explicit ANSI color, RGB and emphasis with `ffmt::styled` |
+| `ffmt/enum.hpp` | Enum underlying-value helpers |
+| `ffmt/printf.hpp` | Typed, runtime-checked percent formatting |
+
+For example, including `ffmt/ranges.hpp` allows
+`FFMT_PRINTLN("{:n}", std::array{1, 2, 3})` to print `1, 2, 3`.
+The contained objects and their operations must also be usable on the device.
+The library does not implement host filesystem, stream, locale/timezone-database,
+RTTI, thread-ID or exception-traversal services.
+
+Checked percent formatting uses `ffmt::printf_to_n`, `ffmt::printf_to` and
+`ffmt::try_printf`, with the same result contract as brace formatting. Dynamic
+width/precision and positional arguments are supported; `%n` is rejected.
+
 ## Build and test
 
 The library is header-only. Link the CMake interface target:
