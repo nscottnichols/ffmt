@@ -25,7 +25,7 @@ extern int __spirv_ocl_printf(const __attribute__((opencl_constant)) char *,
 #define FFMT_SPIRV_NUL_SUPPORTED 0
 #endif
 namespace ffmt::detail {
-#if defined(__SPIR__) || defined(__SPIRV__)
+#if (defined(__SPIR__) || defined(__SPIRV__)) && !defined(__HIP_PLATFORM_SPIRV__)
 #ifdef _OPENMP
 #pragma omp declare target
 #endif
