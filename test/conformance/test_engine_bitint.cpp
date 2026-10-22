@@ -28,6 +28,13 @@ template <int N> void width() {
   check(U(-1));
   check(high);
 }
+template <typename T> void unsupported_width() {
+  static_assert(!ffmt::is_formattable<T>);
+  char buffer[4] = {'!', '!', '!', '!'};
+  auto result = ffmt::format_to_n(buffer + 1, 2, ffmt::runtime("{}"), T(1));
+  assert(result.error == ffmt::format_error::unsupported_type && result.written == 0);
+  for (char c : buffer) assert(c == '!');
+}
 #endif
 int main() {
 #if defined(__BITINT_MAXWIDTH__)
@@ -40,11 +47,10 @@ int main() {
   width<64>();
   unsigned _BitInt(1) bit = 1;
   check(bit);
-  char buffer[2];
-  auto unsupported =
-      ffmt::format_to_n(buffer, sizeof buffer, ffmt::runtime("{}"),
-                        static_cast<unsigned _BitInt(128)>(1));
-  assert(unsupported.error == ffmt::format_error::unsupported_type);
+  unsupported_width<_BitInt(65)>();
+  unsupported_width<unsigned _BitInt(65)>();
+  unsupported_width<_BitInt(128)>();
+  unsupported_width<unsigned _BitInt(128)>();
   puts("native BitInt checks:300");
 #else
   puts("native BitInt unavailable in this compiler");
