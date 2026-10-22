@@ -33,6 +33,8 @@ jobs:
         run: ${{ matrix.cxx }} --version
       - name: Build + run host tests
         run: make -j2 test-host test-focused conformance-harness
+      - name: Independent output and device-memory corpus on the host
+        run: python3 tools/conformance.py --profile local --opt "${HOST_OPT#-O}" --host-cxx "$CXX"
       - name: Build + run host tests under -ffast-math
         run: make test-fast-math
       - name: Run negative-compile tests

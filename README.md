@@ -119,44 +119,44 @@ width/precision and positional arguments are supported; `%n` is rejected.
 
 ## Build and test
 
-The library is header-only. Add `include/` to the include path and use a
-C++20-capable compiler, such as GCC 13 or recent LLVM. Consumers need neither
-fmt nor Python. NVCC uses `-std=c++20 --extended-lambda
---expt-relaxed-constexpr`.
+The library is header-only. Link the CMake interface target:
 
-The Make tests fetch the independent fmt oracle at commit
-`0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f` if `third_party/fmt` is absent.
-Point `FMT_DIR` at an existing checkout to use it instead:
-
-```sh
-make -j2 CXX=g++ test-host test-focused conformance-harness
-make CXX=g++ test-negative test-fast-math
+```cmake
+add_subdirectory(ffmt)
+target_link_libraries(my_program PRIVATE ffmt::ffmt)
 ```
 
-The historical compatibility suites, focused regression suites, and
-diagnostic-aware negative tests compare with the pinned oracle. Optional
-compiler types report an explicit skip (exit 77). Assertions remain enabled
-in release test builds. The portable runner also preserves commands,
-diagnostics, source hashes, and exact output bytes for selected cases:
+Installed packages also support `find_package(ffmt CONFIG REQUIRED)`.
+To prepare and test the independent oracle:
 
 ```sh
-python3 tools/conformance.py --route host-buffer --opt 2 \
-  --case dynamic-width --case unicode-width --case float-shortest \
-  --case long-padding --numeric-samples 32
+git clone https://github.com/fmtlib/fmt.git third_party/fmt
+git -C third_party/fmt checkout 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
+cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DCMAKE_CXX_COMPILER=g++
+cmake --build build/cmake -j2
+ctest --test-dir build/cmake --output-on-failure
 ```
 
+Use a C++20-capable compiler, such as GCC 13 or recent LLVM.
+NVCC qualification uses `-std=c++20 --extended-lambda --expt-relaxed-constexpr`.
+`make test-host test-focused test-negative CXX=g++` runs the historical
+compatibility, focused regression, and diagnostic-aware rejection suites.
 `make coverage CXX=clang++` reports region, line and branch-edge coverage of
 instrumented headers. Uninstantiated templates and device-only bodies are
-outside that coverage denominator.
+outside that coverage denominator. Optional C++23 tests use
+`-DFFMT_BUILD_CXX23_TESTS=ON` or `make test-cxx23`.
 
-Optional C++23 adapters are checked with `make CXX=g++ test-cxx23`.
+See [the conformance guide](docs/CONFORMANCE.md) for exact-byte comparisons,
+negative-format checks, the seeded numeric corpus and portable benchmark
+primitives. [Backend documentation](docs/BACKENDS.md) describes compiler
+selection, transport contracts and device-callability constraints.
 
 System-specific campaigns, provisioning, scheduler integration, captured results
 and the manuscript live in the companion
 [ffmt-evaluation](https://github.com/nscottnichols/ffmt-evaluation) repository.
-They are not needed to build or test this library. That repository retains the
-original qualified source revisions and documents their mapping to the
-separated library history.
+They are not needed to build, install or test this library. That repository
+retains the original qualified source revisions and documents their mapping to
+the separated library history.
 
 ffmt incorporates numerical conversion and Unicode material derived from fmt
 and Dragonbox. See [NOTICE](NOTICE) and [LICENSES](LICENSES) for attribution
