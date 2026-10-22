@@ -38,8 +38,12 @@ if type module >/dev/null 2>&1; then
     esac
   elif [ "$(uname -m)" = aarch64 ]; then
     export FFMT_PYTHON=/usr/bin/python3.12
-    export CXX=/usr/bin/g++-14 FFMT_HOST_CXX=/usr/bin/g++-14
-    export FFMT_CXX_HOST_BUFFER=/usr/bin/g++-14 FFMT_CXX_HOST_SPECIFIERS=/usr/bin/g++-14
+    # Keep native defaults while honoring explicit general, oracle and route
+    # compiler selections. Python remains native even with an inherited x86 PATH.
+    export CXX="${CXX:-/usr/bin/g++-14}"
+    export FFMT_HOST_CXX="${FFMT_HOST_CXX:-$CXX}"
+    export FFMT_CXX_HOST_BUFFER="${FFMT_CXX_HOST_BUFFER:-$CXX}"
+    export FFMT_CXX_HOST_SPECIFIERS="${FFMT_CXX_HOST_SPECIFIERS:-$CXX}"
     export FFMT_FLAGS_NVCC="-ccbin=/usr/bin/g++-14 ${FFMT_FLAGS_NVCC:-}"
     export FFMT_FLAGS_CUDA="--gcc-install-dir=/usr/lib64/gcc/aarch64-suse-linux/14 ${FFMT_FLAGS_CUDA:-}"
     # /soft is architecture-specific on JLSE, but module names vary by node.

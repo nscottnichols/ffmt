@@ -13,6 +13,9 @@ and selected environment fields in `artifacts/<profile>/discovery-<jobid>.json`.
 It uses `environment.sh` to select native toolchains. GH200 has an architecture
 specific `/soft` mount and requires a native Python and GCC; an inherited
 `~/.local/bin/python3` can be an incompatible x86 executable.
+Arm defaults to `/usr/bin/g++-14`; explicit `CXX`, `FFMT_HOST_CXX` and
+`FFMT_CXX_HOST_BUFFER`/`FFMT_CXX_HOST_SPECIFIERS` selections are retained.
+The oracle and host routes default to `CXX` when they have no separate override.
 
 Examples:
 
@@ -24,6 +27,27 @@ python3 tools/jlse/submit.py provision chiatta --extra --component intel-llvm --
 python3 tools/jlse/submit.py host-tests gh200 --revision WORKTREE
 python3 tools/jlse/submit.py benchmark rome --revision WORKTREE --extra --multi-tu
 ```
+
+The recorded NVIDIA fallback used an A40 (`sm_86`) while retaining the `h100`
+artifact profile. Select both its queue and architecture explicitly. These
+examples reproduce the native source snapshot and the focused Kokkos device-guard
+smoke, respectively, using the installed A40-specific Kokkos prefix:
+
+```sh
+python3 tools/jlse/submit.py head h100 --queue gpu_a40 \
+  --revision 21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8 \
+  --env FFMT_GPU_ARCH=sm_86 --extra --route cuda --route nvcc --opt 0 --opt 2
+python3 tools/jlse/submit.py head h100 --queue gpu_a40 \
+  --revision 21f9f5ef4b5fbbc173dcd2fc274f94d30d26f8c8 \
+  --env FFMT_GPU_ARCH=sm_86 \
+  --env FFMT_KOKKOS_CUDA_PREFIX="$PWD/software/h100/install/kokkos-cuda-sm86" \
+  --extra --route kokkos-cuda --opt 2 --case bounded-family-padding --numeric-samples 1
+```
+
+Run these from the repository root after provisioning the required prefixes.
+The default `h100` queue and its Hopper Kokkos installation target different
+hardware. The Kokkos command above checks one stdout case and 26 numeric input
+records; the full focused campaign's selected cases remain in its manifest.
 
 Source dependencies are pinned by commit in `platforms/dependencies.json`;
 binary archives are pinned by SHA-256 from upstream release metadata. Downloads,
