@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import shlex
 import struct
 import subprocess
 import sys
@@ -22,6 +23,68 @@ import report as evidence_report
 spec = importlib.util.spec_from_file_location("conformance", str(Path(__file__).resolve().parents[2] / "tools/conformance.py"))
 runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
+
+submission_spec = importlib.util.spec_from_file_location("jlse_submission", str(runner.ROOT / "tools/jlse/submit.py"))
+submission = importlib.util.module_from_spec(submission_spec)
+submission_spec.loader.exec_module(submission)
+
+
+class SubmissionEvidenceTests(unittest.TestCase):
+    def test_action_defaults_are_pinned_and_explicit_revisions_take_precedence(self):
+        baseline = json.loads((runner.ROOT / "platforms/profiles.json").read_text())["baseline_commit"]
+        stages = ["baseline", "head", "benchmark", "host-tests", "provision", "discovery", "diagnostics"]
+        with tempfile.TemporaryDirectory() as temporary:
+            directory = Path(temporary)
+            tools = directory / "tools/jlse"
+            tools.mkdir(parents=True)
+            (directory / "platforms").mkdir()
+            (directory / "platforms/profiles.json").write_text(json.dumps({
+                "baseline_commit": baseline, "profiles": {"rome": {"queue": "rome_7742"}}}))
+            subprocess.run(["git", "init", "--quiet", "--template=", str(directory)], check=True)
+            subprocess.run(["git", "-C", str(directory), "-c", "user.name=ffmt test",
+                "-c", "user.email=ffmt-test@example.invalid", "-c", "core.hooksPath=/dev/null",
+                "commit", "--allow-empty", "--no-gpg-sign", "--quiet", "-m", "revision fixture"], check=True)
+            head = subprocess.check_output(["git", "-C", str(directory), "rev-parse", "HEAD"], text=True).strip()
+            original_run = subprocess.run
+
+            def reject_submission(command, *args, **kwargs):
+                self.assertNotEqual(str(command[0]), "qsub", "dry-run must not submit a job")
+                return original_run(command, *args, **kwargs)
+
+            for stage in stages:
+                for explicit in (None, "e" * 40, "WORKTREE"):
+                    with self.subTest(stage=stage, revision=explicit):
+                        expected = explicit if explicit is not None else baseline if stage == "baseline" else head
+                        arguments = ["submit.py", stage, "rome", "--dry-run"]
+                        if explicit is not None:
+                            arguments += ["--revision", explicit]
+                        output = io.StringIO()
+                        with mock.patch.object(submission, "ROOT", directory), \
+                                mock.patch.object(sys, "argv", arguments), \
+                                mock.patch("sys.stdout", output), \
+                                mock.patch.object(submission.subprocess, "run", side_effect=reject_submission):
+                            submission.main()
+                        command = shlex.split(output.getvalue())
+                        self.assertEqual(command[0], "qsub")
+                        self.assertEqual(command[-4:], [str(tools / "job.sh"), "rome", stage, expected])
+                        self.assertFalse((directory / "artifacts").exists(), "dry-run must not create evidence")
+
+            # Exercise the real shell bridge with harmless stand-ins for all
+            # stage programs. No environment module, compiler or device is used.
+            (tools / "job.sh").write_bytes((runner.ROOT / "tools/jlse/job.sh").read_bytes())
+            (tools / "environment.sh").write_text("export FFMT_PYTHON=" + shlex.quote(sys.executable) + "\n")
+            for path in [directory / "tools/conformance.py", directory / "tools/benchmark.py",
+                    tools / "host_tests.py", tools / "provision.py", tools / "discover.py", tools / "diagnose.py"]:
+                path.write_text("# No-op stage fixture; revision is checked in the shell bridge log.\n")
+            for stage in stages:
+                for explicit in (None, "e" * 40, "WORKTREE"):
+                    with self.subTest(direct_stage=stage, revision=explicit):
+                        expected = explicit if explicit is not None else baseline if stage == "baseline" else head
+                        command = ["/bin/bash", str(tools / "job.sh"), "rome", stage]
+                        if explicit is not None:
+                            command.append(explicit)
+                        result = subprocess.run(command, text=True, capture_output=True, check=True)
+                        self.assertIn(f"profile=rome stage={stage} revision={expected}\n", result.stdout)
 
 
 class ProcessLifetimeTests(unittest.TestCase):

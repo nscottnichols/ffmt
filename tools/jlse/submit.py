@@ -17,7 +17,7 @@ def main():
     p.add_argument("stage", choices=["discovery", "diagnostics", "host-tests", "baseline", "head", "provision", "benchmark"])
     p.add_argument("profiles", nargs="+")
     p.add_argument("--minutes", type=int)
-    p.add_argument("--revision", default="3fe258a87675c997667c899c2b0f0cad405aad5a")
+    p.add_argument("--revision", help="Library revision; defaults to the baseline pin for baseline, or the current HEAD commit for other actions")
     p.add_argument("--queue", help="Override queue; requires exactly one profile")
     p.add_argument("--dry-run", action="store_true")
     p.add_argument("--env", action="append", default=[], metavar="KEY=VALUE", help="Explicit non-secret compiler/runtime overrides")
@@ -27,7 +27,17 @@ def main():
         key, separator, _ = value.partition("=")
         if not separator or not re.fullmatch(r"FFMT_(?:CXX_[A-Z_]+|FLAGS_[A-Z_]+|KOKKOS_[A-Z_]+_PREFIX|HOST_CXX|OMP_RUNTIME_PREFIX|GPU_ARCH)|CXX|CUDA_PATH|ROCM_PATH|CHIP_(?:BE|DEVICE_TYPE|SKIP_UNINIT)", key):
             p.error("--env accepts explicit compiler and runtime selections only")
-    profiles = json.loads((ROOT / "platforms/profiles.json").read_text())["profiles"]
+    configuration = json.loads((ROOT / "platforms/profiles.json").read_text())
+    profiles = configuration["profiles"]
+    if a.revision is None:
+        if a.stage == "baseline":
+            a.revision = configuration["baseline_commit"]
+        else:
+            try:
+                a.revision = subprocess.check_output(
+                    ["git", "-C", str(ROOT), "rev-parse", "--verify", "HEAD^{commit}"], text=True).strip()
+            except (OSError, subprocess.CalledProcessError):
+                p.error("Cannot resolve HEAD; supply --revision explicitly")
     if a.queue and len(a.profiles) != 1:
         p.error("--queue requires one profile")
     records = ROOT / "artifacts/submissions"
