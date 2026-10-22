@@ -573,7 +573,7 @@ FMT_HD constexpr int named_index_impl(const Tuple &args,
                                       basic_string_view<Char> name,
                                       std::index_sequence<I...>) {
   int result = -1;
-  auto one = [&]<std::size_t N>() {
+  [[maybe_unused]] auto one = [&]<std::size_t N>() {
     const auto &arg = std::get<N>(args);
     if constexpr (named_arg<std::remove_cvref_t<decltype(arg)>>)
       if (equal_text(basic_string_view<Char>{arg.name}, name))
