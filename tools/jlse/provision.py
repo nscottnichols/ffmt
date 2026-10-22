@@ -31,7 +31,10 @@ def source(name, base, log):
     recipe = RECIPES["sources"][name]
     src = base / "src" / f"{name}-{recipe['tag']}"
     if not (src / ".git").exists():
-        run(["git", "clone", "--depth", "1", "--branch", recipe["tag"], recipe["repository"], src], log)
+        run(["git", "clone", "--depth", "1", *(["--filter=blob:none", "--sparse"] if name == "llvm20" else []),
+             "--branch", recipe["tag"], recipe["repository"], src], log)
+    if name == "llvm20":
+        run(["git", "-C", src, "sparse-checkout", "set", "llvm", "clang", "lld", "cmake", "openmp", "runtimes", "compiler-rt", "libunwind"], log)
     commit = subprocess.check_output(["git", "-C", src, "rev-parse", "HEAD"], text=True).strip()
     if commit != recipe["commit"]:
         raise RuntimeError(f"{name}: expected {recipe['commit']}, found {commit}")
@@ -71,32 +74,51 @@ def install_archive(name, base, log):
     return {"archive": str(archive), "sha256": digest.hexdigest(), "prefix": str(prefix)}
 
 
-def cmake_install(name, src, base, flags, jobs, log):
-    build = base / "build" / name
+def cmake_install(name, src, base, flags, jobs, log, build_override=None):
     prefix = base / "install" / name
     flags = [f"-DCMAKE_INSTALL_PREFIX={prefix}", "-DCMAKE_BUILD_TYPE=Release", *flags]
+    source_commit = subprocess.check_output(["git", "-C", src, "rev-parse", "HEAD"], universal_newlines=True).strip()
+    signature = hashlib.sha256(json.dumps([str(src), source_commit, flags], sort_keys=True).encode()).hexdigest()[:12]
+    build = base / "build" / (build_override or (name + "-" + signature))
     configure_seconds = run(["cmake", "-S", src, "-B", build, *flags], log)
     build_seconds = run(["cmake", "--build", build, "--parallel", jobs], log)
-    install_seconds = run(["cmake", "--install", build], log)
-    return {"prefix": str(prefix), "flags": flags, "configure_seconds": configure_seconds,
+    install_seconds = run(["cmake", "--install", build, "--prefix", prefix], log)
+    external = {}
+    for repository in build.glob("**/.git"):
+        if repository.is_dir():
+            external[str(repository.parent.relative_to(build))] = subprocess.check_output(["git", "-C", repository.parent, "rev-parse", "HEAD"], universal_newlines=True).strip()
+    return {"prefix": str(prefix), "build_directory": str(build), "source_commit": source_commit,
+            "external_commits": external, "flags": flags, "configure_seconds": configure_seconds,
             "build_seconds": build_seconds, "install_seconds": install_seconds}
 
 
 def provision(component, args, base, log):
     if component == "intel-llvm":
         return install_archive(component, base, log)
-    name = "kokkos" if component.startswith("kokkos-") else component
+    name = "kokkos" if component.startswith("kokkos-") else "llvm20" if component == "llvm-shared" else component
     src = source(name, base, log)
     if args.fetch_only:
         return {"source": str(src), "commit": RECIPES["sources"][name]["commit"], "status": "source-ready"}
     flags = []
     compiler = os.getenv("FFMT_HOST_CXX", shutil.which("g++") or "g++")
+    if name == "llvm20":
+        compiler_prefix = "/soft/compilers/llvm/release-22.1.8"
+        flags += [f"-DCMAKE_C_COMPILER={compiler_prefix}/bin/clang", f"-DCMAKE_CXX_COMPILER={compiler_prefix}/bin/clang++",
+                  "-DLLVM_ENABLE_PROJECTS=clang;lld;openmp", "-DLLVM_ENABLE_RUNTIMES=compiler-rt",
+                  "-DCOMPILER_RT_BUILD_BUILTINS=ON", "-DCOMPILER_RT_BUILD_SANITIZERS=OFF",
+                  "-DCOMPILER_RT_BUILD_XRAY=OFF", "-DCOMPILER_RT_BUILD_LIBFUZZER=OFF",
+                  "-DCOMPILER_RT_BUILD_PROFILE=OFF", "-DCOMPILER_RT_BUILD_ORC=OFF",
+                  "-DLLVM_TARGETS_TO_BUILD=X86;NVPTX;AMDGPU;SPIRV",
+                  "-DLLVM_BUILD_LLVM_DYLIB=ON", "-DLLVM_LINK_LLVM_DYLIB=ON", "-DCLANG_LINK_CLANG_DYLIB=ON",
+                  "-DLLVM_USE_LINKER=lld", "-DLLVM_INCLUDE_TESTS=OFF", "-DLLVM_INCLUDE_BENCHMARKS=OFF",
+                  "-DLLVM_PARALLEL_LINK_JOBS=2"]
+        return cmake_install("llvm20-shared", src / "llvm", base, flags, args.jobs, log, args.resume_build)
     if name == "adaptivecpp":
         llvm = Path(args.llvm_prefix or "/soft/compilers/llvm/release-20.1.8")
         if not any((llvm / "lib").glob("libLLVM.so*")) and not args.llvm_prefix:
-            local_llvm = base / "install/llvm20"
+            local_llvm = base / "install/llvm20-shared"
             if not (local_llvm / "lib/libLLVM.so").exists():
-                install_archive("llvm20", base, log)
+                provision("llvm-shared", args, base, log)
             llvm = local_llvm
         flags += [f"-DCMAKE_C_COMPILER={llvm}/bin/clang", f"-DCMAKE_CXX_COMPILER={llvm}/bin/clang++",
                   f"-DLLVM_DIR={llvm}/lib/cmake/llvm", "-DACPP_COMPILER_FEATURE_PROFILE=full",
@@ -110,20 +132,44 @@ def provision(component, args, base, log):
             flags += ["-DWITH_LEVEL_ZERO_BACKEND=ON"]
     elif name == "chipstar":
         llvm = Path(args.llvm_prefix or "/soft/compilers/llvm/release-22.1.8")
+        os.environ["LD_LIBRARY_PATH"] = str(base/"install/spirv-translator/lib") + os.pathsep + str(llvm/"lib") + os.pathsep + os.environ.get("LD_LIBRARY_PATH", "")
         run(["git", "-C", src, "submodule", "update", "--init", "--recursive", "--depth", "1"], log)
-        flags += [f"-DLLVM_CONFIG_BIN={llvm}/bin/llvm-config", "-DCHIP_LLVM_USE_INTERGRATED_SPIRV=ON",
+        major = int(subprocess.check_output([llvm/"bin/llvm-config", "--version"], text=True).split(".")[0])
+        flags += [f"-DLLVM_CONFIG_BIN={llvm}/bin/llvm-config", f"-DCHIP_LLVM_USE_INTERGRATED_SPIRV={'ON' if major >= 22 else 'OFF'}",
                   "-DCHIP_BUILD_TESTS=OFF", "-DCHIP_BUILD_SAMPLES=OFF"]
+        if major < 22:
+            translator = base / "install/spirv-translator/bin/llvm-spirv"
+            if not translator.exists():
+                provision("spirv-translator", args, base, log)
+            flags += [f"-DLLVM_SPIRV={translator}"]
+    elif name == "spirv-translator":
+        llvm = Path(args.llvm_prefix or base / "install/llvm20-shared")
+        flags += [f"-DCMAKE_C_COMPILER={llvm}/bin/clang", f"-DCMAKE_CXX_COMPILER={llvm}/bin/clang++",
+                  f"-DLLVM_DIR={llvm}/lib/cmake/llvm", "-DLLVM_SPIRV_INCLUDE_TESTS=OFF",
+                  "-DBUILD_SHARED_LIBS=ON", f"-DCMAKE_INSTALL_RPATH={base}/install/spirv-translator/lib;{llvm}/lib"]
     else:
         flags += [f"-DCMAKE_CXX_COMPILER={compiler}", "-DKokkos_ENABLE_SERIAL=ON", "-DKokkos_ENABLE_TESTS=OFF",
                   "-DKokkos_ENABLE_EXAMPLES=OFF", "-DCMAKE_CXX_STANDARD=20"]
         backend = component.split("-", 1)[1]
         if backend == "cuda":
-            flags += [f"-DCMAKE_CXX_COMPILER={src}/bin/nvcc_wrapper", "-DKokkos_ENABLE_CUDA=ON", "-DKokkos_ARCH_HOPPER90=ON"]
+            if args.kokkos_cuda_compiler == "clang":
+                flags += [f"-DCMAKE_CXX_COMPILER={shutil.which('clang++') or 'clang++'}",
+                          f"-DKokkos_CUDA_DIR={os.getenv('CUDA_PATH', '/usr/local/cuda')}"]
+            else:
+                flags += [f"-DCMAKE_CXX_COMPILER={src}/bin/nvcc_wrapper"]
+            arch = os.getenv("FFMT_GPU_ARCH", "sm_90")
+            kokkos_arch = {"sm_70": "VOLTA70", "sm_80": "AMPERE80", "sm_86": "AMPERE86", "sm_89": "ADA89", "sm_90": "HOPPER90"}.get(arch)
+            if not kokkos_arch:
+                raise ValueError("Unsupported Kokkos CUDA architecture selection: " + arch)
+            flags += ["-DKokkos_ENABLE_CUDA=ON", f"-DKokkos_ARCH_{kokkos_arch}=ON"]
         elif backend == "hip":
             flags += [f"-DCMAKE_CXX_COMPILER={shutil.which('hipcc') or 'hipcc'}", "-DKokkos_ENABLE_HIP=ON", "-DKokkos_ARCH_AMD_GFX942=ON"]
         elif backend == "sycl":
             flags += [f"-DCMAKE_CXX_COMPILER={os.getenv('FFMT_CXX_SYCL', 'icpx')}", "-DKokkos_ENABLE_SYCL=ON",
                       "-DKokkos_ARCH_INTEL_PVC=ON"]
+            dpl = Path("/soft/compilers/oneapi/2025.0.0.825/oneapi/dpl/latest")
+            if dpl.exists():
+                flags += [f"-DCMAKE_PREFIX_PATH={dpl}"]
     if name == "chipstar":
         # Upstream configuration imports PyYAML even when its tests are off.
         python = os.getenv("FFMT_PYTHON", shutil.which("python3") or "python3")
@@ -132,18 +178,25 @@ def provision(component, args, base, log):
             run([python, "-m", "pip", "install", "--disable-pip-version-check", "--target", python_prefix, "PyYAML==6.0.3"], log)
         os.environ["PYTHONPATH"] = str(python_prefix) + os.pathsep + os.environ.get("PYTHONPATH", "")
         flags += [f"-DPython_EXECUTABLE={python}", f"-DPython3_EXECUTABLE={python}"]
-    return cmake_install(component, src, base, flags, args.jobs, log)
+    return cmake_install(component + ("-" + args.install_suffix if args.install_suffix else ""), src, base, flags, args.jobs, log)
 
 
 def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("--profile", required=True)
-    p.add_argument("--component", action="append", required=True, choices=["intel-llvm", "adaptivecpp", "chipstar",
+    p.add_argument("--component", action="append", required=True, choices=["intel-llvm", "llvm-shared", "adaptivecpp", "chipstar", "spirv-translator",
                    "kokkos-serial", "kokkos-cuda", "kokkos-hip", "kokkos-sycl"])
     p.add_argument("--jobs", type=int, default=8)
     p.add_argument("--llvm-prefix")
+    p.add_argument("--kokkos-cuda-compiler", choices=["clang", "nvcc"], default="clang")
+    p.add_argument("--install-suffix", help="Keep a distinct compiler/architecture installation alongside the primary prefix")
+    p.add_argument("--resume-build", help="Resume a named LLVM build directory after recovering a missing prerequisite")
     p.add_argument("--fetch-only", action="store_true", help="Download sources without compilation (login-safe)")
     a = p.parse_args()
+    if a.install_suffix and any(c not in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-_" for c in a.install_suffix):
+        p.error("--install-suffix accepts letters, digits, dash and underscore")
+    if a.resume_build and ("/" in a.resume_build or a.resume_build in (".", "..")):
+        p.error("--resume-build must name a directory directly under software/<profile>/build")
     if not a.fetch_only and not os.getenv("COBALT_JOBID"):
         p.error("Build/install requires an active Cobalt allocation")
     base = ROOT / "software" / a.profile

@@ -28,7 +28,9 @@ Every run gets a new directory under `artifacts/<profile>/`. The runner exports
 an immutable revision or copies the working include tree before compiling. Its
 manifest records source hashes, the oracle pin, compile/execution commands,
 diagnostic paths, actual selected device, and per-case results. Failed shards
-are split to identify independently failing cases. No test payload is parsed as
+are split to identify independently failing cases. Execution-failing shared
+binaries are also isolated, preserving the original shard failure in the
+manifest. No test payload is parsed as
 an output-control marker. Empty output, embedded NULs, and missing newlines
 remain observable.
 

@@ -3,7 +3,9 @@
   "sources": {
     "adaptivecpp": {"repository": "https://github.com/AdaptiveCpp/AdaptiveCpp.git", "tag": "v25.10.0", "commit": "9f842c701a599107cc6d117d3539f971036363a1"},
     "kokkos": {"repository": "https://github.com/kokkos/kokkos.git", "tag": "5.2.2", "commit": "8e15454876298832f013ebcaf08d53825b5bda40"},
-    "chipstar": {"repository": "https://github.com/CHIP-SPV/chipStar.git", "tag": "v1.3.0", "commit": "ed3bc0cbeff0499a175a1d8e3172e2349ab1cde8"}
+    "chipstar": {"repository": "https://github.com/CHIP-SPV/chipStar.git", "tag": "v1.3.0", "commit": "ed3bc0cbeff0499a175a1d8e3172e2349ab1cde8"},
+    "llvm20": {"repository": "https://github.com/llvm/llvm-project.git", "tag": "llvmorg-20.1.8", "commit": "87f0227cb60147a26a1eeb4fb06e3b505e9c7261"},
+    "spirv-translator": {"repository": "https://github.com/KhronosGroup/SPIRV-LLVM-Translator.git", "tag": "v20.1.18", "commit": "b7cfb2cba34739c0e7d1050cae1026182a5fe4d0"}
   },
   "archives": {
     "intel-llvm": {"version": "v7.2.0", "architecture": "x86_64", "url": "https://github.com/intel/llvm/releases/download/v7.2.0/sycl_linux.tar.gz", "sha256": "385586a25e75ac727883f0be5e442dec0ee81b3c20f9a29037a79921ad2f1728"},

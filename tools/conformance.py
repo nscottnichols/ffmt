@@ -21,7 +21,7 @@ import numeric_memory
 
 ROOT = Path(__file__).resolve().parents[1]
 CONFIG = json.loads((ROOT / "platforms/profiles.json").read_text())
-ROUTES = ("host-buffer", "host-specifiers", "cuda", "nvcc", "hip", "omp-cuda", "omp-hip", "omp-spirv", "sycl", "acpp", "chipstar")
+ROUTES = ("host-buffer", "host-specifiers", "cuda", "nvcc", "hip", "omp-cuda", "omp-hip", "omp-spirv", "sycl", "acpp", "chipstar", "kokkos-serial", "kokkos-cuda", "kokkos-hip", "kokkos-sycl")
 _spec = importlib.util.spec_from_file_location("ffmt_cases", str(ROOT / "test/conformance/cases.py"))
 fixtures = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(fixtures)
@@ -106,10 +106,30 @@ def compiler(route):
                 "cuda": "clang++", "nvcc": "nvcc", "hip": "hipcc", "omp-cuda": "clang++",
                 "omp-hip": "clang++", "omp-spirv": "icpx", "sycl": "icpx",
                 "acpp": "acpp", "chipstar": "hipcc"}
-    return shlex.split(os.environ.get("FFMT_CXX_" + route.upper().replace("-", "_"), defaults.get(route, "c++")))
+    base = {"kokkos-serial": "host-buffer", "kokkos-cuda": "cuda", "kokkos-hip": "hip", "kokkos-sycl": "sycl"}.get(route)
+    default = " ".join(compiler(base)) if base else defaults.get(route, "c++")
+    return shlex.split(os.environ.get("FFMT_CXX_" + route.upper().replace("-", "_"), default))
+
+
+def kokkos_prefix(route):
+    key = "FFMT_KOKKOS_" + route.split("-", 1)[1].upper() + "_PREFIX"
+    return Path(os.environ.get(key, ROOT / "software" / os.environ.get("FFMT_PROFILE", "local") / "install" / route))
+
+
+def link_flags(route):
+    if not route.startswith("kokkos-"):
+        return []
+    prefix = kokkos_prefix(route)
+    library = prefix / "lib"
+    if not library.is_dir():
+        library = prefix / "lib64"
+    return ["-L" + str(library), "-lkokkoscontainers", "-lkokkoscore", "-ldl", "-pthread"] + (["-lcuda"] if route == "kokkos-cuda" else [])
 
 
 def flags(route, opt):
+    if route.startswith("kokkos-"):
+        base = {"kokkos-serial": "host-buffer", "kokkos-cuda": "cuda", "kokkos-hip": "hip", "kokkos-sycl": "sycl"}[route]
+        return flags(base, opt) + ["-I" + str(kokkos_prefix(route) / "include")] + shlex.split(os.environ.get("FFMT_FLAGS_" + route.upper().replace("-", "_"), ""))
     cuda = os.environ.get("CUDA_PATH", "/usr/local/cuda")
     rocm = os.environ.get("ROCM_PATH", "/opt/rocm")
     arch = os.environ.get("FFMT_GPU_ARCH")
@@ -174,13 +194,28 @@ int main(int argc, char** argv) {
 def target_source(items, indices, route):
     if route not in ROUTES:
         raise ValueError("unknown backend route: " + route)
-    cuda, hip, sycl = route in ("cuda", "nvcc"), route in ("hip", "chipstar"), route in ("sycl", "acpp")
+    kokkos = route.startswith("kokkos-")
+    cuda, hip, sycl = route in ("cuda", "nvcc", "kokkos-cuda"), route in ("hip", "chipstar", "kokkos-hip"), route in ("sycl", "acpp", "kokkos-sycl")
     omp = route.startswith("omp-")
     headers = "#include <cuda_runtime.h>\n" if cuda else "#include <hip/hip_runtime.h>\n" if hip else "#include <sycl/sycl.hpp>\n" if sycl else "#include <omp.h>\n" if omp else ""
     body = "\n".join("case %d: {%s; break;}" % (i, expression(items[i])) for i in indices)
-    source = headers + "#define HD " + ("__host__ __device__" if cuda or hip else "") + "\n#include <ffmt/base.hpp>\n" + PRELUDE
+    source = headers + ("#include <Kokkos_Core.hpp>\n" if kokkos else "") + "#define HD " + ("__host__ __device__" if cuda or hip else "") + "\n#include <ffmt/base.hpp>\n" + PRELUDE
     source += extra_headers([items[i] for i in indices]) + "\nHD void execute_case(int index) {switch(index) {" + body + "}}\n"
-    if cuda or hip:
+    if kokkos:
+        expected_space = {"kokkos-serial": "Serial", "kokkos-cuda": "Cuda", "kokkos-hip": "HIP", "kokkos-sycl": "SYCL"}[route]
+        source += r'''
+#include <cstring>
+int main(int argc, char** argv) {
+  if(argc!=2) return 2;
+  Kokkos::initialize(argc,argv);
+  if(std::strcmp(Kokkos::DefaultExecutionSpace::name(),"EXPECTED_SPACE")!=0){Kokkos::finalize();return 77;}
+  std::fprintf(stderr,"FFMT_DEVICE kokkos space=%s\n",Kokkos::DefaultExecutionSpace::name());
+  int index=std::atoi(argv[1]);
+  Kokkos::parallel_for("ffmt-case",Kokkos::RangePolicy<>(0,1),KOKKOS_LAMBDA(int){execute_case(index);});
+  Kokkos::fence();Kokkos::finalize();return 0;
+}
+'''.replace("EXPECTED_SPACE", expected_space)
+    elif cuda or hip:
         prefix = "cuda" if cuda else "hip"
         source += "__global__ void kernel(int index) {execute_case(index);}\n"
         source += r"""
@@ -253,6 +288,16 @@ class Campaign:
             host=dict(name=platform.node(), architecture=platform.machine(), os=platform.platform()),
             environment={k: v for k, v in os.environ.items() if k in ("LC_ALL", "OMP_TARGET_OFFLOAD", "ONEAPI_DEVICE_SELECTOR", "ACPP_VISIBILITY_MASK")},
             configurations=[])
+        self.manifest["corpus_sha256"] = hashlib.sha256((ROOT / "test/conformance/cases.py").read_bytes()).hexdigest()
+        self.manifest["runner_files"] = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
+            for path in (ROOT / "tools/conformance.py", ROOT / "tools/numeric_memory.py", ROOT / "test/conformance/cases.py")}
+        self.manifest["timeouts"] = dict(compile=args.compile_timeout, execution=args.run_timeout, cold_jit=args.jit_timeout)
+        self.manifest["cobalt_jobid"] = os.environ.get("COBALT_JOBID")
+        discovery = ROOT / "artifacts" / args.profile / ("discovery-" + str(self.manifest["cobalt_jobid"]) + ".json")
+        if discovery.is_file():
+            self.manifest["discovery"] = dict(path=str(discovery.relative_to(ROOT)),
+                sha256=hashlib.sha256(discovery.read_bytes()).hexdigest(),
+                evidence=json.loads(discovery.read_text()))
         if git("-C", str(self.fmt), "rev-parse", "HEAD") != CONFIG["fmt_commit"]:
             raise ValueError("fmt checkout differs from oracle pin")
         self.reference = self.output / "oracle"
@@ -279,6 +324,7 @@ class Campaign:
             raise RuntimeError("oracle object failed: " + p["stderr_file"])
         source = self.reference / "cases.cpp"
         source.write_text(oracle_source(items))
+        self.manifest["oracle"]["cases_source_sha256"] = hashlib.sha256(source.read_bytes()).hexdigest()
         p = run(common + [source, obj, "-o", self.reference / "cases"], self.reference, "oracle-build", self.args.compile_timeout)
         self.manifest["oracle"]["cases_build"] = record(p)
         if p["exit_code"]:
@@ -297,24 +343,30 @@ class Campaign:
         directory.mkdir()
         cmd = compiler(route) + flags(route, opt) + ["-I" + str(self.output / "source/include")]
         config = dict(route=route, optimization=opt, command_prefix=cmd, cases=[], negative_cases=[])
+        execution_timeout = max(self.args.run_timeout, self.args.jit_timeout) if route in ("sycl", "acpp", "chipstar", "omp-spirv", "kokkos-sycl") else self.args.run_timeout
+        config["execution_timeout"] = execution_timeout
         self.manifest["configurations"].append(config)
         config["compiler_version"] = record(run(compiler(route) + ["--version"], directory, "compiler-version"))
         control = [dict(id="control", pattern="control {}", args=["7"])]
         src = directory / "control.cpp"
         src.write_text(target_source(control, [0], route))
-        p = run(cmd + [src, "-o", directory / "control"], directory, "control-build", self.args.compile_timeout)
+        p = run(cmd + [src] + link_flags(route) + ["-o", directory / "control"], directory, "control-build", self.args.compile_timeout)
         config["control_build"] = record(p)
         if p["exit_code"]:
-            config.update(status="infrastructure_failure", cases=[dict(id=x["id"], family=x["family"], status="infrastructure_failure", build=record(p)) for x in items])
+            config.update(status="control_compile_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not compile") for x in items])
+            if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
+                self.memory_suite(cmd, directory, route, config)
             self.save()
             print("%s -O%s: control compile failed (%s)" % (route, opt, p["stderr_file"]), flush=True)
             return
-        p = run([directory / "control", 0], directory, "control-run", self.args.run_timeout)
+        p = run([directory / "control", 0], directory, "control-run", execution_timeout)
         config["control_run"] = record(p)
         metadata = [line for line in p["stderr"].decode("utf-8", "replace").splitlines() if line.startswith("FFMT_DEVICE ")]
         config["device"] = metadata[0][12:] if metadata else None
         if p["exit_code"] or p["stdout"] != b"control 7" or not metadata:
-            config.update(status="infrastructure_failure", cases=[dict(id=x["id"], family=x["family"], status="infrastructure_failure", execution=record(p)) for x in items])
+            config.update(status="control_execution_failure", cases=[dict(id=x["id"], family=x["family"], status="not_run", reason="stdout control did not execute correctly") for x in items])
+            if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
+                self.memory_suite(cmd, directory, route, config)
             self.save()
             print("%s -O%s: execution control failed" % (route, opt), flush=True)
             return
@@ -323,28 +375,50 @@ class Campaign:
             label = "cases-%d-%d" % (indices[0], indices[-1])
             src = directory / (label + ".cpp")
             src.write_text(target_source(items, indices, route))
-            p = run(cmd + [src, "-o", directory / label], directory, label + "-build", self.args.compile_timeout)
+            p = run(cmd + [src] + link_flags(route) + ["-o", directory / label], directory, label + "-build", self.args.compile_timeout)
             if p["exit_code"] and len(indices) > 1:
                 mid = len(indices) // 2
                 shard(indices[:mid])
                 shard(indices[mid:])
                 return
-            for i in indices:
+            for position, i in enumerate(indices):
                 item = items[i]
                 result = dict(id=item["id"], family=item["family"], build=record(p))
+                result["source_sha256"] = hashlib.sha256(src.read_bytes()).hexdigest()
                 if p["exit_code"]:
                     text = p["stderr"].decode("utf-8", "replace")
                     result["status"] = "unsupported" if re.search(r"cannot express with printf|format string too long|too_many_placeholders|incompatible|invalid_format_spec|invalid_placeholder", text) and negative_status(p) != "infrastructure_failure" else "compile_failure"
                 else:
-                    execution = run([directory / label, i], directory, item["id"], self.args.run_timeout)
+                    execution = run([directory / label, i], directory, item["id"], execution_timeout)
                     result["execution"] = record(execution)
-                    result.update(dict(status="execution_failure") if execution["exit_code"] else compare_bytes(expected[i], execution["stdout"]))
+                    result.update(dict(status="execution_timeout" if execution.get("timeout") else "execution_failure") if execution["exit_code"] else compare_bytes(expected[i], execution["stdout"]))
+                if result["status"] != "pass" and "execution" in result and len(indices) > 1:
+                    # A large switch can change device stack/code generation.
+                    # Preserve the failed binary evidence, then isolate every
+                    # remaining case before assigning its final outcome.
+                    config.setdefault("shard_failures", []).append(result)
+                    remaining = indices[position:]
+                    print("%s -O%s %s: isolating %s" % (route, opt, item["id"], result["status"]), flush=True)
+                    if len(remaining) == 1:
+                        shard(remaining)
+                    else:
+                        mid = len(remaining) // 2
+                        shard(remaining[:mid])
+                        shard(remaining[mid:])
+                    return
                 config["cases"].append(result)
                 print("%s -O%s %s: %s" % (route, opt, item["id"], result["status"]), flush=True)
                 self.save()
 
-        for first in range(0, len(items), self.args.shard_size):
-            shard(list(range(first, min(first + self.args.shard_size, len(items)))))
+        applicable = []
+        for index, item in enumerate(items):
+            missing = [header for header in item.get("requires", []) if not (self.output / "source/include" / header).is_file()]
+            if missing:
+                config["cases"].append(dict(id=item["id"], family=item["family"], status="unsupported", reason="source snapshot lacks " + ", ".join(missing)))
+            else:
+                applicable.append(index)
+        for first in range(0, len(applicable), self.args.shard_size):
+            shard(applicable[first:first + self.args.shard_size])
         config["status"] = "completed"
         if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
             self.memory_suite(cmd, directory, route, config)
@@ -355,8 +429,8 @@ class Campaign:
     def memory_suite(self, cmd, directory, route, config):
         src = directory / "numeric-memory.cpp"
         src.write_text(numeric_memory.source(route, samples=self.args.numeric_samples))
-        p = run(cmd + [src, "-o", directory / "numeric-memory"], directory, "numeric-memory-build", self.args.compile_timeout)
-        result = dict(build=record(p), status="compile_failure")
+        p = run(cmd + [src] + link_flags(route) + ["-o", directory / "numeric-memory"], directory, "numeric-memory-build", self.args.compile_timeout)
+        result = dict(build=record(p), status="compile_failure", source_sha256=hashlib.sha256(src.read_bytes()).hexdigest())
         config["numeric_memory"] = result
         if p["exit_code"]:
             return
@@ -372,10 +446,10 @@ class Campaign:
             if reference_run["exit_code"]:
                 raise RuntimeError("numeric oracle execution failed")
         expected = (self.reference / "numeric-memory-run.stdout").read_bytes()
-        execution = run([directory / "numeric-memory"], directory, "numeric-memory-run", max(self.args.run_timeout, 120))
+        execution = run([directory / "numeric-memory"], directory, "numeric-memory-run", max(config.get("execution_timeout", self.args.run_timeout), 120))
         result["execution"] = record(execution)
         if execution["exit_code"]:
-            result["status"] = "execution_failure"
+            result["status"] = "execution_timeout" if execution.get("timeout") else "execution_failure"
         else:
             try:
                 result.update(numeric_memory.compare_records(expected, execution["stdout"]))
@@ -412,6 +486,7 @@ def main():
     parser.add_argument("--shard-size", type=int, default=16)
     parser.add_argument("--compile-timeout", type=int, default=180)
     parser.add_argument("--run-timeout", type=int, default=30)
+    parser.add_argument("--jit-timeout", type=int, default=600, help="execution cap for routes that compile device images at launch")
     parser.add_argument("--no-negative", action="store_true")
     parser.add_argument("--no-memory", action="store_true")
     parser.add_argument("--numeric-samples", type=int, default=4096)
@@ -420,6 +495,7 @@ def main():
         parser.error("--shard-size must be positive")
     os.environ["LC_ALL"] = "C"
     os.environ["OMP_TARGET_OFFLOAD"] = "MANDATORY"
+    os.environ["FFMT_PROFILE"] = args.profile
     items = [x for x in fixtures.CASES if not args.case or x["id"] in args.case]
     if not items:
         parser.error("no cases selected")
@@ -444,4 +520,3 @@ def main():
 
 if __name__ == "__main__":
     sys.exit(main())
-

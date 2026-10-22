@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+  "runs": [
+    {
+      "label": "engine",
+      "manifest": "artifacts/engine-commit-ready/sanitizers.json",
+      "manifest_sha256": "4b1b3e1cc68abf71e6e4b01f544d63398b110411efb0322cfdd09f7c0e8c2f46",
+      "evidence": [
+        {
+          "suite": "engine",
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O1",
+            "-g",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/engine-commit-ready/include",
+            "-Ithird_party/fmt/include",
+            "-DFFMT_PORTABLE_SHORTEST=1",
+            "artifacts/engine-commit-ready/test_engine.cpp",
+            "artifacts/engine-commit-ready/fmt.o",
+            "-o",
+            "artifacts/engine-commit-ready/engine-sanitize"
+          ],
+          "build_status": 0,
+          "build_seconds": 79.06142526998883,
+          "build_stderr": "",
+          "run_status": 0,
+          "run_seconds": 3.7651939890056383,
+          "stdout": "engine checks: 57361\n",
+          "stderr": ""
+        },
+        {
+          "suite": "engine_extended",
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O1",
+            "-g",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/engine-commit-ready/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/engine-commit-ready/test_engine_extended.cpp",
+            "artifacts/engine-commit-ready/fmt.o",
+            "-o",
+            "artifacts/engine-commit-ready/engine_extended-sanitize"
+          ],
+          "build_status": 0,
+          "build_seconds": 4.214676508010598,
+          "build_stderr": "",
+          "run_status": 0,
+          "run_seconds": 2.8563167240063194,
+          "stdout": "extended checks: 1276 (digits=64)\n",
+          "stderr": ""
+        },
+        {
+          "suite": "engine_quad",
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O1",
+            "-g",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/engine-commit-ready/include",
+            "-Ithird_party/fmt/include",
+            "-DFMT_USE_FLOAT128=1",
+            "artifacts/engine-commit-ready/test_engine_quad.cpp",
+            "artifacts/engine-commit-ready/fmt.o",
+            "-o",
+            "artifacts/engine-commit-ready/engine_quad-sanitize"
+          ],
+          "build_status": 0,
+          "build_seconds": 4.691935912007466,
+          "build_stderr": "",
+          "run_status": 0,
+          "run_seconds": 0.32181617300375365,
+          "stdout": "binary128 checks: 81\n",
+          "stderr": ""
+        },
+        {
+          "suite": "engine_bitint",
+          "command": [
+            "/soft/compilers/llvm/release-22.1.8/bin/clang++",
+            "-std=c++20",
+            "-O1",
+            "-g",
+            "-fno-fast-math",
+            "-fsanitize=address,undefined",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-Iartifacts/engine-commit-ready/include",
+            "-Ithird_party/fmt/include",
+            "artifacts/engine-commit-ready/test_engine_bitint.cpp",
+            "artifacts/engine-commit-ready/fmt.o",
+            "-o",
+            "artifacts/engine-commit-ready/engine_bitint-sanitize"
+          ],
+          "build_status": 0,
+          "build_seconds": 14.37782853000681,
+          "build_stderr": "",
+          "run_status": 0,
+          "run_seconds": 0.02498410502448678,
+          "stdout": "native BitInt checks:300\n",
+          "stderr": ""
+        }
+      ],
+      "source_files": {
+        "include/ffmt/base.hpp": "9b10dcafdb33cb647c2afece04f185675af4a5a958886750220060f8248a44d4",
+        "include/ffmt/core.hpp": "03262f6b2045dc78c315f61f412c21f040da6c573abdb94b043695d71de96602",
+        "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+        "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+        "include/ffmt/detail/numeric.hpp": "a410abdc15050e29499605c1b58dd6aac57d53bd2aa9aca571968e416dc259e6",
+        "include/ffmt/detail/text.hpp": "5acdec41c773fcfcb58e87f23a886f8af7fedc8757e056762d084a18b601d535",
+        "include/ffmt/detail/transport.hpp": "c275bc8fe160b92503d32b04c8a8a6ed90a76fbf3cbd48344a856a0c58ce3a98",
+        "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+        "test/conformance/test_engine.cpp": "361df35b27242496137952d44423dbdf4bcae143080b241f845dee508c44b4e5",
+        "test/conformance/test_engine_bitint.cpp": "01ceed4c4ad2088b3070bd93261c73efa7af9877aafa9fc1c56ee4eaec049d30",
+        "test/conformance/test_engine_extended.cpp": "ea74dab504e624cb4d6cd05dd4ad9382fc8a0ecb660058deda0441bb6858ace5",
+        "test/conformance/test_engine_legacy_hook.cpp": "dc50d96ce0575ad5cdfea1b26b3d4b7b6f1889956daaa6d731a215b35c8ff0bc",
+        "test/conformance/test_engine_quad.cpp": "731088977fbae0a647964c9a6672db74da481b7a9646371e4b3c4be5234ffad1",
+        "test/conformance/test_engine_transport.cpp": "623d8589a58d351ca2b966604468f56d660fcc63e48668e6031a372c93e7375a"
+      }
+    },
+    {
+      "label": "families",
+      "manifest": "artifacts/families-release/validation.json",
+      "manifest_sha256": "ae08e730429f206b0fccfcb4757f14470db6143e77b8f5056d44cc60859d6c29",
+      "evidence": {
+        "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+        "snapshot": "/vast/projects/datascience/nnichols/ffmt_project/ffmt/artifacts/families-release",
+        "results": [
+          {
+            "binary": "test_families-clang-san",
+            "returncode": 0,
+            "stdout": "families: 206 differential cases passed\n",
+            "stderr": ""
+          },
+          {
+            "binary": "test_families_printf-clang-san",
+            "returncode": 0,
+            "stdout": "printf: 34719 differential/bounded comparisons passed\n",
+            "stderr": ""
+          },
+          {
+            "binary": "test_families_std23-clang-san",
+            "returncode": 0,
+            "stdout": "std23: 6 expected/unexpected differential cases passed\n",
+            "stderr": ""
+          },
+          {
+            "binary": "test_families-gcc13-O2",
+            "returncode": 0,
+            "stdout": "families: 206 differential cases passed\n",
+            "stderr": ""
+          },
+          {
+            "binary": "test_families_printf-gcc13-O2",
+            "returncode": 0,
+            "stdout": "printf: 34719 differential/bounded comparisons passed\n",
+            "stderr": ""
+          },
+          {
+            "binary": "test_families_std23-gcc13-O2",
+            "returncode": 0,
+            "stdout": "std23: 6 expected/unexpected differential cases passed\n",
+            "stderr": ""
+          }
+        ],
+        "sha256": {
+          "include/ffmt/args.hpp": "837feab132f5ec0b471699856ade66a432d0f65a7d534ff76c36645dfafaabf9",
+          "include/ffmt/base.hpp": "9b10dcafdb33cb647c2afece04f185675af4a5a958886750220060f8248a44d4",
+          "include/ffmt/chrono.hpp": "7ab36935412610fc3bf8c4f68c2e62cd549ae89887a04024069e92089da0ee21",
+          "include/ffmt/color.hpp": "3ab22388e5870728b0463e76794a43b50abb149162fabbde4b969eeb9245d522",
+          "include/ffmt/core.hpp": "03262f6b2045dc78c315f61f412c21f040da6c573abdb94b043695d71de96602",
+          "include/ffmt/detail/extended.hpp": "9a75ad011a6c8b346255212884de3d51e198f5ae3572df9cec4720e036ac8359",
+          "include/ffmt/detail/family.hpp": "3e9f06a0b4e1e94acb36c0e65401654f3dd8394288dffa8ae9ec15f1cc8f9db2",
+          "include/ffmt/detail/floating.hpp": "68dcaa97dd326a926699a795e932f593d95e64a84afafd4dc874e7ce96f469f5",
+          "include/ffmt/detail/numeric.hpp": "a410abdc15050e29499605c1b58dd6aac57d53bd2aa9aca571968e416dc259e6",
+          "include/ffmt/detail/text.hpp": "5acdec41c773fcfcb58e87f23a886f8af7fedc8757e056762d084a18b601d535",
+          "include/ffmt/detail/transport.hpp": "c275bc8fe160b92503d32b04c8a8a6ed90a76fbf3cbd48344a856a0c58ce3a98",
+          "include/ffmt/detail/unicode.hpp": "4143baab6facf8efe067baa93bf5cbe0428ccd2194a4ca60b9ad1cb0592b8d03",
+          "include/ffmt/enum.hpp": "578b3c8b8b2ed8894e3f1c8fc4ac00172696851c1460ece9301619f9a9f24a17",
+          "include/ffmt/printf.hpp": "9e8688bd89a1db1aa19eddcd691fa851910a2e0163d4c523320f3ecee2470d2e",
+          "include/ffmt/ranges.hpp": "914591b495318a8bc3d8d6b9b552bfb233a229cc2b8a010743931afda66eb1d3",
+          "include/ffmt/std.hpp": "5f2e04bf8d7236c11a54b6f0b58c14deaed792bec944e771c123e82bc1a12e41",
+          "include/ffmt/std23.hpp": "3d21ec564caafb7c406e6a5b75826af28d13a73685fa94c98465b74a8d785f14",
+          "tests/test_families.cpp": "a6b232c450064918a7aad6bd27be3c25f8ee1f2396613d347ef669cbd94fb9d9",
+          "tests/test_families_printf.cpp": "fe73c7f31fe639d407cb1f0a54a8551bdb78b85c2a56e6ba64e7c864afa3ecc9",
+          "tests/test_families_std23.cpp": "0d84eab7d44e23c86b2eddffb90eb20b6a4b3592421cc89521a6dbbb962723f6"
+        }
+      }
+    }
+  ]
+}

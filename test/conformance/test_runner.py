@@ -3,7 +3,10 @@ import importlib.util
 from pathlib import Path
 import struct
 import sys
+import tempfile
+from types import SimpleNamespace
 import unittest
+from unittest import mock
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "tools"))
 import numeric_memory
@@ -86,6 +89,63 @@ class MemoryEvidenceTests(unittest.TestCase):
         actual = bytearray(expected)
         actual[28] = 1  # formatting error even though the payload still matches
         self.assertEqual(numeric_memory.compare_records(expected, actual)["failed"], 1)
+
+
+class BackendEvidenceTests(unittest.TestCase):
+    def test_unknown_route_cannot_become_host_execution(self):
+        with self.assertRaises(ValueError):
+            runner.target_source([], [], "misspelled-gpu")
+
+    def test_stdout_control_failure_does_not_hide_memory_results(self):
+        for compile_failure in (False, True):
+            with self.subTest(compile_failure=compile_failure), tempfile.TemporaryDirectory() as temporary:
+                campaign = object.__new__(runner.Campaign)
+                campaign.output = Path(temporary)
+                header = campaign.output / "source/include/ffmt/core.hpp"
+                header.parent.mkdir(parents=True)
+                header.touch()
+                campaign.args = SimpleNamespace(run_timeout=30, jit_timeout=600,
+                    compile_timeout=60, no_memory=False)
+                campaign.manifest = {"configurations": []}
+                campaign.save = mock.Mock()
+                def memory(cmd, directory, route, config):
+                    config["numeric_memory"] = {"status": "execution_failure"}
+                campaign.memory_suite = mock.Mock(side_effect=memory)
+                ok = dict(exit_code=0, stdout=b"", stderr=b"", stderr_file="diagnostic")
+                failed = dict(ok, exit_code=1)
+                processes = [ok, failed] if compile_failure else [ok, ok, failed]
+                with mock.patch.object(runner, "run", side_effect=processes), mock.patch("builtins.print"):
+                    campaign.configuration("host-buffer", 2,
+                        [dict(id="case", family="core")], [b"expected"])
+                campaign.memory_suite.assert_called_once()
+                config = campaign.manifest["configurations"][0]
+                self.assertEqual(config["cases"][0]["status"], "not_run")
+                self.assertEqual(config["numeric_memory"]["status"], "execution_failure")
+
+    def test_shared_binary_failure_is_isolated_before_case_classification(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            campaign = object.__new__(runner.Campaign)
+            campaign.output = Path(temporary)
+            campaign.args = SimpleNamespace(run_timeout=30, jit_timeout=600,
+                compile_timeout=60, no_memory=True, no_negative=True, shard_size=16)
+            campaign.manifest = {"configurations": []}
+            campaign.save = mock.Mock()
+            def process(command, directory, stem, *args):
+                result = dict(exit_code=0, stdout=b"", stderr=b"", stderr_file="diagnostic")
+                if stem == "control-run":
+                    result.update(stdout=b"control 7", stderr=b"FFMT_DEVICE host\n")
+                elif stem in ("one", "two"):
+                    if Path(command[0]).name == "cases-0-1":
+                        result["exit_code"] = 1
+                    else:
+                        result["stdout"] = stem.encode()
+                return result
+            cases = [dict(id=name, family="core", pattern=name, args=[]) for name in ("one", "two")]
+            with mock.patch.object(runner, "run", side_effect=process), mock.patch("builtins.print"):
+                campaign.configuration("host-buffer", 2, cases, [b"one", b"two"])
+            config = campaign.manifest["configurations"][0]
+            self.assertEqual([case["status"] for case in config["cases"]], ["pass", "pass"])
+            self.assertEqual(config["shard_failures"][0]["status"], "execution_failure")
 
 
 if __name__ == "__main__":

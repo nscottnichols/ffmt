@@ -37,6 +37,7 @@ def summarize(path):
             compiler_version=read_log(c, "compiler_version"),
             command_prefix=c.get("command_prefix"), control_build=c.get("control_build"),
             control_run=c.get("control_run"),
+            shard_failures=c.get("shard_failures", []),
             positive_counts=dict(Counter(x["status"] for x in cases)),
             positive_executions=sum("execution" in x and x["execution"]["exit_code"] == 0 for x in cases) if c.get("status") == "completed" else 0,
             unique_logical_cases=len({x["id"] for x in cases}),
@@ -46,6 +47,9 @@ def summarize(path):
     return dict(profile=m["profile"], label=m["label"], started=m["started"], finished=m.get("finished"),
                 source=m["source"], oracle=m["oracle"], host=m["host"], environment=m.get("environment"),
                 input_manifest=str(path.relative_to(ROOT)), input_sha256=hashlib.sha256(raw).hexdigest(),
+                corpus_sha256=m.get("corpus_sha256"), timeouts=m.get("timeouts"),
+                runner_files=m.get("runner_files"),
+                cobalt_jobid=m.get("cobalt_jobid"), discovery=m.get("discovery"),
                 configurations=configurations)
 
 
@@ -54,9 +58,11 @@ def main():
     p.add_argument("--label", required=True)
     p.add_argument("--output", required=True, help="output basename within repository")
     p.add_argument("--include-incomplete", action="store_true")
+    p.add_argument("--manifest", type=Path, action="append", help="Select exact runs instead of scanning the label")
     a = p.parse_args()
     runs = []
-    for path in sorted((ROOT / "artifacts").glob("*/" + a.label + "-*/manifest.json")):
+    for path in a.manifest or sorted((ROOT / "artifacts").glob("*/" + a.label + "-*/manifest.json")):
+        path = path.resolve()
         m = json.loads(path.read_text())
         if m.get("finished") or a.include_incomplete:
             runs.append(summarize(path))
@@ -80,7 +86,7 @@ def main():
             if not failures:
                 continue
             label = "%s / %s / O%d" % (run["profile"], c["route"], c["optimization"])
-            if c["status"] == "infrastructure_failure":
+            if c["status"] in ("infrastructure_failure", "control_compile_failure", "control_execution_failure"):
                 lines.append("- **%s:** positive control failed; no conformance claim. See control diagnostics in the JSON record." % label)
             else:
                 grouped = {}
@@ -88,6 +94,16 @@ def main():
                     grouped.setdefault(item["status"], []).append(item["id"])
                 for status, ids in grouped.items():
                     lines.append("- **%s, %s:** %s." % (label, status, ", ".join(ids)))
+    lines += ["", "## Device-memory numeric comparisons", "",
+              "Each input record combines five independently referenced formats. Counts are input records, not stdout cases.", "",
+              "| Profile | Route | Opt | Status | Exact/input records |", "|---|---|---:|---|---:|"]
+    for run in runs:
+        for c in run["configurations"]:
+            memory = c.get("numeric_memory")
+            if memory:
+                lines.append("| %s | %s | O%d | %s | %s/%s |" %
+                    (run["profile"], c["route"], c["optimization"], memory["status"],
+                     memory.get("passed", "—"), memory.get("input_cases", "—")))
     lines += ["", "The companion JSON contains compiler/device identity, source file hashes, commands, per-case outcomes, and hashes/paths for raw evidence retained under artifacts/. Code coverage and performance are measured separately.", ""]
     target.with_suffix(".md").write_text("\n".join(lines))
     print("Published %d runs to %s.{json,md}" % (len(runs), target))

@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import platform
 import shutil
+import shlex
 import socket
 import subprocess
 
@@ -40,6 +41,10 @@ def main():
         executable = shutil.which(name)
         if executable:
             evidence["commands"][name] = command([executable, "--version"])
+    evidence["selected_compilers"] = {}
+    for key in sorted(k for k in os.environ if k == "CXX" or k == "FFMT_HOST_CXX" or k.startswith("FFMT_CXX_")):
+        value = os.environ[key]
+        evidence["selected_compilers"][key] = command([*shlex.split(value), "--version"])
     for name, argv in {
         "lscpu": ["lscpu"], "lspci": ["lspci", "-nn"],
         "nvidia-smi": ["nvidia-smi"],

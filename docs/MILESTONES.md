@@ -27,7 +27,7 @@ Working fork: https://github.com/nscottnichols/ffmt. Upstream starts at
 
 PR: https://github.com/nscottnichols/ffmt/pull/1. The binary-safe runner,
 diagnostic classifier, Cobalt profiles and baseline evidence are committed.
-Fourteen harness regressions pass. Further routes and evidence are integrated
+Seventeen harness regressions pass. Further routes and evidence are integrated
 with their corresponding implementation/qualification changes.
 
 Build a binary-safe differential runner, diagnostic-aware negative tests,
@@ -52,6 +52,8 @@ existing source calls and custom formatter protocol. Add regressions and open a
 stacked implementation PR.
 
 ## M3 — expanded format families (implemented; integration in progress)
+
+PR: https://github.com/nscottnichols/ffmt/pull/3 (stacked on PR2).
 
 The family handoff includes 206 differential cases, 34,719 checked-printf
 comparisons and six C++23 cases. Forwarding mutable ranges, move-only joins,

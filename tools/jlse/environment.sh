@@ -1,6 +1,7 @@
 #!/bin/bash
 # Source this only inside an allocation. Local toolchains override shared ones.
 ffmt_system=${1:?profile required}
+ffmt_user_sycl=${FFMT_CXX_SYCL:-}
 ffmt_root=$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)
 if [ -f /etc/profile.d/modules.sh ]; then source /etc/profile.d/modules.sh; fi
 if type module >/dev/null 2>&1; then
@@ -11,7 +12,13 @@ if type module >/dev/null 2>&1; then
     module load cmake/3.28.3 || true
     case "$ffmt_system" in
       h100) module load cuda/12.9.1 || true ;;
-      mi300x) module load rocm/7.0.2 || true ;;
+      mi300x)
+        module load rocm/7.0.2 || true
+        # LLVM22+ROCm7 drops output on MI250 and faults during printf on
+        # MI300X. A matched ROCm20 compiler/runtime passes isolated probes.
+        export FFMT_CXX_OMP_HIP="${FFMT_CXX_OMP_HIP:-$ROCM_PATH/llvm/bin/clang++}"
+        export FFMT_OMP_RUNTIME_PREFIX="${FFMT_OMP_RUNTIME_PREFIX:-$ROCM_PATH/llvm}"
+        ;;
       chiatta)
         module load intel_compute_runtime/release/821.36 || true
         # The 821 runtime initializes Level Zero but exposes no UR devices to
@@ -21,8 +28,8 @@ if type module >/dev/null 2>&1; then
         if [ -d "$ffmt_oneapi/bin" ]; then
           export PATH="$ffmt_oneapi/bin:$PATH"
           export LD_LIBRARY_PATH="$ffmt_oneapi/lib:$ffmt_oneapi/opt/compiler/lib:${LD_LIBRARY_PATH:-}"
-          export FFMT_CXX_SYCL="$ffmt_oneapi/bin/icpx"
-          export FFMT_CXX_OMP_SPIRV="$ffmt_oneapi/bin/icpx"
+          export FFMT_CXX_SYCL="${ffmt_user_sycl:-$ffmt_oneapi/bin/icpx}"
+          export FFMT_CXX_OMP_SPIRV="${FFMT_CXX_OMP_SPIRV:-$ffmt_oneapi/bin/icpx}"
         fi
         export ONEAPI_DEVICE_SELECTOR=level_zero:gpu
         unset ffmt_oneapi
@@ -53,7 +60,7 @@ if type module >/dev/null 2>&1; then
   fi
 fi
 ffmt_prefix="$ffmt_root/software/$ffmt_system/install"
-for ffmt_tool in gcc llvm cuda intel-llvm adaptivecpp chipstar kokkos; do
+for ffmt_tool in gcc llvm cuda intel-llvm adaptivecpp spirv-translator chipstar kokkos; do
   if [ -d "$ffmt_prefix/$ffmt_tool/bin" ]; then export PATH="$ffmt_prefix/$ffmt_tool/bin:$PATH"; fi
   if [ -d "$ffmt_prefix/$ffmt_tool/lib" ]; then export LD_LIBRARY_PATH="$ffmt_prefix/$ffmt_tool/lib:${LD_LIBRARY_PATH:-}"; fi
   if [ -d "$ffmt_prefix/$ffmt_tool/lib64" ]; then export LD_LIBRARY_PATH="$ffmt_prefix/$ffmt_tool/lib64:${LD_LIBRARY_PATH:-}"; fi
@@ -66,8 +73,19 @@ if [ -f /usr/lib64/libstdc++.so.6 ]; then
   ln -sfn /usr/lib64/libstdc++.so.6 "$ffmt_prefix/host-runtime/lib/libstdc++.so.6"
   export LD_LIBRARY_PATH="$ffmt_prefix/host-runtime/lib:${LD_LIBRARY_PATH:-}"
 fi
-if [ -x "$ffmt_prefix/intel-llvm/bin/clang++" ]; then export FFMT_CXX_SYCL="$ffmt_prefix/intel-llvm/bin/clang++"; fi
-if [ -x "$ffmt_prefix/adaptivecpp/bin/acpp" ]; then export FFMT_CXX_ACPP="$ffmt_prefix/adaptivecpp/bin/acpp"; fi
-if [ -x "$ffmt_prefix/chipstar/bin/hipcc" ]; then export FFMT_CXX_CHIPSTAR="$ffmt_prefix/chipstar/bin/hipcc"; fi
+if [ -x "$ffmt_prefix/intel-llvm/bin/clang++" ]; then export FFMT_CXX_SYCL="${ffmt_user_sycl:-$ffmt_prefix/intel-llvm/bin/clang++}"; fi
+if [ -x "$ffmt_prefix/adaptivecpp/bin/acpp" ]; then export FFMT_CXX_ACPP="${FFMT_CXX_ACPP:-$ffmt_prefix/adaptivecpp/bin/acpp}"; fi
+if [ -x "$ffmt_prefix/chipstar/bin/hipcc" ]; then export FFMT_CXX_CHIPSTAR="${FFMT_CXX_CHIPSTAR:-$ffmt_prefix/chipstar/bin/hipcc}"; fi
+if [ -n "${FFMT_OMP_RUNTIME_PREFIX:-}" ]; then
+  export LD_LIBRARY_PATH="$FFMT_OMP_RUNTIME_PREFIX/lib:$FFMT_OMP_RUNTIME_PREFIX/lib/x86_64-unknown-linux-gnu:${LD_LIBRARY_PATH:-}"
+fi
+for ffmt_backend in serial cuda hip sycl; do
+  ffmt_export="FFMT_KOKKOS_${ffmt_backend^^}_PREFIX"
+  if [ -d "$ffmt_prefix/kokkos-$ffmt_backend" ] && [ -z "${!ffmt_export:-}" ]; then
+    printf -v "$ffmt_export" '%s' "$ffmt_prefix/kokkos-$ffmt_backend"
+    export "$ffmt_export"
+  fi
+done
+unset ffmt_backend ffmt_export ffmt_user_sycl
 export OMP_TARGET_OFFLOAD=MANDATORY LC_ALL=C GOMAXPROCS=2
 unset ffmt_tool ffmt_prefix ffmt_system ffmt_root

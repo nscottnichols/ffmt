@@ -43,11 +43,14 @@ def compare_records(expected_data, actual_data):
 
 
 def source(route, oracle=False, samples=4096):
-    cuda, hip = route in ("cuda", "nvcc"), route in ("hip", "chipstar")
-    sycl, omp = route in ("sycl", "acpp"), route.startswith("omp-")
+    kokkos = route.startswith("kokkos-") and not oracle
+    cuda, hip = route in ("cuda", "nvcc", "kokkos-cuda"), route in ("hip", "chipstar", "kokkos-hip")
+    sycl, omp = route in ("sycl", "acpp", "kokkos-sycl"), route.startswith("omp-")
     headers = "#include <cuda_runtime.h>\n" if cuda and not oracle else "#include <hip/hip_runtime.h>\n" if hip and not oracle else "#include <sycl/sycl.hpp>\n" if sycl and not oracle else "#include <omp.h>\n" if omp and not oracle else ""
     hd = "__host__ __device__" if (cuda or hip) and not oracle else ""
     text = headers + "#define HD " + hd + "\n"
+    if kokkos:
+        text += "#include <Kokkos_Core.hpp>\n"
     text += "#include <fmt/format.h>\n#define ORACLE 1\n" if oracle else "#include <ffmt/base.hpp>\n"
     text += r"""
 #include <cstdint>
@@ -98,6 +101,26 @@ void serialize(const std::vector<Input>& in,const std::vector<Output>& out){
   }
 }
 """.replace("SAMPLE_COUNT", str(samples))
+    if kokkos:
+        expected_space = {"kokkos-serial": "Serial", "kokkos-cuda": "Cuda", "kokkos-hip": "HIP", "kokkos-sycl": "SYCL"}[route]
+        return text + r'''
+#include <cstring>
+int main(int argc,char** argv){
+  Kokkos::initialize(argc,argv);
+  if(std::strcmp(Kokkos::DefaultExecutionSpace::name(),"EXPECTED_SPACE")!=0){Kokkos::finalize();return 77;}
+  std::fprintf(stderr,"FFMT_DEVICE kokkos memory space=%s\n",Kokkos::DefaultExecutionSpace::name());
+  {
+    auto in=inputs();std::vector<Output> out(in.size());unsigned n=unsigned(in.size());
+    Kokkos::View<Input*> din("input",n);Kokkos::View<Output*> dout("output",n);
+    auto hin=Kokkos::create_mirror_view(din);
+    for(unsigned i=0;i<n;++i)hin(i)=in[i];Kokkos::deep_copy(din,hin);
+    Kokkos::parallel_for("ffmt-memory",Kokkos::RangePolicy<>(0,n),KOKKOS_LAMBDA(int i){format_record(din(i),dout(i));});
+    auto hout=Kokkos::create_mirror_view_and_copy(Kokkos::HostSpace{},dout);
+    for(unsigned i=0;i<n;++i)out[i]=hout(i);serialize(in,out);
+  }
+  Kokkos::finalize();return 0;
+}
+'''.replace("EXPECTED_SPACE", expected_space)
     if oracle or not (cuda or hip or sycl or omp):
         return text + """
 int main(){
@@ -152,4 +175,3 @@ int main(){
   serialize(in,out);return 0;
 }
 """
-
