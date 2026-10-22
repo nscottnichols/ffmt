@@ -174,8 +174,9 @@ worker ownership, allocation use and reproducible validation.
 [Profiles](platforms/profiles.json) cover Rome x86_64, H100 CUDA, MI300X HIP,
 Intel Max SYCL/SPIR-V, and GH200 Arm/CUDA. Additional routes include OpenMP,
 Kokkos, AdaptiveCpp and chipStar. A configured route is not a passing result.
-The published `h100` campaign used an NVIDIA A40 fallback; the recorded actual
-device determines the hardware covered by each result.
+The final qualification's `h100` runs used an NVIDIA A40 fallback; the original
+baseline separately records H100 execution. The recorded actual device determines
+the hardware covered by each result.
 
 ```sh
 python3 tools/jlse/submit.py discovery rome h100 mi300x chiatta gh200

@@ -206,8 +206,9 @@ status APIs. Optional compiler types use an explicit unsupported status.
 
 The selected systems are Rome x86\_64, GH200 Arm/CUDA, NVIDIA A40 CUDA,
 MI300X HIP and Intel Max SYCL/SPIR-V. The H100 queue profile used an explicitly
-recorded A40 alternative because the primary queue was occupied; this campaign
-does not establish H100 execution. These are Cobalt allocations,
+recorded A40 alternative because the primary queue was occupied. The final
+qualification does not establish H100 execution; the original baseline separately
+records that device. These are Cobalt allocations,
 not login-node GPU executions. Profiles retain compiler flags, device identity,
 driver/runtime discovery, source hashes and commands. Optional toolchains and
 runtimes are installed under ignored per-system software prefixes with pinned

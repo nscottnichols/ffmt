@@ -27,8 +27,9 @@ Working fork: https://github.com/nscottnichols/ffmt. Upstream starts at
 
 PR: https://github.com/nscottnichols/ffmt/pull/1. The binary-safe runner,
 diagnostic classifier, Cobalt profiles and baseline evidence are committed.
-Twenty-four harness regressions pass, including descendant-process timeout cleanup,
-interrupted auxiliary suites and failed-build isolation evidence.
+Twenty-five harness regressions pass, including descendant-process timeout cleanup,
+interrupted auxiliary suites, failed-build isolation evidence and pinned submission
+defaults with explicit revision overrides.
 Further routes and evidence are integrated
 with their corresponding implementation/qualification changes.
 
@@ -102,6 +103,9 @@ Re-run affected configurations after fixes. Both -O0 and -O2, strict floating
 point, host sanitizers; fast-math is a separate assessment.
 
 ## M5 — measurements and working manuscript (complete)
+
+Evidence and manuscript PR: https://github.com/nscottnichols/ffmt/pull/7
+(stacked on PR6).
 
 The [compact measurements](results/benchmarks.json) contain 768 measured timing
 groups and 112 resource probes from 20 explicitly selected runs. Source proofs

@@ -4,8 +4,9 @@ The [qualification report](qualification.md) separates exact stdout agreement
 from device-memory numeric agreement and preserves failures and unsupported
 cases. Its [JSON](qualification.json) identifies the selected runs, immutable
 header snapshots, oracle, fixture hashes, commands, actual devices and raw-log
-hashes. A profile selects a queue; the `h100` profile used an **NVIDIA A40**
-fallback in this campaign. It is not evidence of H100 execution.
+hashes. A profile selects a queue; the final qualification's `h100` runs used an
+**NVIDIA A40** fallback. They do not establish final-library H100 execution.
+The original baseline separately records actual H100 CUDA execution.
 
 [Observed gaps](gaps.md) explains transport limits, the isolated OpenMP failure,
 streaming restrictions and unmeasured areas alongside the per-case outcomes.
