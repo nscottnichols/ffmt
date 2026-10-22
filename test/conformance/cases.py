@@ -1,0 +1,169 @@
+"""Versioned logical cases; C++ expressions are trusted test fixtures, never input."""
+
+
+def case(name, family, pattern, *args, **kw):
+    return dict(id=name, family=family, pattern=pattern, args=list(args), **kw)
+
+
+CASES = [
+    case("literal", "literal", "hello {{world}} %\n"),
+    case("no-newline", "transport", "no trailing newline"),
+    case("empty", "transport", ""),
+    case("nul-char", "transport", "a{}b", "char(0)"),
+    case("marker-text", "transport", "Test 1\n# skipped: not metadata\n"),
+    case("int-min", "integer", "{}", "INT64_MIN"),
+    case("uint-max", "integer", "{}", "UINT64_MAX"),
+    case("uint-d", "integer", "{:d}", "4000000000u"),
+    case("signed-hex", "integer", "{:#010x}", "-42"),
+    case("binary-max", "integer", "{:b}", "UINT64_MAX"),
+    case("zero-alt", "integer", "{:#x} {:#o} {:#b}", "0u", "0u", "0u"),
+    case("align-zero", "layout", "[{:>05}] [{:<05}]", "42", "-42"),
+    case("center-fill", "layout", "[{:*^15}]", "-42"),
+    case("repeated", "indexing", "{1} {0} {1}", "12", "34"),
+    case("dynamic-width", "dynamic", "[{0:>{1}}]", "42", "12"),
+    case("dynamic-precision", "dynamic", "{:.{}f}", "1.23456789", "4"),
+    case("bool", "bool-char", "{} {} {:d} {:c}", "true", "false", "true", "65"),
+    case("float-shortest", "float", "{}", "1.23456789"),
+    case("float-notation", "float", "{}", "1e15"),
+    case("float32", "float", "{}", "0.1f"),
+    case("float-fixed", "float", "{:+#013.5f}", "-1.23456789"),
+    case("float-round", "float", "{:.2f} {:.2f}", "1.125", "1.375"),
+    case("float-hex", "float", "{:+020.3a}", "-1.03125"),
+    case("float32-subnormal", "float", "{}", "bits<float>(uint32_t(1))"),
+    case("float64-subnormal", "float", "{}", "bits<double>(uint64_t(1))"),
+    case("float-large-fixed", "float", "{:.2f}", "1e20"),
+    case("float-special", "float", "{} {} {}", "bits<double>(uint64_t(0x8000000000000000ULL))", "bits<double>(uint64_t(0x7ff0000000000000ULL))", "bits<double>(uint64_t(0xfff8000000000001ULL))"),
+    case("ascii", "string", "[{:.3s}] [{:>10s}]", '"abcdef"', '"hello"'),
+    case("unicode-width", "unicode", "[{:>10}]", '"静夜思"'),
+    case("unicode-precision", "unicode", "[{:.3}]", '"静夜思"'),
+    case("unicode-fill", "unicode", "[{:─^9}]", '"é"'),
+    case("debug-string", "debug", "{:?}", '"a\\n\\t\\\""'),
+    case("debug-char", "debug", "{:?}", "'\\n'"),
+    case("null-pointer", "pointer", "{}", "static_cast<void*>(nullptr)"),
+    case("long-padding", "capacity", "[{:300}]", "1"),
+    case("large-precision", "capacity", "{:.180f}", "0.125"),
+    case("long-literal", "capacity", "x" * 300),
+    case("many-fields", "capacity", "{0}" * 20, "1"),
+    case("percent-capacity", "capacity", "%" * 120 + "{}", '"%%%%%%%%%%%%"'),
+    case("println-capacity", "capacity", "{:300}", "1", println=True),
+]
+
+# These are feature probes against the same fmt oracle, not fmt device code.
+CASES += [
+    case("runtime-format", "runtime", "", oracle_expr='fmt::format(fmt::runtime("{:04x}"), 42)',
+         ffmt_expr='ffmt::print(ffmt::runtime("{:04x}"), 42)', requires=["ffmt/core.hpp"]),
+    case("named-fields", "named", "", oracle_expr='fmt::format("{value:04x}", fmt::arg("value", 42))',
+         ffmt_expr='ffmt::print("{value:04x}", ffmt::arg("value", 42))', includes=["ffmt/args.hpp"], requires=["ffmt/args.hpp"]),
+    case("range-nested-spec", "range", "", oracle_expr='fmt::format("{::03}", std::array<int,3>{1,-2,33})',
+         ffmt_expr='ffmt::print("{::03}", std::array<int,3>{1,-2,33})', oracle_includes=["fmt/ranges.h", "array"],
+         includes=["ffmt/ranges.hpp", "array"], requires=["ffmt/ranges.hpp"]),
+    case("tuple", "tuple", "", oracle_expr='fmt::format("{}", std::tuple{42, true, "a"})',
+         ffmt_expr='ffmt::print("{}", std::tuple<int, bool, const char*>{42, true, "a"})', oracle_includes=["fmt/ranges.h", "tuple"],
+         includes=["ffmt/ranges.hpp", "tuple"], requires=["ffmt/ranges.hpp"]),
+    case("join", "range", "", oracle_expr='fmt::format("{:02x}", fmt::join(std::array<int,3>{1,2,33}, ","))',
+         ffmt_expr='ffmt::print("{:02x}", ffmt::join(std::array<int,3>{1,2,33}, ","))', oracle_includes=["fmt/ranges.h", "array"],
+         includes=["ffmt/ranges.hpp", "array"], requires=["ffmt/ranges.hpp"]),
+    case("optional", "std", "", oracle_expr='fmt::format("{}", std::optional<int>{42})',
+         ffmt_expr='ffmt::print("{}", std::optional<int>{42})', oracle_includes=["fmt/std.h", "optional"],
+         includes=["ffmt/std.hpp", "optional"], requires=["ffmt/std.hpp"]),
+    case("complex", "std", "", oracle_expr='fmt::format("{:.3f}", std::complex<double>{1,-2.2})',
+         ffmt_expr='ffmt::print("{:.3f}", std::complex<double>{1,-2.2})', oracle_includes=["fmt/std.h", "complex"],
+         includes=["ffmt/std.hpp", "complex"], requires=["ffmt/std.hpp"]),
+    case("chrono-duration", "chrono", "", oracle_expr='fmt::format("{:%T}", std::chrono::milliseconds{-123456})',
+         ffmt_expr='ffmt::print("{:%T}", std::chrono::milliseconds{-123456})', oracle_includes=["fmt/chrono.h", "chrono"],
+         includes=["ffmt/chrono.hpp", "chrono"], requires=["ffmt/chrono.hpp"]),
+    case("chrono-calendar", "chrono", "", oracle_expr='fmt::format("{:%G-W%V-%u}", fmt::year_month_day{fmt::year{2021},fmt::month{1},fmt::day{1}})',
+         ffmt_expr='ffmt::print("{:%G-W%V-%u}", std::chrono::year{2021}/1/1)', oracle_includes=["fmt/chrono.h", "chrono"],
+         includes=["ffmt/chrono.hpp", "chrono"], requires=["ffmt/chrono.hpp"]),
+    case("styled", "style", "", oracle_expr='fmt::format("{}", fmt::styled(42, fmt::fg(fmt::rgb(255,20,30)) | fmt::emphasis::bold))',
+         ffmt_expr='ffmt::print("{}", ffmt::styled(42, ffmt::fg(ffmt::rgb(255,20,30)) | ffmt::emphasis::bold))',
+         oracle_includes=["fmt/color.h"], includes=["ffmt/color.hpp"], requires=["ffmt/color.hpp"]),
+    case("printf-style", "printf", "", oracle_expr='fmt::sprintf("%#08x %.3f", 42u, 1.25)',
+         ffmt_expr='(void)ffmt::try_printf("%#08x %.3f", 42u, 1.25)', oracle_includes=["fmt/printf.h"],
+         includes=["ffmt/printf.hpp"], requires=["ffmt/printf.hpp"]),
+    case("wide-stdout", "wide", "", oracle_expr='wide_utf8(fmt::format(L"[{:>8}] {:.3f}", L"静夜", 1.25))',
+         ffmt_expr='ffmt::print(L"[{:>8}] {:.3f}", L"静夜", 1.25)', oracle_includes=["fmt/xchar.h", "codecvt", "locale"],
+         oracle_preamble='static std::string wide_utf8(const std::wstring& text) {std::wstring_convert<std::codecvt_utf8<wchar_t>> converter; return converter.to_bytes(text);}',
+         requires=["ffmt/core.hpp"]),
+]
+
+_PADDING_PROBE_TYPES = r"""
+struct family_padding_value {int mutations;};
+struct family_padding_range {
+  family_padding_value values[2];
+  HD family_padding_value* begin() {return values;}
+  HD family_padding_value* end() {return values + 2;}
+};
+"""
+
+_PADDING_ORACLE_PREAMBLE = _PADDING_PROBE_TYPES + r"""
+template<> struct fmt::formatter<family_padding_value> : fmt::formatter<int> {
+  template<class Context>
+  HD auto format(family_padding_value& value, Context& ctx) const -> decltype(ctx.out()) {
+    return fmt::formatter<int>::format(++value.mutations, ctx);
+  }
+};
+static std::string oracle_bounded_family_padding() {
+  family_padding_range value{{{0}, {0}}};
+  char stored[16];
+  auto result = fmt::format_to_n(stored, sizeof(stored), "{:*>20:03}", value);
+  auto written = static_cast<std::size_t>(result.out - stored);
+  return fmt::format("buffer=<{}>|mutations={},{}|written={}|required={}|error={}",
+                     std::string_view(stored, written), value.values[0].mutations,
+                     value.values[1].mutations, written, result.size, 0);
+}
+static std::string oracle_stream_left_family_padding() {
+  family_padding_range value{{{0}, {0}}};
+  auto result = fmt::format("{:*<20:03}", value);
+  return result + fmt::format("|mutations={},{}|written={}|required={}|error={}",
+                              value.values[0].mutations, value.values[1].mutations,
+                              result.size(), result.size(), 0);
+}
+"""
+
+_PADDING_TARGET_PREAMBLE = _PADDING_PROBE_TYPES + r"""
+template<> struct ffmt::formatter<family_padding_value> : ffmt::formatter<int> {
+  template<class Context>
+  HD auto format(family_padding_value& value, Context& ctx) const -> decltype(ctx.out()) {
+    return ffmt::formatter<int>::format(++value.mutations, ctx);
+  }
+};
+HD void bounded_family_padding() {
+  family_padding_range value{{{0}, {0}}};
+  char stored[16];
+  auto result = ffmt::format_to_n(stored, sizeof(stored), "{:*>20:03}", value);
+  ffmt::print("buffer=<{}>|mutations={},{}|written={}|required={}|error={}",
+              ffmt::string_view(stored, result.written), value.values[0].mutations,
+              value.values[1].mutations, result.written, result.required, int(result.error));
+}
+HD void stream_left_family_padding() {
+  family_padding_range value{{{0}, {0}}};
+  auto result = ffmt::try_print("{:*<20:03}", value);
+  ffmt::print("|mutations={},{}|written={}|required={}|error={}",
+              value.values[0].mutations, value.values[1].mutations,
+              result.written, result.required, int(result.error));
+}
+"""
+
+CASES += [
+    case("bounded-family-padding", "range", "", oracle_expr="oracle_bounded_family_padding()",
+         ffmt_expr="bounded_family_padding()", oracle_includes=["fmt/ranges.h", "string", "string_view"],
+         oracle_preamble=_PADDING_ORACLE_PREAMBLE, includes=["ffmt/ranges.hpp"],
+         preamble=_PADDING_TARGET_PREAMBLE, requires=["ffmt/ranges.hpp"]),
+    case("stream-left-family-padding", "range", "", oracle_expr="oracle_stream_left_family_padding()",
+         ffmt_expr="stream_left_family_padding()", oracle_includes=["fmt/ranges.h", "string", "string_view"],
+         oracle_preamble=_PADDING_ORACLE_PREAMBLE, includes=["ffmt/ranges.hpp"],
+         preamble=_PADDING_TARGET_PREAMBLE, requires=["ffmt/ranges.hpp"]),
+]
+
+NEGATIVE_CASES = [
+    case("unclosed", "syntax", "{"),
+    case("stray-close", "syntax", "}"),
+    case("missing-arg", "syntax", "{} {}", "1"),
+    case("mixed-indices", "syntax", "{} {0}", "1"),
+    case("integer-precision", "type", "{:.2}", "42"),
+    case("string-sign", "type", "{:+}", '"text"'),
+    case("unsigned-sign", "type", "{:+}", "1u"),
+    case("float-integer-type", "type", "{:d}", "1.0"),
+    case("float-width", "type", "{:{}}", "1", "2.0"),
+]

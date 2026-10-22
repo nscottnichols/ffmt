@@ -18,7 +18,7 @@ NOW_NS := perl -MTime::HiRes=time -e 'printf("%d\n", time() * 1e9)'
 # output (the system std::format varies: libc++ and libstdc++ disagree on
 # some corners). Point FMT_DIR at an existing checkout to skip the fetch.
 FMT_REPO ?= https://github.com/fmtlib/fmt.git
-FMT_REF  ?= 35c58f084e7cd79b51997439cff68346f4c724c0
+FMT_REF  ?= 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
 FMT_DIR  ?= third_party/fmt
 FMT_HDR  := $(FMT_DIR)/include/fmt/format.h
 # Not header-only: its implementation is compiled once into a host object
@@ -293,41 +293,18 @@ $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))
 coverage: build/cov_specifiers build/cov_buffer
 	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt/base.hpp $^
 
-# ── Negative tests (`make test-negative`) ───────────────────
-# Each .cpp in test/negative/ uses NEG_EXPECT_REJECTED(fmt, ...) and is
-# compiled THREE times, all of which must fail to compile: on each ffmt
-# path (FLAGS_specifiers, FLAGS_buffer) and with fmt::format (FLAGS_fmt;
-# {fmt} checks format strings at compile time in C++20).
-# The {fmt} build guards against "wrong" negative tests: a restriction we
-# invent that {fmt}, our output reference, would actually accept.
-# test/negative/control/accept_valid.cpp must instead compile in every
-# variant, and each test must compile with -DNEG_SYNTAX_CHECK (the format
-# call reduced to its arguments) — otherwise a broken harness or a typo in a
-# test would make it "pass".
-NEG_NAMES   := $(basename $(notdir $(wildcard test/negative/*.cpp)))
-NEG_CONTROL := test/negative/control/accept_valid.cpp
-FLAGS_fmt   := -DNEG_CHECK_FMT
+# Existing rejection corpus, with preserved diagnostics and positive/syntax controls.
+test-negative: $(FMT_HDR)
+	python3 tools/negative.py --cxx="$(CXX)" --flags="$(CXXFLAGS)"
 
-# One make target per compile, so `make -j test-negative` runs them in
-# parallel. They are never files, so they always run.
-neg-control/%: $(FMT_HDR)
-	@if $(CXX) $(CXXFLAGS) $(FLAGS_$*) -c $(NEG_CONTROL) -o /dev/null; then \
-	  echo "negative/control [$*]: PASS (valid call compiles)"; \
-	else echo "negative/control [$*]: FAIL (harness cannot compile a valid call)"; exit 1; fi
+REVISION ?= WORKTREE
+conformance: $(FMT_HDR)
+	CXX="$(CXX)" python3 tools/conformance.py --revision $(REVISION) --host-cxx "$(CXX)" --fmt-dir "$(FMT_DIR)"
 
-define NEG_template
-neg/$(1)/syntax: $(FMT_HDR)
-	@$$(CXX) $$(CXXFLAGS) -DNEG_SYNTAX_CHECK -c test/negative/$(1).cpp -o /dev/null || \
-	  { echo "negative/$(1): FAIL (the test file itself does not compile)"; exit 1; }
-neg/$(1)/%: neg/$(1)/syntax
-	@if $$(CXX) $$(CXXFLAGS) $$(FLAGS_$$*) -c test/negative/$(1).cpp -o /dev/null >/dev/null 2>&1; then \
-	  echo "negative/$(1) [$$*]: FAIL (compile unexpectedly succeeded)"; exit 1; \
-	else echo "negative/$(1) [$$*]: PASS (compile rejected)"; fi
-endef
-$(foreach n,$(NEG_NAMES),$(eval $(call NEG_template,$(n))))
+conformance-harness:
+	python3 -m unittest discover -s test/conformance -p test_runner.py
 
-test-negative: $(foreach v,specifiers buffer fmt,neg-control/$(v)) \
-               $(foreach n,$(NEG_NAMES),$(foreach v,specifiers buffer fmt,neg/$(n)/$(v)))
+.PHONY: conformance conformance-harness
 
 clean:
 	rm -rf build/

@@ -38,7 +38,7 @@ jobs:
       - name: Show toolchain
         run: ${{ matrix.cxx }} --version
       - name: Build + run host tests
-        run: make -j$(nproc) test-host
+        run: make -j$(nproc) test-host conformance-harness
       - name: Build + run host tests under -ffast-math
         run: make test-fast-math
       - name: Run negative-compile tests
@@ -65,7 +65,7 @@ jobs:
       - name: Show toolchain
         run: ${{ matrix.cxx }} --version && make --version | head -1
       - name: Build + run host tests
-        run: make -j$(getconf _NPROCESSORS_ONLN) test-host
+        run: make -j$(getconf _NPROCESSORS_ONLN) test-host conformance-harness
       - name: Build + run host tests under -ffast-math
         run: make test-fast-math
       - name: Run negative-compile tests
