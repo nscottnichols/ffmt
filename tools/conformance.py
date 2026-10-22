@@ -397,6 +397,11 @@ class Campaign:
             src.write_text(target_source(items, indices, route))
             p = run(cmd + [src] + link_flags(route) + ["-o", directory / label], directory, label + "-build", self.args.compile_timeout)
             if p["exit_code"] and len(indices) > 1:
+                config.setdefault("shard_failures", []).append(dict(
+                    stage="build", case_ids=[items[i]["id"] for i in indices],
+                    source_sha256=hashlib.sha256(src.read_bytes()).hexdigest(), build=record(p),
+                    status="compile_timeout" if p.get("timeout") else "compile_failure"))
+                self.save()
                 mid = len(indices) // 2
                 shard(indices[:mid])
                 shard(indices[mid:])
@@ -417,6 +422,7 @@ class Campaign:
                     # Preserve the failed binary evidence, then isolate every
                     # remaining case before assigning its final outcome.
                     config.setdefault("shard_failures", []).append(result)
+                    self.save()
                     remaining = indices[position:]
                     print("%s -O%s %s: isolating %s" % (route, opt, item["id"], result["status"]), flush=True)
                     if len(remaining) == 1:
