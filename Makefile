@@ -120,7 +120,7 @@ else ifdef USE_OMP_ICPX
     BACKEND_FLAGS += -DFFMT_SPIRV_O0
   endif
   OPT_LEVELS      := O0 O2
-  DEVICE_TESTS    := $(TESTS)
+  DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)
   EXAMPLES        := build/readme1_omp build/readme2_omp
   TEST_GOAL       := test-omp
 else
@@ -133,7 +133,7 @@ else
   # FFMT_SPIRV_O0 gates tests broken by an icpx-SYCL-on-SPIR64 bug at -O0:
   # a string-literal accessed through a pointer segfaults on device.
   WA_O0           := -DFFMT_SPIRV_O0
-  DEVICE_TESTS    := $(TESTS)
+  DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)
   EXAMPLES        := build/readme1_sycl build/readme2_sycl build/readme3_sycl_omp
   TEST_GOAL       := test
 endif
@@ -272,11 +272,15 @@ test-host: build/test_main_host_specifiers build/test_main_host_buffer
 
 # Focused core/family regressions, independently linked to the pinned oracle.
 # Optional compiler types return 77 when unavailable, never a conformance pass.
-FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad families families_printf
+FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad engine_fast_math families families_printf
+QUAD_TEST_FLAGS := $(if $(shell $(CXX) -dM -E -x c++ /dev/null 2>/dev/null | sed -n '/__SIZEOF_FLOAT128__/p'),-DFMT_USE_FLOAT128=1)
 FOCUSED_SOURCES := $(wildcard $(addprefix test/conformance/test_,$(addsuffix .cpp,$(FOCUSED_SUITES))))
 FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/focused_%,$(FOCUSED_SOURCES)) build/focused_engine_portable
 build/focused_%: test/conformance/test_%.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
-	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(if $(filter engine_quad,$*),-DFMT_USE_FLOAT128=1) -UNDEBUG $< $(FMT_OBJ) -o $@
+	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(if $(filter engine_quad,$*),$(QUAD_TEST_FLAGS)) -UNDEBUG $< $(FMT_OBJ) -o $@
+
+build/focused_engine_fast_math: test/conformance/test_engine_fast_math.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(FAST_MATH_CXXFLAGS) $(HOST_OPT) -UNDEBUG $< $(FMT_OBJ) -o $@
 
 build/focused_engine_portable: test/conformance/test_engine.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
 	$(CXX) $(CXXFLAGS) $(HOST_OPT) -DFFMT_PORTABLE_SHORTEST=1 -UNDEBUG $< $(FMT_OBJ) -o $@
@@ -310,11 +314,11 @@ LLVM_COV       = $(shell $(CXX) -print-prog-name=llvm-cov)
 $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))))
 
 build/cov_focused_%: test/conformance/test_%.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
-	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(COV_FLAGS) $(if $(filter engine_quad,$*),-DFMT_USE_FLOAT128=1) -UNDEBUG $< $(FMT_OBJ) -o $@
+	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(COV_FLAGS) $(if $(filter engine_quad,$*),$(QUAD_TEST_FLAGS)) -UNDEBUG $< $(FMT_OBJ) -o $@
 
 # BitInt/quad may be unavailable (exit 77), so their coverage is collected only
 # by callers that have qualified those compiler extensions.
-COV_FOCUSED_SOURCES := $(filter-out %test_engine_bitint.cpp %test_engine_quad.cpp,$(FOCUSED_SOURCES))
+COV_FOCUSED_SOURCES := $(filter-out %test_engine_bitint.cpp %test_engine_quad.cpp %test_engine_fast_math.cpp,$(FOCUSED_SOURCES))
 COV_FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/cov_focused_%,$(COV_FOCUSED_SOURCES))
 
 coverage: build/cov_specifiers build/cov_buffer $(COV_FOCUSED_BINS)
