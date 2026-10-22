@@ -247,17 +247,26 @@ RUN(PRINTLN("{}{}", FILL120, FILL120));
 #undef FILL120
 
 // ── Null char* ──────────────────────────────────────────────────────────────
-// A null const char* is undefined in std::format/{fmt}; on a GPU it is an illegal
-// access. The buffer path prints glibc's "(null)" instead of faulting.
+// Match the oracle's rejection of null strings, with recoverable device status.
 #ifdef FFMT_STD_PATH
-RUN(printf("(null)\n"));
-RUN(printf("[    (null)]\n"));
-RUN(printf("[(nu]\n"));
+#define CHECK_NULL(pattern) do {                                             \
+  bool rejected = false;                                                    \
+  try { (void)::fmt::format(::fmt::runtime(pattern), static_cast<const char*>(nullptr)); } \
+  catch (const ::fmt::format_error&) { rejected = true; }                     \
+  PRINT("{}\n", rejected);                                                  \
+} while (0)
 #else
-RUN(PRINT("{}\n", static_cast<const char*>(nullptr)));
-RUN(PRINT("[{:>10}]\n", static_cast<const char*>(nullptr)));
-RUN(PRINT("[{:.3}]\n", static_cast<const char*>(nullptr)));
+#define CHECK_NULL(pattern) do {                                             \
+  char buffer[32];                                                          \
+  auto result = ::ffmt::format_to_n(buffer, sizeof(buffer),                    \
+      ::ffmt::runtime(pattern), static_cast<const char*>(nullptr));           \
+  PRINT("{}\n", result.error != ::ffmt::format_error::none);                 \
+} while (0)
 #endif
+RUN(CHECK_NULL("{}"));
+RUN(CHECK_NULL("[{:>10}]"));
+RUN(CHECK_NULL("[{:.3}]"));
+#undef CHECK_NULL
 
 // ── escape_percent_inplace (host-only unit test) ───────────────────────────
 // The ACPP device emit escapes % → %% in place. When the escaped text no

@@ -245,16 +245,8 @@ RUN(PRINT("{:f}\n", 3.4028234663852886e38f));          // FLT_MAX
 
 
 
-// A float with no type ("{}", "{:10}", "{:#}") gets {fmt}'s shortest form on
-// the buffer path. On the specifiers path it prints like {:g}: printf has no
-// shortest conversion and Intel GPU printf supports neither `*` widths nor %s
-// on computed strings (README, Backend differences). Where the two differ the
-// specifiers path is checked against a fixed value instead of {fmt}.
-#if FFMT_BUFFER_PATH || !defined(FFMT_STD_PATH)
+// Default presentation always uses fmt's shortest form on every backend.
 #define OR_ON_SPECIFIERS(g_out, fmt_str, v) PRINT(fmt_str, v)
-#else
-#define OR_ON_SPECIFIERS(g_out, fmt_str, v) printf("%s\n", g_out)
-#endif
 RUN(OR_ON_SPECIFIERS("1.15292e+18", "{}\n", 1152921504606846976.0));
 RUN(OR_ON_SPECIFIERS("1.23457e+17", "{}\n", 123456789012345678.0));
 RUN(OR_ON_SPECIFIERS("9.22337e+18", "{}\n", 9.223372036854775807e18));
