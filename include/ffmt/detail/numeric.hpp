@@ -5,7 +5,10 @@
 #include "floating.hpp"
 
 #ifndef FFMT_PORTABLE_SHORTEST
-#if defined(__SPIR__) || defined(__SPIRV__)
+// Fast-math may fold Dragonbox's bitwise zero test into a floating comparison,
+// which treats subnormals as zero when the runtime enables DAZ. The interval
+// converter keeps classification and rounding in integer representation data.
+#if defined(__SPIR__) || defined(__SPIRV__) || defined(__FAST_MATH__)
 #define FFMT_PORTABLE_SHORTEST 1
 #else
 #define FFMT_PORTABLE_SHORTEST 0

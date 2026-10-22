@@ -17,7 +17,8 @@
 #endif
 // Host and accelerator passes each keep their own constexpr lookup data.
 // NVCC requires explicit device storage for tables indexed at runtime.
-#if defined(__CUDA_ARCH__) || defined(__HIP_DEVICE_COMPILE__)
+#if (defined(__CUDACC__) && defined(__CUDA_ARCH__)) ||                         \
+    (defined(__HIPCC__) && defined(__HIP_DEVICE_COMPILE__))
 #define FFMT_DEVICE_TABLE __device__
 #else
 #define FFMT_DEVICE_TABLE
@@ -1030,5 +1031,6 @@ template <int N> struct formatter<::sycl::nd_item<N>> {
   ::ffmt::println(fmtstr __VA_OPT__(, ) __VA_ARGS__)
 
 // Compatibility aliases used by existing custom-formatter examples.
-#define FFMT_PRINTF(fmtstr, ...) FFMT_PRINT(fmtstr __VA_OPT__(,) __VA_ARGS__)
-#define FFMT_PRINTLNF(fmtstr, ...) FFMT_PRINTLN(fmtstr __VA_OPT__(,) __VA_ARGS__)
+#define FFMT_PRINTF(fmtstr, ...) FFMT_PRINT(fmtstr __VA_OPT__(, ) __VA_ARGS__)
+#define FFMT_PRINTLNF(fmtstr, ...)                                             \
+  FFMT_PRINTLN(fmtstr __VA_OPT__(, ) __VA_ARGS__)
