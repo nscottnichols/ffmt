@@ -241,7 +241,8 @@ template <unsigned Capacity> struct precise_decimal {
   }
 };
 struct shortest_decimal {
-  char data[40];
+  // Returned candidates are copied as complete objects, including unused digits.
+  char data[40]{};
   int size = 0, exponent = 0;
   template <unsigned C>
   FMT_HD shortest_decimal(const precise_decimal<C> &value, int keep, bool up)
