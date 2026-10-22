@@ -100,6 +100,7 @@ Include the headers for additional families explicitly:
 | `ffmt/std23.hpp` | Optional C++23 expected/unexpected |
 | `ffmt/color.hpp` | Explicit ANSI color, RGB and emphasis with `ffmt::styled` |
 | `ffmt/enum.hpp` | Enum underlying-value helpers |
+| `ffmt/printf.hpp` | Typed, runtime-checked percent formatting |
 
 For example, including `ffmt/ranges.hpp` allows
 `FFMT_PRINTLN("{:n}", std::array{1, 2, 3})` to print `1, 2, 3`.
@@ -111,6 +112,10 @@ alignment requires replayable built-in values and forward ranges. Unknown custom
 formatters and consuming ranges return `unsupported_type` for that combination.
 The library does not implement host filesystem, stream, locale/timezone-database,
 RTTI, thread-ID or exception-traversal services.
+
+Checked percent formatting uses `ffmt::printf_to_n`, `ffmt::printf_to` and
+`ffmt::try_printf`, with the same result contract as brace formatting. Dynamic
+width/precision and positional arguments are supported; `%n` is rejected.
 
 ## Build and test
 
