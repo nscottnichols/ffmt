@@ -227,9 +227,18 @@ public:
   using iterator = const Char *;
   FMT_HD constexpr explicit basic_format_parse_context(
       basic_string_view<Char> str, detail::index_state *state = nullptr)
-      : begin_(str.data()),
-        end_(str.data() ? str.data() + str.size() : str.data()),
-        state_(state ? state : &local_) {}
+      : begin_(str.data()), end_(str.data()), state_(state ? state : &local_) {
+    if (str.empty())
+      return;
+    // GCC ASan rejects a constant-evaluated null comparison of a template
+    // parameter object's data. Literal storage is valid by construction;
+    // preserve the checked runtime path without comparing that address.
+    if (!std::is_constant_evaluated() && !begin_) {
+      on_error(format_error::invalid_format);
+      return;
+    }
+    end_ += str.size();
+  }
   FMT_HD constexpr iterator begin() const { return begin_; }
   FMT_HD constexpr iterator end() const { return end_; }
   FMT_HD constexpr void advance_to(iterator p) { begin_ = p; }
@@ -782,7 +791,13 @@ FMT_HD constexpr format_error walk_format(basic_string_view<Char> text,
   if constexpr (requires { handle.initialize(state); })
     handle.initialize(state);
   auto p = text.data();
-  auto end = p ? p + text.size() : p;
+  if (text.empty())
+    return format_error::none;
+  // Avoid testing a template parameter object's address during literal
+  // validation, while rejecting invalid runtime counted views before use.
+  if (!std::is_constant_evaluated() && !p)
+    return format_error::invalid_format;
+  auto end = p + text.size();
   while (p != end) {
     if (*p != Char('{') && *p != Char('}')) {
       handle.literal(*p++);
