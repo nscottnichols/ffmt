@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "fmt_commit": "0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f",
+  "baseline_commit": "3fe258a87675c997667c899c2b0f0cad405aad5a",
+  "profiles": {
+    "rome": {"queue": "rome_7742", "architecture": "x86_64", "routes": ["host-buffer", "host-specifiers"]},
+    "h100": {"queue": "gpu_h100", "architecture": "x86_64", "routes": ["cuda", "nvcc", "omp-cuda"]},
+    "mi300x": {"queue": "gpu_amd_mi300x", "architecture": "x86_64", "routes": ["hip", "omp-hip"]},
+    "chiatta": {"queue": "chiatta", "architecture": "x86_64", "routes": ["sycl", "omp-spirv"]},
+    "gh200": {"queue": "gpu_gh200", "architecture": "aarch64", "routes": ["host-buffer", "host-specifiers", "cuda", "nvcc"]},
+    "local": {"queue": null, "architecture": null, "routes": ["host-buffer", "host-specifiers"]}
+  }
+}

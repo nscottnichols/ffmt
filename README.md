@@ -287,6 +287,11 @@ clang++ -x cuda --cuda-gpu-arch=sm_80 -std=c++20 my_kernel.cu -lcudart -o my_ker
 
 ## Tests
 
+The independent byte-level qualification runner, pinned reference, per-system
+software directories, and JLSE submission commands are documented in
+[Reproduce conformance evidence](docs/CONFORMANCE.md). Measured baseline gaps
+are recorded in [the qualification report](docs/results/baseline.md).
+
 ```bash
 make test                                  # SYCL backend (default: icpx)
 make test USE_ACPP=1                       # AdaptiveCpp backend

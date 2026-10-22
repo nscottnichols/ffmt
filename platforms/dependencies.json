@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "sources": {
+    "adaptivecpp": {"repository": "https://github.com/AdaptiveCpp/AdaptiveCpp.git", "tag": "v25.10.0", "commit": "9f842c701a599107cc6d117d3539f971036363a1"},
+    "kokkos": {"repository": "https://github.com/kokkos/kokkos.git", "tag": "5.2.2", "commit": "8e15454876298832f013ebcaf08d53825b5bda40"},
+    "chipstar": {"repository": "https://github.com/CHIP-SPV/chipStar.git", "tag": "v1.3.0", "commit": "ed3bc0cbeff0499a175a1d8e3172e2349ab1cde8"}
+  },
+  "archives": {
+    "intel-llvm": {"version": "v7.2.0", "architecture": "x86_64", "url": "https://github.com/intel/llvm/releases/download/v7.2.0/sycl_linux.tar.gz", "sha256": "385586a25e75ac727883f0be5e442dec0ee81b3c20f9a29037a79921ad2f1728"},
+    "llvm20": {"version": "20.1.8", "architecture": "x86_64", "install_name": "llvm20", "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.8/LLVM-20.1.8-Linux-X64.tar.xz", "sha256": "1ead36b3dfcb774b57be530df42bec70ab2d239fbce9889447c7a29a4ddc1ae6"}
+  }
+}
