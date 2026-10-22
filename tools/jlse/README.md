@@ -19,6 +19,12 @@ The oracle and host routes default to `CXX` when they have no separate override.
 
 Examples:
 
+`baseline` defaults to the immutable baseline pin. Other actions default to the
+current HEAD commit, resolved before submission so queued jobs retain that
+revision. An explicit `--revision` takes precedence; use `WORKTREE` for a live
+development snapshot. Direct `job.sh` calls without a third argument resolve
+HEAD at job start, except for the pinned baseline action.
+
 ```bash
 python3 tools/jlse/submit.py baseline h100 --minutes 120
 python3 tools/jlse/submit.py head mi300x --revision WORKTREE --extra --route hip --opt 2

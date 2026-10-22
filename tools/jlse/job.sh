@@ -12,10 +12,17 @@ os.execve("/bin/bash",["/bin/bash"]+sys.argv[2:],environment)' "$FFMT_JOB_ENV_FI
 fi
 profile=${1:?system profile required}
 stage=${2:-baseline}
-revision=${3:-3fe258a87675c997667c899c2b0f0cad405aad5a}
+revision=${3:-}
 shift "$(( $# >= 3 ? 3 : $# ))"
 root=$(cd "$(dirname "$0")/../.." && pwd)
 cd "$root"
+if [ -z "$revision" ]; then
+  if [ "$stage" = baseline ]; then
+    revision=3fe258a87675c997667c899c2b0f0cad405aad5a
+  else
+    revision=$(git rev-parse --verify 'HEAD^{commit}')
+  fi
+fi
 mkdir -p "software/$profile/"{downloads,src,build,install} "artifacts/$profile"
 exec > >(tee -a "artifacts/$profile/job-${COBALT_JOBID:-manual}.log") 2>&1
 printf 'profile=%s stage=%s revision=%s\n' "$profile" "$stage" "$revision"
