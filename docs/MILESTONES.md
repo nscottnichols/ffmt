@@ -40,7 +40,7 @@ small PR in the fork.
 
 PR: https://github.com/nscottnichols/ffmt/pull/2 (stacked on PR1).
 
-Core regressions: 57,361 comparisons; portable shortest conversion, native
+Core regressions: 57,365 comparisons; portable shortest conversion, native
 extended precision, BitInt, binary128, bounded canaries, wide output, and
 legacy/custom formatter protocols have focused tests. Host strict warnings and
 ASan/UBSan pass on captured source snapshots. Device evidence is tracked in M4.
@@ -55,9 +55,11 @@ stacked implementation PR.
 
 PR: https://github.com/nscottnichols/ffmt/pull/3 (stacked on PR2).
 
-The family handoff includes 206 differential cases, 34,719 checked-printf
-comparisons and six C++23 cases. Forwarding mutable ranges, move-only joins,
-and noncontiguous registered string ranges are active followup work.
+The family handoff includes 218 differential cases, 1,625 range/bounded
+comparisons, 34,719 checked-printf comparisons and six C++23 cases. Mutable
+ranges, move-only joins and noncontiguous registered string ranges are
+implemented. Pointer padding is single-pass; irreversible right/center streams
+explicitly reject nonreplayable bodies.
 
 Extend named arguments, debug formatting, ranges/tuples/join, locale-independent
 chrono/calendar values, device-callable standard types, numeric representations,
@@ -67,9 +69,11 @@ type restrictions. Keep changes in focused stacked PRs.
 
 ## M4 — representative JLSE qualification (in progress)
 
+PR: https://github.com/nscottnichols/ffmt/pull/4 (tooling, stacked on PR3).
+
 Native CUDA and HIP have passed the 40-case core stdout corpus and 8,216
 device-memory numeric records at both optimization levels on captured snapshots.
-The expanded 52-case corpus and final committed snapshots still require runs.
+The expanded 54-case corpus and final committed snapshots still require runs.
 Intel cold JIT, transport NUL limitations, OpenMP numeric execution failures,
 and AdaptiveCpp/chipStar dependency builds remain under investigation.
 

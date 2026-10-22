@@ -33,19 +33,9 @@ static void check(long double value) {
     ++checks;
   }
 }
-int main() {
-  for (long double value :
-       {0.L, -0.L, 1.L, 0.1L, 1.234567890123456789L, 1.9999999999999999999L,
-        0x1.23456789abcdefp-100L, 0.5L, 1.5L, 2.5L,
-        std::numeric_limits<long double>::min(),
-        std::numeric_limits<long double>::denorm_min(),
-        std::numeric_limits<long double>::max(),
-        std::numeric_limits<long double>::infinity(),
-        -std::numeric_limits<long double>::infinity(),
-        std::numeric_limits<long double>::quiet_NaN()})
-    check(value);
-  if constexpr (std::numeric_limits<long double>::digits == 64 &&
-                sizeof(long double) == 16) {
+template <typename LongDouble> static void check_raw() {
+  if constexpr (std::numeric_limits<LongDouble>::digits == 64 &&
+                sizeof(LongDouble) == 16) {
     struct raw80 {
       std::uint64_t significand;
       std::uint16_t exponent;
@@ -61,14 +51,14 @@ int main() {
                             : state & 0x7fffffffffffffffull,
                         std::uint16_t(exp | ((state & 1) ? 0x8000 : 0)),
                         {}};
-      check(__builtin_bit_cast(long double, bits));
+      check(__builtin_bit_cast(LongDouble, bits));
     }
     for (std::uint64_t m : {1ull, 0x7fffffffffffffffull, 0x7000000000000000ull,
                             0x4000000000000000ull})
-      check(__builtin_bit_cast(long double, raw80{m, 0, {}}));
+      check(__builtin_bit_cast(LongDouble, raw80{m, 0, {}}));
   }
-  if constexpr (std::numeric_limits<long double>::digits == 113 &&
-                sizeof(long double) == 16) {
+  if constexpr (std::numeric_limits<LongDouble>::digits == 113 &&
+                sizeof(LongDouble) == 16) {
     struct raw128 {
       std::uint64_t lo, hi;
     };
@@ -84,13 +74,26 @@ int main() {
       auto high = state;
       if ((high & 0x7fff000000000000ull) == 0x7fff000000000000ull)
         high ^= 1ull << 48;
-      check(__builtin_bit_cast(long double, raw128{low, high}));
+      check(__builtin_bit_cast(LongDouble, raw128{low, high}));
     }
     for (raw128 raw :
          {raw128{1, 0}, raw128{0xffffffffffffffffull, 0x0000ffffffffffffull},
           raw128{0, 0x0000800000000000ull}, raw128{0, 0x0000400000000000ull}})
-      check(__builtin_bit_cast(long double, raw));
+      check(__builtin_bit_cast(LongDouble, raw));
   }
+}
+int main() {
+  for (long double value :
+       {0.L, -0.L, 1.L, 0.1L, 1.234567890123456789L, 1.9999999999999999999L,
+        0x1.23456789abcdefp-100L, 0.5L, 1.5L, 2.5L,
+        std::numeric_limits<long double>::min(),
+        std::numeric_limits<long double>::denorm_min(),
+        std::numeric_limits<long double>::max(),
+        std::numeric_limits<long double>::infinity(),
+        -std::numeric_limits<long double>::infinity(),
+        std::numeric_limits<long double>::quiet_NaN()})
+    check(value);
+  check_raw<long double>();
   char out[8];
   auto large = ffmt::format_to_n(out, sizeof out, "{:.20000f}", 0.125L);
   assert(large && large.required == 20002);

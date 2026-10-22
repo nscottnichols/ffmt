@@ -206,88 +206,90 @@ template <typename Char> struct stdout_sink {
 
 namespace ffmt {
 template <typename Char, typename... Args>
-FMT_HD auto try_print(runtime_format_string<Char> pattern, const Args &...args)
+FMT_HD auto try_print(runtime_format_string<Char> pattern, Args &&...args)
     -> format_result {
   detail::stdout_sink<Char> sink;
-  detail::run_format(sink, pattern.str, args...);
+  detail::run_format(sink, pattern.str, static_cast<Args &&>(args)...);
   sink.finish();
   return {sink.written, sink.required, sink.error};
 }
 template <typename Char, typename... Args>
-FMT_HD auto try_println(runtime_format_string<Char> pattern,
-                        const Args &...args) -> format_result {
+FMT_HD auto try_println(runtime_format_string<Char> pattern, Args &&...args)
+    -> format_result {
   detail::stdout_sink<Char> sink;
-  detail::run_format(sink, pattern.str, args...);
+  detail::run_format(sink, pattern.str, static_cast<Args &&>(args)...);
   if (sink.error == format_error::none)
     sink.push(Char('\n'));
   sink.finish();
   return {sink.written, sink.required, sink.error};
 }
 template <typename... Args>
-FMT_HD auto try_print(format_string<Args...> pattern, const Args &...args)
+FMT_HD auto try_print(format_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return try_print(runtime(pattern.str), args...);
+  return try_print(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD auto try_print(wformat_string<Args...> pattern, const Args &...args)
+FMT_HD auto try_print(wformat_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return try_print(runtime(pattern.str), args...);
+  return try_print(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD auto try_println(format_string<Args...> pattern, const Args &...args)
+FMT_HD auto try_println(format_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return try_println(runtime(pattern.str), args...);
+  return try_println(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD auto try_println(wformat_string<Args...> pattern, const Args &...args)
+FMT_HD auto try_println(wformat_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return try_println(runtime(pattern.str), args...);
+  return try_println(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename Char, typename... Args>
-FMT_HD void print(runtime_format_string<Char> pattern, const Args &...args) {
-  (void)try_print(pattern, args...);
+FMT_HD void print(runtime_format_string<Char> pattern, Args &&...args) {
+  (void)try_print(pattern, static_cast<Args &&>(args)...);
 }
 template <typename Char, typename... Args>
-FMT_HD void println(runtime_format_string<Char> pattern, const Args &...args) {
-  (void)try_println(pattern, args...);
+FMT_HD void println(runtime_format_string<Char> pattern, Args &&...args) {
+  (void)try_println(pattern, static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD void print(format_string<Args...> pattern, const Args &...args) {
-  (void)try_print(pattern, args...);
+FMT_HD void print(format_string<Args...> pattern, Args &&...args) {
+  (void)try_print(pattern, static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD void print(wformat_string<Args...> pattern, const Args &...args) {
-  (void)try_print(pattern, args...);
+FMT_HD void print(wformat_string<Args...> pattern, Args &&...args) {
+  (void)try_print(pattern, static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD void println(format_string<Args...> pattern, const Args &...args) {
-  (void)try_println(pattern, args...);
+FMT_HD void println(format_string<Args...> pattern, Args &&...args) {
+  (void)try_println(pattern, static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD void println(wformat_string<Args...> pattern, const Args &...args) {
-  (void)try_println(pattern, args...);
+FMT_HD void println(wformat_string<Args...> pattern, Args &&...args) {
+  (void)try_println(pattern, static_cast<Args &&>(args)...);
 }
 template <detail::fixed_string Fmt, typename... Args>
-FMT_HD auto try_print(const Args &...args) -> format_result {
+FMT_HD auto try_print(Args &&...args) -> format_result {
   using Char = std::remove_cvref_t<decltype(Fmt.data[0])>;
   detail::validate_literal<Char, Args...>({Fmt.data, detail::flen(Fmt)});
   return try_print(
-      runtime(basic_string_view<Char>{Fmt.data, detail::flen(Fmt)}), args...);
+      runtime(basic_string_view<Char>{Fmt.data, detail::flen(Fmt)}),
+      static_cast<Args &&>(args)...);
 }
 template <detail::fixed_string Fmt, typename... Args>
-FMT_HD auto try_println(const Args &...args) -> format_result {
+FMT_HD auto try_println(Args &&...args) -> format_result {
   using Char = std::remove_cvref_t<decltype(Fmt.data[0])>;
   detail::validate_literal<Char, Args...>({Fmt.data, detail::flen(Fmt)});
   return try_println(
-      runtime(basic_string_view<Char>{Fmt.data, detail::flen(Fmt)}), args...);
+      runtime(basic_string_view<Char>{Fmt.data, detail::flen(Fmt)}),
+      static_cast<Args &&>(args)...);
 }
 template <detail::fixed_string Fmt, typename... Args>
-FMT_HD void print(const Args &...args) {
-  (void)try_print<Fmt>(args...);
+FMT_HD void print(Args &&...args) {
+  (void)try_print<Fmt>(static_cast<Args &&>(args)...);
 }
 template <detail::fixed_string Fmt, typename... Args>
-FMT_HD void println(const Args &...args) {
-  (void)try_println<Fmt>(args...);
+FMT_HD void println(Args &&...args) {
+  (void)try_println<Fmt>(static_cast<Args &&>(args)...);
 }
 } // namespace ffmt
 #undef FFMT_DETAIL_PRINTF

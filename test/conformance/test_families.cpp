@@ -284,6 +284,12 @@ int main() {
   tm.tm_hour = 23; tm.tm_min = 4; tm.tm_sec = 5; tm.tm_yday = 59; tm.tm_wday = 4;
   check("{:*>40%F %T %a %B %j %G-W%V}", tm);
   check("{:%EY %Oy %Om %Od %_H %-M %S %c %x %X %r}", tm);
+  for (auto pattern : {"{:%F|%D|%x|%R|%T|%X|%r|%c}", "{:%_F|%_D|%_x|%_R|%_T|%_X|%_r|%_c}",
+                       "{:%-F|%-D|%-x|%-R|%-T|%-X|%-r|%-c}", "{:%Ec|%Ex|%EX}"}) {
+    check(pattern, tm);
+    check(pattern, std::chrono::sys_time<std::chrono::milliseconds>{std::chrono::milliseconds{-1234}});
+    check(pattern, std::chrono::sys_time<std::chrono::duration<double>>{std::chrono::duration<double>{1.125}});
+  }
   check_wide(L"{}", std::array<int, 3>{1, 2, 3});
   check_wide(L"{}", std::tuple{42, L"a\nb"});
   check_wide(L"{}", std::chrono::microseconds{123});

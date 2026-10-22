@@ -84,6 +84,7 @@ FMT_HD void write_string(Context &ctx, basic_string_view<Char> value,
         columns = used;
       return;
     }
+    bool truncated = false;
     for (std::size_t i = 0; i < value.size();) {
       std::uint32_t cp = static_cast<std::make_unsigned_t<Char>>(value[i]);
       unsigned n = 1;
@@ -94,8 +95,10 @@ FMT_HD void write_string(Context &ctx, basic_string_view<Char> value,
       }
       if (debug) {
         auto piece = escaped_piece(cp, value.data() + i, n, character);
-        if (!emit_piece(piece.data, piece.size, piece.columns))
+        if (!emit_piece(piece.data, piece.size, piece.columns)) {
+          truncated = true;
           break;
+        }
       } else {
         std::size_t width = sizeof(Char) == 1 ? display_width_of(cp) : 1;
         if (!emit_piece(value.data() + i, n, width))
@@ -103,7 +106,7 @@ FMT_HD void write_string(Context &ctx, basic_string_view<Char> value,
       }
       i += n;
     }
-    if (debug && used < limit)
+    if (debug && !truncated && used < limit)
       emit_piece(&quote, 1, 1);
     if (measuring)
       columns = used;

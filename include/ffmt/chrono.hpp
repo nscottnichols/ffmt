@@ -112,8 +112,8 @@ FMT_HD constexpr int family_iso_weeks(std::int64_t year) {
 }
 
 template <typename Context>
-FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar& c, char token,
-                                           char pad = '0', bool alt = false) {
+FMT_HD constexpr void family_calendar_atom(Context& ctx, const family_calendar& c, char token,
+                                          char pad = '0', bool alt = false, bool fraction = true) {
   constexpr const char* short_days[] = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
   constexpr const char* long_days[] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
   constexpr const char* short_months[] = {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
@@ -121,7 +121,6 @@ FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar&
   using Char = typename Context::char_type;
   auto put = [&](char ch) { family_put(ctx, Char(ch)); };
   auto number = [&](auto n, int width = 2, char fill = 0) { family_chrono_number(ctx, n, width, fill ? fill : pad); };
-  auto recurse = [&](char t) { family_calendar_token(ctx, c, t); };
   switch (token) {
   case '%': put('%'); break;
   case 'n': put('\n'); break;
@@ -142,7 +141,7 @@ FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar&
   case 'M': number(c.minute); break;
   case 'S':
     number(c.second);
-    if (c.fraction_digits) { put('.'); number(c.fraction, c.fraction_digits, '0'); }
+    if (fraction && c.fraction_digits) { put('.'); number(c.fraction, c.fraction_digits, '0'); }
     break;
   case 'p': family_ascii(ctx, c.hour < 12 ? "AM" : "PM"); break;
   case 'a': case 'A':
@@ -168,14 +167,6 @@ FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar&
     else number(iso_year, 4, '0');
     break;
   }
-  case 'F': recurse('Y'); put('-'); recurse('m'); put('-'); recurse('d'); break;
-  case 'D': case 'x': recurse('m'); put('/'); recurse('d'); put('/'); recurse('y'); break;
-  case 'R': recurse('H'); put(':'); recurse('M'); break;
-  case 'T': recurse('R'); put(':'); recurse('S'); break;
-  case 'X': recurse('T'); break;
-  case 'r': recurse('I'); put(':'); recurse('M'); put(':'); number(c.second, 2, '0'); put(' '); recurse('p'); break;
-  case 'c':
-    recurse('a'); put(' '); recurse('b'); put(' '); recurse('e'); put(' '); recurse('T'); put(' '); number(c.year, 4, ' '); break;
   case 'z': {
     auto offset = c.utc_offset;
     put(offset < 0 ? '-' : '+');
@@ -184,6 +175,29 @@ FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar&
   }
   case 'Z': if (c.zone) family_ascii(ctx, c.zone); break;
   default: ctx.on_error(format_error::invalid_format); break;
+  }
+}
+
+// Composite C-locale directives expand once into primitive directives. Keeping
+// this call graph acyclic is required by SPIR-V and avoids recursive GPU frames.
+template <typename Context>
+FMT_HD constexpr void family_calendar_token(Context& ctx, const family_calendar& c, char token,
+                                           char pad = '0', bool alt = false) {
+  const char* expansion = nullptr;
+  switch (token) {
+  case 'F': expansion = "%Y-%m-%d"; break;
+  case 'D': case 'x': expansion = "%m/%d/%y"; break;
+  case 'R': expansion = "%H:%M"; break;
+  case 'T': case 'X': expansion = "%H:%M:%S"; break;
+  case 'r': expansion = "%I:%M:%S %p"; break;
+  case 'c': expansion = "%a %b %e %H:%M:%S %Y"; break;
+  default: family_calendar_atom(ctx, c, token, pad, alt); return;
+  }
+  for (auto it = expansion; *it; ++it) {
+    if (*it != '%') { family_put(ctx, static_cast<typename Context::char_type>(*it)); continue; }
+    char component = *++it;
+    family_calendar_atom(ctx, c, component, token == 'c' && component == 'Y' ? ' ' : '0',
+                         false, token != 'r');
   }
 }
 
@@ -293,6 +307,8 @@ template <typename Rep, typename Period> struct family_duration_parts {
 
 namespace ffmt {
 template <typename Char> struct formatter<std::tm, Char> {
+  using ffmt_family_type = std::tm;
+  static constexpr bool ffmt_family_repeatable = true;
   detail::family_chrono_spec<Char> specs_;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return specs_.parse(ctx, false); }
   template <typename Context>
@@ -321,6 +337,8 @@ template <typename Char> struct formatter<std::tm, Char> {
 
 template <typename Rep, typename Period, typename Char>
 struct formatter<std::chrono::duration<Rep, Period>, Char> {
+  using ffmt_family_type = std::chrono::duration<Rep, Period>;
+  static constexpr bool ffmt_family_repeatable = true;
   detail::family_chrono_spec<Char> specs_;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* {
     return specs_.parse(ctx, true, std::is_floating_point_v<Rep>);
@@ -378,7 +396,7 @@ struct formatter<std::chrono::duration<Rep, Period>, Char> {
           }
         }
       };
-      auto token_writer = [&](auto&& self, char token, char pad, bool) -> void {
+      auto atom_writer = [&](char token, char pad) -> void {
         auto special = [&] {
           if constexpr (std::is_floating_point_v<Rep>)
             detail::family_ascii(bodyctx, std::isnan(value.count()) ? "nan" : "inf");
@@ -399,12 +417,7 @@ struct formatter<std::chrono::duration<Rep, Period>, Char> {
         if (token == 'n') { detail::family_ascii(bodyctx, "\n"); return; }
         if (token == 't') { detail::family_ascii(bodyctx, "\t"); return; }
         if (!parts.valid) { bodyctx.on_error(format_error::unsupported_type); return; }
-        if (!parts.finite) {
-          if (token == 'R') { self(self, 'H', pad, false); detail::family_ascii(bodyctx, ":"); self(self, 'M', pad, false); }
-          else if (token == 'T') { self(self, 'R', pad, false); detail::family_ascii(bodyctx, ":"); self(self, 'S', pad, false); }
-          else special();
-          return;
-        }
+        if (!parts.finite) { special(); return; }
         switch (token) {
         case 'H': time_number(parts.component(24, 3600), pad); break;
         case 'I': { auto hour = parts.component(12, 3600); time_number(hour ? hour : 12, pad); break; }
@@ -424,17 +437,23 @@ struct formatter<std::chrono::duration<Rep, Period>, Char> {
           }
           break;
         }
-        case 'R': self(self, 'H', '0', false); detail::family_ascii(bodyctx, ":"); self(self, 'M', '0', false); break;
-        case 'T': self(self, 'R', '0', false); detail::family_ascii(bodyctx, ":"); self(self, 'S', '0', false); break;
-        case 'r':
-          self(self, 'I', '0', false); detail::family_ascii(bodyctx, ":"); self(self, 'M', '0', false);
-          detail::family_ascii(bodyctx, ":"); detail::family_chrono_number(bodyctx, parts.component(60), 2);
-          detail::family_ascii(bodyctx, " "); self(self, 'p', '0', false); break;
         default: bodyctx.on_error(format_error::invalid_format); break;
         }
       };
       detail::family_chrono_pattern(bodyctx, specs_.pattern, [&](char token, char pad, bool alt) {
-        token_writer(token_writer, token, pad, alt);
+        (void)alt;
+        if (!parts.valid || (token != 'R' && token != 'T' && token != 'r')) {
+          atom_writer(token, pad); return;
+        }
+        if (token == 'r') {
+          if (!parts.finite) { atom_writer(token, pad); return; }
+          atom_writer('I', '0'); detail::family_ascii(bodyctx, ":"); atom_writer('M', '0');
+          detail::family_ascii(bodyctx, ":"); detail::family_chrono_number(bodyctx, parts.component(60), 2);
+          detail::family_ascii(bodyctx, " "); atom_writer('p', '0');
+          return;
+        }
+        atom_writer('H', '0'); detail::family_ascii(bodyctx, ":"); atom_writer('M', '0');
+        if (token == 'T') { detail::family_ascii(bodyctx, ":"); atom_writer('S', '0'); }
       });
     });
   }
@@ -448,6 +467,8 @@ template <typename T> concept family_calendar_type =
 }
 template <typename T, typename Char> requires detail::family_calendar_type<T>
 struct formatter<T, Char> {
+  using ffmt_family_type = T;
+  static constexpr bool ffmt_family_repeatable = true;
   formatter<std::tm, Char> underlying_;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return underlying_.parse(ctx); }
   template <typename Context>
@@ -475,6 +496,8 @@ struct formatter<T, Char> {
 template <typename Clock, typename Duration, typename Char>
   requires(std::is_same_v<Clock, std::chrono::system_clock> || std::is_same_v<Clock, std::chrono::local_t>)
 struct formatter<std::chrono::time_point<Clock, Duration>, Char> {
+  using ffmt_family_type = std::chrono::time_point<Clock, Duration>;
+  static constexpr bool ffmt_family_repeatable = true;
   formatter<std::tm, Char> underlying_;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* {
     auto end = underlying_.parse(ctx);

@@ -79,10 +79,24 @@ template <typename Char> struct family_counter {
         } else ++columns;
       }
     } else {
-      columns += display_width_of(static_cast<std::uint32_t>(c));
+      (void)c; ++columns; // Wide fmt padding measures code units.
     }
   }
   FMT_HD constexpr std::size_t size() const { return columns + seen; }
+  FMT_HD constexpr void repeat(Char c, std::size_t n) {
+    if (!n) return;
+    if constexpr (sizeof(Char) != 1) { (void)c; columns += n; }
+    else {
+      auto byte = static_cast<unsigned char>(c);
+      if (byte >= 0xc2 && byte <= 0xf4) {
+        columns += seen + n - 1; remaining = seen = 0; push(c);
+      } else {
+        // A pending sequence consumes at most three repeated continuation bytes.
+        while (remaining && n) { push(c); --n; }
+        columns += n;
+      }
+    }
+  }
 };
 
 template <typename Char> struct family_count_iterator {
@@ -98,7 +112,60 @@ template <typename Char> struct family_count_iterator {
   FMT_HD constexpr auto operator=(Char c) -> family_count_iterator& {
     counter->push(c); return *this;
   }
+  FMT_HD constexpr void repeat(Char c, std::size_t n) { counter->repeat(c, n); }
 };
+
+template <typename OutputIt, typename Char> struct family_forward_count_state {
+  OutputIt out;
+  family_counter<Char> counter;
+};
+template <typename OutputIt, typename Char> struct family_forward_count_iterator {
+  using iterator_category = std::output_iterator_tag;
+  using value_type = void;
+  using difference_type = std::ptrdiff_t;
+  using pointer = void;
+  using reference = void;
+  family_forward_count_state<OutputIt, Char>* state;
+  FMT_HD constexpr auto operator*() const -> family_forward_count_iterator { return *this; }
+  FMT_HD constexpr auto operator++() -> family_forward_count_iterator& { return *this; }
+  FMT_HD constexpr auto operator++(int) -> family_forward_count_iterator { return *this; }
+  FMT_HD constexpr auto operator=(Char c) -> family_forward_count_iterator& {
+    *state->out++ = c; state->counter.push(c); return *this;
+  }
+  FMT_HD constexpr void repeat(Char c, std::size_t n) {
+    if constexpr (requires { state->out.repeat(c, n); }) state->out.repeat(c, n);
+    else for (std::size_t i = 0; i < n; ++i) *state->out++ = c;
+    state->counter.repeat(c, n);
+  }
+  FMT_HD constexpr auto ffmt_base_out() -> OutputIt& { return state->out; }
+};
+
+template <typename OutputIt> consteval bool family_can_reorder() {
+  if constexpr (requires(OutputIt& it) { it.ffmt_padding_mark(); }) return true;
+  else if constexpr (requires(OutputIt& it) { it.ffmt_base_out(); })
+    return family_can_reorder<std::remove_cvref_t<decltype(std::declval<OutputIt&>().ffmt_base_out())>>();
+  else return false;
+}
+template <typename OutputIt>
+FMT_HD constexpr decltype(auto) family_padding_output(OutputIt& out) {
+  if constexpr (requires { out.ffmt_padding_mark(); }) return (out);
+  else return family_padding_output(out.ffmt_base_out());
+}
+
+// Unknown custom formatters can mutate referenced values even through a const
+// format method. Only our own matching formatter markers establish replay.
+template <typename T, typename Char> consteval bool family_repeatable_type() {
+  using U = std::remove_cvref_t<T>;
+  using F = formatter<U, Char>;
+  if constexpr (std::is_void_v<U>) return true;
+  else if constexpr (requires { typename F::ffmt_family_type; F::ffmt_family_repeatable; })
+    return std::is_same_v<typename F::ffmt_family_type, U> && F::ffmt_family_repeatable;
+  else if constexpr (requires { typename F::ffmt_primary_type; })
+    return std::is_same_v<typename F::ffmt_primary_type, U> && primitive<U, Char> && !has_format_as<U>;
+  else return false;
+}
+template <typename T, typename Char>
+inline constexpr bool family_repeatable = family_repeatable_type<T, Char>();
 
 template <typename Char>
 FMT_HD constexpr bool family_align(Char c) {
@@ -143,13 +210,44 @@ FMT_HD constexpr auto family_outer_specs(basic_format_parse_context<Char>& ctx,
 
 template <typename Context, typename Char, typename Body>
 FMT_HD constexpr auto family_padded(Context& ctx, basic_format_spec<Char> spec,
-                                    Body body) -> decltype(ctx.out()) {
-  if (!spec.width && spec.width_arg < 0 && spec.width_name.empty()) { body(ctx); return ctx.out(); }
-  family_counter<Char> count;
-  auto counter_ctx = ctx.rebind(family_count_iterator<Char>{&count});
-  body(counter_ctx);
-  write_padded(ctx, spec, count.size(), body);
-  return ctx.out();
+                                    Body body, bool replayable = true) -> decltype(ctx.out()) {
+  spec = resolved(ctx, spec);
+  if (ctx.error() != format_error::none) return ctx.out();
+  spec.width_arg = spec.precision_arg = -1;
+  spec.width_name = spec.precision_name = {};
+  if (!spec.width) { body(ctx); return ctx.out(); }
+  auto out = ctx.out();
+  using OutputIt = decltype(out);
+  auto once = [&] {
+    family_forward_count_state<OutputIt, Char> state{ctx.out(), {}};
+    auto counting = ctx.rebind(family_forward_count_iterator<OutputIt, Char>{&state});
+    body(counting);
+    ctx.advance_to(state.out);
+    return state.counter.size();
+  };
+  if (!spec.align || spec.align == '<') {
+    auto columns = once();
+    write_padded(ctx, spec, columns, [](auto&) {});
+    return ctx.out();
+  }
+  if constexpr (family_can_reorder<OutputIt>()) {
+    auto& output = family_padding_output(out);
+    auto mark = output.ffmt_padding_mark();
+    auto columns = once();
+    auto body_end = output.ffmt_padding_mark();
+    write_padded(ctx, spec, columns, [](auto&) {});
+    std::size_t padding = static_cast<std::size_t>(spec.width) > columns ? static_cast<std::size_t>(spec.width) - columns : 0;
+    output.ffmt_apply_padding(mark, body_end.required - mark.required,
+                              spec.align == '^' ? padding / 2 : padding, spec.fill, spec.fill_size);
+    return ctx.out();
+  } else {
+    if (!replayable) { ctx.on_error(format_error::unsupported_type); return ctx.out(); }
+    family_counter<Char> count;
+    auto counter_ctx = ctx.rebind(family_count_iterator<Char>{&count});
+    body(counter_ctx);
+    write_padded(ctx, spec, count.size(), body);
+    return ctx.out();
+  }
 }
 
 template <typename Formatter>

@@ -101,6 +101,11 @@ Include the headers for additional families explicitly:
 For example, including `ffmt/ranges.hpp` allows
 `FFMT_PRINTLN("{:n}", std::array{1, 2, 3})` to print `1, 2, 3`.
 The contained objects and their operations must also be usable on the device.
+Left-aligned family bodies render once on every destination. Bounded writable
+pointer buffers also handle right/center alignment in one pass, including an
+exact truncated prefix. On stdout or other iterators, right/center family
+alignment requires replayable built-in values and forward ranges. Unknown custom
+formatters and consuming ranges return `unsupported_type` for that combination.
 The library does not implement host filesystem, stream, locale/timezone-database,
 RTTI, thread-ID or exception-traversal services.
 
@@ -129,6 +134,7 @@ ctest --test-dir build/cmake --output-on-failure
 ```
 
 Use a C++20-capable compiler, such as GCC 13 or recent LLVM.
+NVCC qualification uses `-std=c++20 --extended-lambda --expt-relaxed-constexpr`.
 `make test-host test-focused test-negative CXX=g++` runs the historical
 compatibility, focused regression, and diagnostic-aware rejection suites.
 `make coverage CXX=clang++` reports region, line and branch-edge coverage of

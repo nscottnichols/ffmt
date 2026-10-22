@@ -90,15 +90,16 @@ struct index_state {
 };
 struct empty_args {};
 template <typename T> inline constexpr bool named_arg = false;
-template <typename T> FMT_HD constexpr decltype(auto) unwrap(const T &x) {
-  if constexpr (named_arg<T>)
+template <typename T> FMT_HD constexpr decltype(auto) unwrap(T &&x) {
+  if constexpr (named_arg<std::remove_cvref_t<T>>)
     return (x.value);
   else
-    return (x);
+    return static_cast<T &&>(x);
 }
 template <typename T>
-using unwrapped_t =
-    std::remove_cvref_t<decltype(unwrap(std::declval<const T &>()))>;
+using unwrapped_reference_t = decltype(unwrap(std::declval<T &>()));
+template <typename T>
+using unwrapped_t = std::remove_cvref_t<decltype(unwrap(std::declval<T &>()))>;
 template <typename T> inline constexpr bool extended_integer = false;
 #if defined(__SIZEOF_INT128__)
 template <> inline constexpr bool extended_integer<__int128> = true;
@@ -442,7 +443,7 @@ template <typename T> struct mapped_argument<T, true> {
 template <typename T>
 using mapped_argument_t = typename mapped_argument<T>::type;
 template <typename T>
-concept legacy_formatter = requires(const T &x) { formatter<T>::format(x); };
+concept legacy_formatter = requires(T &x) { formatter<T>::format(x); };
 
 template <typename Context, typename T, typename Char>
 FMT_HD void write_value(Context &, const T &, basic_format_spec<Char>);
@@ -502,33 +503,6 @@ template <detail::fixed_string Fmt, typename... Args> struct formatted {
   static constexpr auto format_string = Fmt;
   std::tuple<Args...> values;
 };
-namespace detail {
-template <typename T, typename Char> consteval bool formattable_type() {
-  using U = std::decay_t<T>;
-  using F = formatter<U, Char>;
-  if constexpr (legacy_formatter<U>)
-    return true;
-  else if constexpr (requires { typename F::ffmt_primary_type; }) {
-    if constexpr (std::is_same_v<typename F::ffmt_primary_type, U>) {
-      if constexpr (primitive<U, Char>)
-        return true;
-      else if constexpr (has_format_as<U>) {
-        using M = std::remove_cvref_t<decltype(mapped_value(
-            std::declval<const U &>()))>;
-        return primitive<M, Char>;
-      } else
-        return false;
-    }
-  }
-  return requires(F &f, basic_format_parse_context<Char> &pc) { f.parse(pc); };
-}
-} // namespace detail
-template <typename T, typename Char = char>
-inline constexpr bool is_formattable = detail::formattable_type<T, Char>();
-template <typename T>
-concept has_formatter = is_formattable<T>;
-template <typename T>
-concept sycl_formattable = has_formatter<T>;
 
 namespace detail {
 template <typename Tuple, typename F, std::size_t... I>
@@ -573,7 +547,7 @@ FMT_HD constexpr int named_index_impl(const Tuple &args,
                                       basic_string_view<Char> name,
                                       std::index_sequence<I...>) {
   int result = -1;
-  auto one = [&]<std::size_t N>() {
+  [[maybe_unused]] auto one = [&]<std::size_t N>() {
     const auto &arg = std::get<N>(args);
     if constexpr (named_arg<std::remove_cvref_t<decltype(arg)>>)
       if (equal_text(basic_string_view<Char>{arg.name}, name))
@@ -654,6 +628,46 @@ public:
     return basic_format_context<It, Char, ArgsTuple>{out, *error_, args_};
   }
 };
+
+namespace detail {
+template <typename T, typename Char> consteval bool formatter_invocable() {
+  using U = std::remove_cvref_t<T>;
+  using Value = std::remove_reference_t<T>;
+  if constexpr (legacy_formatter<U>)
+    return requires(Value &value) { formatter<U>::format(value); };
+  else
+    return requires(formatter<U, Char> &f,
+                    basic_format_context<Char *, Char> &ctx,
+                    Value &value) { f.format(value, ctx); };
+}
+template <typename T, typename Char> consteval bool formattable_type() {
+  using U = std::decay_t<T>;
+  using F = formatter<U, Char>;
+  if constexpr (legacy_formatter<U>)
+    return formatter_invocable<T, Char>();
+  else if constexpr (requires { typename F::ffmt_primary_type; }) {
+    if constexpr (std::is_same_v<typename F::ffmt_primary_type, U>) {
+      if constexpr (primitive<U, Char>)
+        return true;
+      else if constexpr (has_format_as<U>) {
+        using M = std::remove_cvref_t<decltype(mapped_value(
+            std::declval<const U &>()))>;
+        return primitive<M, Char>;
+      } else
+        return false;
+    }
+  }
+  return requires(F &f, basic_format_parse_context<Char> &pc) {
+    f.parse(pc);
+  } && formatter_invocable<T, Char>();
+}
+} // namespace detail
+template <typename T, typename Char = char>
+inline constexpr bool is_formattable = detail::formattable_type<T, Char>();
+template <typename T>
+concept has_formatter = is_formattable<T>;
+template <typename T>
+concept sycl_formattable = has_formatter<T>;
 
 namespace detail {
 template <typename Context>
@@ -737,12 +751,73 @@ template <typename Sink> struct sink_iterator {
   FMT_HD void repeat(typename Sink::char_type c, std::size_t n) {
     sink->repeat(c, n);
   }
+  // Family adapters can align a single-pass body in a bounded pointer buffer.
+  // These hooks are absent for transports that cannot reorder prior output.
+  FMT_HD auto ffmt_padding_mark() const
+    requires requires(Sink &s) { s.ffmt_padding_mark(); }
+  {
+    return sink->ffmt_padding_mark();
+  }
+  template <typename Mark>
+  FMT_HD void ffmt_apply_padding(Mark mark, std::size_t body_units,
+                                 std::size_t left,
+                                 const typename Sink::char_type *fill,
+                                 std::size_t fill_size) const
+    requires requires(Sink &s) {
+      s.ffmt_apply_padding(mark, body_units, left, fill, fill_size);
+    }
+  {
+    sink->ffmt_apply_padding(mark, body_units, left, fill, fill_size);
+  }
+  FMT_HD auto &ffmt_base_out() const
+    requires requires(Sink &s) {
+      s.out;
+      requires(!std::is_pointer_v<decltype(s.out)>);
+    }
+  {
+    return sink->out;
+  }
 };
 template <typename OutputIt, typename Char> struct iterator_sink {
   using char_type = Char;
   OutputIt out;
   std::size_t limit, written = 0, required = 0;
   format_error error = format_error::none;
+  struct padding_mark {
+    OutputIt out;
+    std::size_t written, required;
+  };
+  FMT_HD auto ffmt_padding_mark() const -> padding_mark
+    requires std::is_same_v<OutputIt, Char *>
+  {
+    return {out, written, required};
+  }
+  // The body and all padding have already passed through push/repeat, so
+  // counters and outer forwarding iterators are correct. Only reorder the
+  // retained prefix; output beyond the caller's bound needs no storage.
+  FMT_HD void ffmt_apply_padding(padding_mark mark, std::size_t body_units,
+                                 std::size_t left, const Char *fill,
+                                 std::size_t fill_size)
+    requires std::is_same_v<OutputIt, Char *>
+  {
+    if (error != format_error::none || !left)
+      return;
+    if (!fill_size ||
+        left > std::numeric_limits<std::size_t>::max() / fill_size) {
+      error = format_error::output_overflow;
+      return;
+    }
+    auto left_units = left * fill_size;
+    auto available = limit - mark.written;
+    auto keep = available > left_units ? available - left_units : 0;
+    if (keep > body_units)
+      keep = body_units;
+    for (std::size_t i = keep; i > 0; --i)
+      mark.out[left_units + i - 1] = mark.out[i - 1];
+    auto retained_fill = left_units < available ? left_units : available;
+    for (std::size_t i = 0; i < retained_fill; ++i)
+      mark.out[i] = fill[i % fill_size];
+  }
   FMT_HD void push(Char c) {
     if (required == std::numeric_limits<std::size_t>::max()) {
       error = format_error::output_overflow;
@@ -849,12 +924,15 @@ FMT_HD constexpr format_error walk_format(basic_string_view<Char> text,
 template <typename T, typename Char>
 FMT_HD constexpr format_error
 validate_one(basic_format_parse_context<Char> &pc) {
-  if constexpr (legacy_formatter<T>) {
+  using U = std::remove_cvref_t<T>;
+  if constexpr (!formatter_invocable<T, Char>())
+    return format_error::incompatible_type;
+  if constexpr (legacy_formatter<U>) {
     if (pc.begin() != pc.end() && *pc.begin() != Char('}'))
       return format_error::invalid_format;
     return format_error::none;
   } else {
-    formatter<T, Char> fmt;
+    formatter<U, Char> fmt;
     auto it = fmt.parse(pc);
     pc.advance_to(it);
     return pc.error();
@@ -885,8 +963,9 @@ template <typename Char, typename... Args> struct validation_handler {
     }
     format_error error = format_error::argument_out_of_range;
     int current = 0;
-    ((index == current++ ? (error = validate_one<unwrapped_t<Args>>(pc), void())
-                         : void()),
+    ((index == current++
+          ? (error = validate_one<unwrapped_reference_t<Args>>(pc), void())
+          : void()),
      ...);
     return error;
   }
@@ -923,20 +1002,23 @@ using print_string = basic_format_string<char, Args...>;
 // counting, host stdout, and accelerator stdout transports.
 namespace detail {
 template <typename Context, typename T, typename Char>
-FMT_HD void write_nested(Context &, const T &, basic_string_view<Char>,
+FMT_HD void write_nested(Context &, T &&, basic_string_view<Char>,
                          bool = false);
 template <typename Context, typename T, typename Char>
-FMT_HD void format_selected(Context &ctx, const T &value,
+FMT_HD void format_selected(Context &ctx, T &&value,
                             basic_format_parse_context<Char> &pc) {
-  if constexpr (legacy_formatter<T>) {
+  using U = std::remove_cvref_t<T>;
+  if constexpr (!formatter_invocable<T, Char>()) {
+    ctx.on_error(format_error::incompatible_type);
+  } else if constexpr (legacy_formatter<U>) {
     if (pc.begin() != pc.end() && *pc.begin() != Char('}')) {
       ctx.on_error(format_error::invalid_format);
       return;
     }
-    auto inner = formatter<T>::format(value);
+    auto inner = formatter<U>::format(value);
     constexpr auto text = decltype(inner)::format_string;
     std::apply(
-        [&](const auto &...vals) {
+        [&](auto &...vals) {
           // Convert legacy narrow literals for wide destinations without a
           // buffer.
           if constexpr (std::is_same_v<Char, char>) {
@@ -963,7 +1045,7 @@ FMT_HD void format_selected(Context &ctx, const T &value,
         },
         inner.values);
   } else {
-    formatter<T, Char> fmt;
+    formatter<U, Char> fmt;
     auto next = fmt.parse(pc);
     pc.advance_to(next);
     if (pc.error() != format_error::none) {
@@ -984,8 +1066,8 @@ template <typename T, typename Char> struct formatter_adapter<T, Char, true> {
       pc.on_error(format_error::invalid_format);
     return pc.begin();
   }
-  template <typename Context>
-  FMT_HD auto format(const T &value, Context &ctx) const ->
+  template <typename Context, typename Value>
+  FMT_HD auto format(Value &value, Context &ctx) const ->
       typename Context::iterator {
     basic_format_parse_context<Char> pc{basic_string_view<Char>{}};
     format_selected(ctx, value, pc);
@@ -1004,20 +1086,22 @@ template <typename Context, typename Tuple> struct execution_handler {
                                basic_format_parse_context<Char> &pc) {
     if (!name.empty())
       index = named_index(args, name);
-    bool found = visit_index(args, index, [&](const auto &value) {
-      format_selected(ctx, value, pc);
-    });
+    bool found = visit_index(
+        args, index, [&](auto &&value) { format_selected(ctx, value, pc); });
     return found ? ctx.error() : format_error::argument_out_of_range;
   }
 };
 template <typename Context, typename T, typename Char>
-FMT_HD void write_nested(Context &ctx, const T &value,
-                         basic_string_view<Char> specs, bool debug) {
+FMT_HD void write_nested(Context &ctx, T &&value, basic_string_view<Char> specs,
+                         bool debug) {
   basic_format_parse_context<Char> pc{specs};
-  if constexpr (legacy_formatter<T>)
+  using U = std::remove_cvref_t<T>;
+  if constexpr (!formatter_invocable<T, Char>()) {
+    ctx.on_error(format_error::incompatible_type);
+  } else if constexpr (legacy_formatter<U>)
     format_selected(ctx, value, pc);
   else {
-    formatter<T, Char> fmt;
+    formatter<U, Char> fmt;
     if constexpr (requires { fmt.set_debug_format(debug); })
       fmt.set_debug_format(debug);
     auto p = fmt.parse(pc);
@@ -1032,8 +1116,8 @@ FMT_HD void write_nested(Context &ctx, const T &value,
 }
 template <typename Sink, typename Char, typename... Args>
 FMT_HD void run_format(Sink &sink, basic_string_view<Char> text,
-                       const Args &...args) {
-  auto tuple = std::tuple<const Args &...>{args...};
+                       Args &&...args) {
+  auto tuple = std::tuple<Args &...>{args...};
   basic_format_context<sink_iterator<Sink>, Char, decltype(tuple)> ctx{
       {&sink}, sink.error, &tuple};
   execution_handler<decltype(ctx), decltype(tuple)> handler{ctx, tuple};
@@ -1044,56 +1128,59 @@ FMT_HD void run_format(Sink &sink, basic_string_view<Char> text,
 
 template <typename OutputIt, typename Char, typename... Args>
 FMT_HD auto format_to_n(OutputIt out, std::size_t size,
-                        runtime_format_string<Char> pattern,
-                        const Args &...args) -> format_to_result<OutputIt> {
+                        runtime_format_string<Char> pattern, Args &&...args)
+    -> format_to_result<OutputIt> {
   detail::iterator_sink<OutputIt, Char> sink{out, size};
-  detail::run_format(sink, pattern.str, args...);
+  detail::run_format(sink, pattern.str, static_cast<Args &&>(args)...);
   return {{sink.written, sink.required, sink.error}, sink.out};
 }
 template <typename OutputIt, typename... Args>
 FMT_HD auto format_to_n(OutputIt out, std::size_t size,
-                        format_string<Args...> pattern, const Args &...args)
+                        format_string<Args...> pattern, Args &&...args)
     -> format_to_result<OutputIt> {
-  return format_to_n(out, size, runtime(pattern.str), args...);
+  return format_to_n(out, size, runtime(pattern.str),
+                     static_cast<Args &&>(args)...);
 }
 template <typename OutputIt, typename... Args>
 FMT_HD auto format_to_n(OutputIt out, std::size_t size,
-                        wformat_string<Args...> pattern, const Args &...args)
+                        wformat_string<Args...> pattern, Args &&...args)
     -> format_to_result<OutputIt> {
-  return format_to_n(out, size, runtime(pattern.str), args...);
+  return format_to_n(out, size, runtime(pattern.str),
+                     static_cast<Args &&>(args)...);
 }
 template <typename OutputIt, typename Char, typename... Args>
 FMT_HD auto format_to(OutputIt out, runtime_format_string<Char> pattern,
-                      const Args &...args) -> format_to_result<OutputIt> {
+                      Args &&...args) -> format_to_result<OutputIt> {
   return format_to_n(out, std::numeric_limits<std::size_t>::max(), pattern,
-                     args...);
+                     static_cast<Args &&>(args)...);
 }
 template <typename OutputIt, typename... Args>
 FMT_HD auto format_to(OutputIt out, format_string<Args...> pattern,
-                      const Args &...args) -> format_to_result<OutputIt> {
-  return format_to(out, runtime(pattern.str), args...);
+                      Args &&...args) -> format_to_result<OutputIt> {
+  return format_to(out, runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename OutputIt, typename... Args>
 FMT_HD auto format_to(OutputIt out, wformat_string<Args...> pattern,
-                      const Args &...args) -> format_to_result<OutputIt> {
-  return format_to(out, runtime(pattern.str), args...);
+                      Args &&...args) -> format_to_result<OutputIt> {
+  return format_to(out, runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename Char, typename... Args>
-FMT_HD auto formatted_size(runtime_format_string<Char> pattern,
-                           const Args &...args) -> format_result {
+FMT_HD auto formatted_size(runtime_format_string<Char> pattern, Args &&...args)
+    -> format_result {
   // A null destination is safe at zero bound; no null pointer arithmetic
   // occurs.
-  return format_to_n(static_cast<Char *>(nullptr), 0, pattern, args...);
+  return format_to_n(static_cast<Char *>(nullptr), 0, pattern,
+                     static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD auto formatted_size(format_string<Args...> pattern, const Args &...args)
+FMT_HD auto formatted_size(format_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return formatted_size(runtime(pattern.str), args...);
+  return formatted_size(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 template <typename... Args>
-FMT_HD auto formatted_size(wformat_string<Args...> pattern, const Args &...args)
+FMT_HD auto formatted_size(wformat_string<Args...> pattern, Args &&...args)
     -> format_result {
-  return formatted_size(runtime(pattern.str), args...);
+  return formatted_size(runtime(pattern.str), static_cast<Args &&>(args)...);
 }
 } // namespace ffmt
 

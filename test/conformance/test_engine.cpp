@@ -84,6 +84,10 @@ int main() {
   compare("{:?}", "a\n\t\"\\\x7f");
   compare("{:?}", '\n');
   compare("{:.3?}", "a\nb");
+  compare("{:.2?}", "界");
+  compare("{:.3?}", "界");
+  compare("{:.4?}", "界");
+  compare("{:.2?}", "😀");
   compare("{}", ffmt::string_view{"x\0y", 3});
   []<std::size_t... I>(std::index_sequence<I...>) {
     compare("{0:>{139}}", int(I)...);

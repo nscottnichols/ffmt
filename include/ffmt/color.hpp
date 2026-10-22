@@ -256,6 +256,8 @@ FMT_HD constexpr void family_ansi_start(Context& ctx, text_style style) {
 
 template <typename T, typename Char> struct formatter<styled_arg<T>, Char>
     : detail::formatter_adapter<std::remove_cvref_t<T>, Char> {
+  using ffmt_family_type = styled_arg<T>;
+  static constexpr bool ffmt_family_repeatable = detail::family_repeatable<T, Char>;
   template <typename Context>
   FMT_HD constexpr auto format(const styled_arg<T>& value, Context& ctx) const -> decltype(ctx.out()) {
     detail::family_ansi_start(ctx, value.style);

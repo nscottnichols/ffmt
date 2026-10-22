@@ -35,6 +35,8 @@ struct formatter<T, Char> : formatter<bool, Char> {
 };
 
 template <typename T, typename Char> struct formatter<std::optional<T>, Char> {
+  using ffmt_family_type = std::optional<T>;
+  static constexpr bool ffmt_family_repeatable = detail::family_repeatable<T, Char>;
   detail::formatter_adapter<std::remove_cv_t<T>, Char> underlying_;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* {
     detail::family_debug(underlying_); return underlying_.parse(ctx);
@@ -49,6 +51,8 @@ template <typename T, typename Char> struct formatter<std::optional<T>, Char> {
 };
 
 template <typename Char> struct formatter<std::monostate, Char> {
+  using ffmt_family_type = std::monostate;
+  static constexpr bool ffmt_family_repeatable = true;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return ctx.begin(); }
   template <typename Context>
   FMT_HD constexpr auto format(std::monostate, Context& ctx) const -> decltype(ctx.out()) {
@@ -59,6 +63,8 @@ template <typename Char> struct formatter<std::monostate, Char> {
 template <typename... T, typename Char>
   requires((is_formattable<T, Char> && ...))
 struct formatter<std::variant<T...>, Char> {
+  using ffmt_family_type = std::variant<T...>;
+  static constexpr bool ffmt_family_repeatable = (detail::family_repeatable<T, Char> && ...);
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return ctx.begin(); }
   template <std::size_t I = 0, typename Context>
   FMT_HD constexpr void alternative(const std::variant<T...>& value, Context& ctx) const {
@@ -77,6 +83,8 @@ struct formatter<std::variant<T...>, Char> {
 };
 
 template <std::size_t N, typename Char> struct formatter<std::bitset<N>, Char> {
+  using ffmt_family_type = std::bitset<N>;
+  static constexpr bool ffmt_family_repeatable = true;
   detail::basic_format_spec<Char> specs_{}, inner_{};
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* {
     detail::family_outer_specs(ctx, specs_);
@@ -105,6 +113,8 @@ template <std::size_t N, typename Char> struct formatter<std::bitset<N>, Char> {
 
 template <typename T, typename Char> struct formatter<std::reference_wrapper<T>, Char>
     : detail::formatter_adapter<std::remove_cv_t<T>, Char> {
+  using ffmt_family_type = std::reference_wrapper<T>;
+  static constexpr bool ffmt_family_repeatable = detail::family_repeatable<T, Char>;
   template <typename Context>
   FMT_HD constexpr auto format(std::reference_wrapper<T> value, Context& ctx) const -> decltype(ctx.out()) {
     return detail::formatter_adapter<std::remove_cv_t<T>, Char>::format(value.get(), ctx);
@@ -112,6 +122,8 @@ template <typename T, typename Char> struct formatter<std::reference_wrapper<T>,
 };
 
 template <typename Char> struct formatter<std::byte, Char> : formatter<unsigned, Char> {
+  using ffmt_family_type = std::byte;
+  static constexpr bool ffmt_family_repeatable = true;
   template <typename Context>
   FMT_HD constexpr auto format(std::byte value, Context& ctx) const -> decltype(ctx.out()) {
     return formatter<unsigned, Char>::format(static_cast<unsigned>(value), ctx);
@@ -135,6 +147,8 @@ template <typename Char> struct formatter<std::atomic_flag, Char> : formatter<bo
 #endif
 
 template <typename T, typename Char> struct formatter<std::complex<T>, Char> {
+  using ffmt_family_type = std::complex<T>;
+  static constexpr bool ffmt_family_repeatable = true;
   detail::basic_format_spec<Char> specs_{};
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* {
     specs_ = detail::parse_standard_specs(ctx);
@@ -169,6 +183,8 @@ template <typename T, typename Char> struct formatter<std::complex<T>, Char> {
 };
 
 template <> struct formatter<std::source_location, char> {
+  using ffmt_family_type = std::source_location;
+  static constexpr bool ffmt_family_repeatable = true;
   FMT_HD constexpr auto parse(basic_format_parse_context<char>& ctx) -> const char* { return ctx.begin(); }
   template <typename Context>
   FMT_HD constexpr auto format(const std::source_location& value, Context& ctx) const -> decltype(ctx.out()) {

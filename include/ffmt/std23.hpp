@@ -10,6 +10,8 @@ namespace ffmt {
 template <typename T, typename E, typename Char>
   requires((std::is_void_v<T> || is_formattable<T, Char>) && is_formattable<E, Char>)
 struct formatter<std::expected<T, E>, Char> {
+  using ffmt_family_type = std::expected<T, E>;
+  static constexpr bool ffmt_family_repeatable = (std::is_void_v<T> || detail::family_repeatable<T, Char>) && detail::family_repeatable<E, Char>;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return ctx.begin(); }
   template <typename Context>
   FMT_HD constexpr auto format(const std::expected<T, E>& value, Context& ctx) const -> decltype(ctx.out()) {
@@ -24,6 +26,8 @@ struct formatter<std::expected<T, E>, Char> {
 };
 template <typename E, typename Char> requires(is_formattable<E, Char>)
 struct formatter<std::unexpected<E>, Char> {
+  using ffmt_family_type = std::unexpected<E>;
+  static constexpr bool ffmt_family_repeatable = detail::family_repeatable<E, Char>;
   FMT_HD constexpr auto parse(basic_format_parse_context<Char>& ctx) -> const Char* { return ctx.begin(); }
   template <typename Context>
   FMT_HD constexpr auto format(const std::unexpected<E>& value, Context& ctx) const -> decltype(ctx.out()) {
