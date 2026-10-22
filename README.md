@@ -1,303 +1,163 @@
-# fmt-sycl
+# ffmt
 
-- `std::print`-like formatting for SYCL device kernels.
-- Required C++20
-
-This project would not exist without [{fmt}](https://github.com/fmtlib/fmt)
-by Victor Zverovich and [Dragonbox](https://github.com/jk-jeon/dragonbox)
-by Junekey Jeon. The float formatting paths (default `{}`, `{:g}`, `{:e}`,
-`{:f}`, hex `{:a}`) are a direct port of {fmt}'s Dragonbox integration;
-the spec parser and many formatting decisions follow {fmt}'s precedent.
-The output matches `fmt::format` exactly, including where {fmt} and
-`std::format` disagree (see [Spec target](#spec-target-fmt) below).
-
-## Supported backends
-
-| Backend                  | Compiler                            | Status | Notes |
-|--------------------------|-------------------------------------|--------|-------|
-| SYCL (Intel SPIR-V)      | `icpx -fsycl`                       | ✅ | Specifiers path (printf). At `-O0` a libdpcpp string-literal bug skips a handful of `%s` tests — auto-gated via `FFMT_SPIRV_O0`. |
-| SYCL (AdaptiveCpp)       | `acpp --acpp-targets=generic`       | ✅ | Buffer path. Full `std::format` spec. |
-| OpenMP target → SPIR-V   | `icpx -fiopenmp -fopenmp-targets=spir64` | ✅ | Specifiers path (shares icpx-SYCL backend). |
-| OpenMP target → NVPTX    | `clang -fopenmp --offload-arch=sm_XX` | ✅ | Buffer path. At `-O0` ~50 NVPTX-printf codegen bugs are auto-gated via `FFMT_PTX_CLANG_O0`. Build with `OMP_OPT=-O2` for full coverage. |
-| CUDA                     | `clang++ -x cuda --cuda-gpu-arch=sm_XX` | ✅ | Buffer path. Auto-detected via `__CUDACC__`. |
-| CUDA                     | `nvcc`                              | ❌ | Fails: `libnvvm` can't emit the `print_string` consteval ctor for device code. |
-| CUDA                     | `nvc++ -cuda`                       | ❌ | nvc++'s libstdc++ wiring blocks C++20 headers. |
-
-Auto-detection is purely preprocessor — `#include <ffmt/base.hpp>` and the right emit hook installs itself based on the active compiler/backend macros.
-
-## Quick example
-
-### SYCL
-
-> Source: [`examples/readme1_sycl.cpp`](examples/readme1_sycl.cpp)
-
-```cpp
-#include <ffmt/base.hpp>
-#include <sycl/sycl.hpp>
-
-int main() {
-  sycl::queue q;
-  q.parallel_for(4, [=](sycl::id<1> i) {
-    FFMT_PRINTLN("work-item {} says {}", i, "hello");
-  }).wait();
-}
-```
-
-### OpenMP target offload
-
-> Source: [`examples/readme1_omp.cpp`](examples/readme1_omp.cpp)
+C++20 formatting for host code and accelerator kernels. Formatting uses the
+pinned [{fmt}](https://github.com/fmtlib/fmt) implementation as its semantic
+reference. Consumers include ffmt headers; fmt is needed only by the tests.
 
 ```cpp
 #include <ffmt/base.hpp>
 
-int main() {
-  #pragma omp target teams distribute parallel for num_teams(1) thread_limit(4)
-  for (int i = 0; i < 4; i++) {
-    FFMT_PRINTLN("work-item {} says {}", i, "hello");
-  }
+FFMT_PRINTLN("value = {0:+08.2f}, again = {0}", 1.25);
+```
+
+The same call can appear inside a CUDA/HIP kernel, an OpenMP target region,
+or a SYCL kernel. The backend is selected by the compiler. Launch and wait
+for kernels using the corresponding runtime; no ffmt host initialization or
+output-drain service is required. Independent calls may interleave.
+
+## Output and errors
+
+Literal formats are checked at compilation. Runtime formats report errors:
+
+```cpp
+char output[8];
+auto result = ffmt::format_to_n(output, sizeof output,
+                                ffmt::runtime("{:012x}"), 42);
+if (result) {
+  // written == 8, required == 12; output contains eight bytes.
 }
 ```
 
-### CUDA (clang)
+`format_to_n` writes at most the supplied count and does not append a NUL.
+A short destination is successful bounded formatting: `written` is the number
+stored and `required` is the complete length. `result.out` is the advanced
+iterator. `format_to` accepts an output iterator without a bound, and
+`formatted_size` returns a result whose `required` field gives the size.
 
-> Source: [`examples/readme1_cuda.cu`](examples/readme1_cuda.cu)
+`try_print` and `try_println` return the same status/count contract for stdout.
+`print`, `println`, `FFMT_PRINT`, and `FFMT_PRINTLN` discard that status.
+`FFMT_PRINTF` and `FFMT_PRINTLNF` are compatibility aliases for brace formatting.
+The template calls `ffmt::print<"{}">(value)` and
+`ffmt::println<"{}">(value)` are also supported.
 
-```cpp
-#include <ffmt/base.hpp>
+On an error, `error` identifies invalid syntax, an invalid argument/specification,
+an unsupported type, invalid Unicode, output overflow, or transport failure.
+A prefix may already have been written; `required` is meaningful only on success.
 
-__global__ void hello() {
-  FFMT_PRINTLN("work-item {} says {}", threadIdx.x, "hello");
-}
+Stdout uses bounded staging chunks, with `FFMT_BUFFER_SIZE=128` by default.
+Long output is streamed completely; the staging size is not an output limit.
+Use the same configuration macros across translation units.
+`FFMT_BUFFER_PATH=0` and `=1` remain accepted and select the shared engine.
+Staging capacity and the device runtime's output capacity are separate limits.
+Concurrent writers may interleave; runtime printf FIFO limits still apply.
 
-int main() {
-  hello<<<1, 4>>>();
-  cudaDeviceSynchronize();
-}
-```
+Wide buffer formatting preserves wide code units. Wide stdout is encoded as
+UTF-8; invalid code points or unmatched UTF-16 surrogates return an error.
+Narrow memory output preserves embedded NULs. Device stdout transport
+capabilities are qualified separately: the tested Intel SPIR-V printf runtime
+drops NUL characters, and the AdaptiveCpp SSCP device print builtin accepts
+null-terminated strings. Checked printing reports `transport_error` for chunks
+containing NUL on these routes. `FFMT_SPIRV_NUL_SUPPORTED=1` opts into a
+separately validated SPIR-V printf runtime; it does not change the SSCP
+builtin's string contract.
 
-One possible ordering of the output (same for all three):
-```
-work-item 0 says hello
-work-item 2 says hello
-work-item 1 says hello
-work-item 3 says hello
-```
+## Formatting and custom types
 
-`sycl::id` is printed by the built-in formatter (no cast needed). See
-[Custom types](#custom-types) below for the full list of supported types
-and how to add your own.
+Core formatting includes positional/repeated fields, dynamic width/precision,
+Unicode padding and debug escaping, integer bases, pointer values, decimal
+and hexadecimal floating point, signed zero, subnormals, infinities and NaNs.
+Native host extended floating types and compiler integer extensions are tested
+when available. No arbitrary format-text or placeholder-count limit is imposed.
+The conformance corpus samples fmt behavior; it is not an exhaustive guarantee.
 
-## Advanced example
-
-> Source: [`examples/readme2_sycl.cpp`](examples/readme2_sycl.cpp)
-
-```cpp
-#include <ffmt/base.hpp>
-#include <sycl/sycl.hpp>
-
-int main() {
-  sycl::queue q;
-  q.parallel_for(4, [=](sycl::id<1> i) {
-    int id = static_cast<int>(i);
-    float v = 3.14159f * (id + 1);
-    FFMT_PRINTLN("format used: 'id: {{0}}, v2dp={{1:6.2f}}, v={{1:8.5f}}' -> id: {0}, v2dp={1:6.2f}, v={1:8.5f}", id, v);
-  }).wait();
-}
-```
-
-One possible ordering of the output:
-```bash
-format used: 'id: {0}, v2dp={1:6.2f}, v={1:8.5f}' -> id: 0, v2dp=  3.14, v= 3.14159
-format used: 'id: {0}, v2dp={1:6.2f}, v={1:8.5f}' -> id: 2, v2dp=  9.42, v= 9.42477
-format used: 'id: {0}, v2dp={1:6.2f}, v={1:8.5f}' -> id: 1, v2dp=  6.28, v= 6.28318
-format used: 'id: {0}, v2dp={1:6.2f}, v={1:8.5f}' -> id: 3, v2dp= 12.57, v=12.56636
-```
-
-## API
+A custom formatter can reuse an existing formatter's parser and output:
 
 ```cpp
-ffmt::print<"format string">(args...);    // no trailing newline
-ffmt::println<"format string">(args...);  // appends \n
+struct index { int value; };
 
-// Convenience macros (avoid angle-bracket syntax)
-FFMT_PRINT("format string", args...);    // primitives only
-FFMT_PRINTLN("format string", args...);  // primitives only
-
-// Use these when at least one arg is a custom type (sycl::id, sycl::range,
-// or your own formatter<T> specialization). Also accepts plain primitives.
-FFMT_PRINTF("format string", args...);
-FFMT_PRINTLNF("format string", args...);
-```
-
-## Custom types
-
-`FFMT_PRINTF` / `FFMT_PRINTLNF` accept any type for which a
-`ffmt::formatter<T>` specialization is in scope. The library
-ships built-in formatters for the following SYCL types:
-
-| Type | Output |
-|------|--------|
-| `sycl::range<N>` (N=1,2,3) | `4`, `4x8`, `4x8x16` |
-| `sycl::id<N>` (N=1,2,3) | `(0)`, `(0, 1)`, `(0, 1, 2)` |
-| `sycl::item<N>` (N=1,2,3) | `item(global=(0, 1), range=2x3)` |
-| `sycl::nd_item<N>` (N=1,2,3) | `nd_item(global=(0, 1), local=(0, 0), range=2x3)` |
-
-### Adding your own
-
-A formatter exposes a single static `format(v)` returning a
-`formatted<Fmt, Args...>` that bundles a compile-time format string with
-the runtime values to splice in. The library recursively expands these
-until everything is a primitive, so a formatter can reference other
-formattable types.
-
-```cpp
-struct vec3 { float x, y, z; };
-
-template <>
-struct ffmt::formatter<vec3> {
-  static constexpr auto format(vec3 v) {
-    return formatted<detail::fixed_string{"({}, {}, {})"},
-                     float, float, float>{ {v.x, v.y, v.z} };
+template <> struct ffmt::formatter<index> : ffmt::formatter<int> {
+  template <typename Context>
+  FMT_HD auto format(const index& value, Context& ctx) const {
+    return ffmt::formatter<int>::format(value.value, ctx);
   }
 };
-
-// Now usable directly:
-FFMT_PRINTLNF("position = {}", vec3{1.0f, 2.0f, 3.0f});
-// → position = (1, 2, 3)
 ```
 
-### Restrictions
+Mark custom operations as device callable when the compiler requires it.
+The original static `formatter<T>::format(value)` protocol returning
+`ffmt::formatted<...>` remains supported, including the existing SYCL
+id/range/item formatters. Its outer format accepts an empty specification.
+ADL `format_as` can map a type to another formattable value.
 
-A format spec (`{:>5}`) on a custom-formatter argument is rejected at compile
-time, as {fmt} does for a formatter without a spec parser. Positional
-indices (`{1} {0}`, also inside a formatter's own string) are supported.
+Include the headers for additional families explicitly:
 
-### Floating-point: FTZ/DAZ depends on the runtime
+| Header | Surface |
+|---|---|
+| `ffmt/args.hpp` | Named arguments with `ffmt::arg` |
+| `ffmt/ranges.hpp` | Ranges, sets/maps, tuples, joins and container adapters |
+| `ffmt/chrono.hpp` | Locale-independent durations, calendar values, `tm`, system/local time points |
+| `ffmt/std.hpp` | Optional/variant, bitsets, bytes, reference wrappers, atomics, complex, source location and pointer views |
+| `ffmt/std23.hpp` | Optional C++23 expected/unexpected |
+| `ffmt/color.hpp` | Explicit ANSI color, RGB and emphasis with `ffmt::styled` |
+| `ffmt/enum.hpp` | Enum underlying-value helpers |
+| `ffmt/printf.hpp` | Typed, runtime-checked percent formatting |
 
-Printed values reflect whatever the runtime does with subnormals. Some
-toolchain CRTs enable flush-to-zero (FTZ) and denormals-as-zero (DAZ) at
-startup — notably `icpx` does whenever any TU is compiled at `-O1` or
-higher — while others (glibc + g++, and most SYCL device runtimes) leave
-subnormals intact. The library does not paper over this: a value like
-`std::numeric_limits<float>::denorm_min()` may print as `1.4013e-45` in
-one environment and `0` in another, matching the local
-`printf`/`std::format`. To get the unflushed result under `icpx`, compile
-with `-fno-fast-math` (or `-fp-model=precise`); the host test suite in
-this repo does exactly that for portability across icpx/gcc/clang.
+For example, including `ffmt/ranges.hpp` allows
+`FFMT_PRINTLN("{:n}", std::array{1, 2, 3})` to print `1, 2, 3`.
+The contained objects and their operations must also be usable on the device.
+Left-aligned family bodies render once on every destination. Bounded writable
+pointer buffers also handle right/center alignment in one pass, including an
+exact truncated prefix. On stdout or other iterators, right/center family
+alignment requires replayable built-in values and forward ranges. Unknown custom
+formatters and consuming ranges return `unsupported_type` for that combination.
+The library does not implement host filesystem, stream, locale/timezone-database,
+RTTI, thread-ID or exception-traversal services.
 
-### Backend differences
+Checked percent formatting uses `ffmt::printf_to_n`, `ffmt::printf_to` and
+`ffmt::try_printf`, with the same result contract as brace formatting. Dynamic
+width/precision and positional arguments are supported; `%n` is rejected.
 
-Two emit paths share the same front-end:
+## Build and test
 
-- **Buffer path** (plain host builds, ACPP, clang-OMP-CUDA, CUDA-clang) formats the full
-  output into a fixed-size buffer, then emits it with a single
-  `printf("%s", buf)`. Supports the full `std::format` spec.
-- **Specifiers path** (DPC++, icpx-OMP-SPIR64) translates the format
-  string into a `printf` format and lets the device runtime format
-  args directly. Atomic but limited to printf-compatible specs.
+The library is header-only. Link the CMake interface target:
 
-DPC++ rejects unsupported features at compile time:
-
-```
-error: static assertion failed:
-  This format string uses features the specifiers path (DPC++, icpx OpenMP)
-  cannot express with printf: {:b}, {:a}, {:^}, custom fill, {:x}/{:o} with
-  signed int, {:#x}, dynamic width/precision.
-```
-
-Features only available on the buffer path:
-- Binary format (`{:b}`, `{:B}`)
-- Hex float (`{:a}`, `{:A}`)
-- Center alignment (`{:^}`)
-- Custom fill characters (`{:*>10}`, or any UTF-8 code point: `{:─^10}`)
-- Signed integers with hex/oct (`{:x}` with `int`)
-- Alternate hex (`{:#x}` with signed int)
-- Dynamic width/precision (`{:{}}`, `{:.{}}`)
-- {fmt}'s shortest float form: on the specifiers path a float with no type
-  (`{}`, `{:10}`, `{:+}`) prints like `{:g}` (6 significant digits), since
-  printf has no shortest conversion and Intel GPU printf supports neither
-  `*` widths nor `%s` on computed strings. Explicit `{:g}`/`{:e}`/`{:f}`
-  match {fmt} on both paths.
-- Unicode-aware string width: the buffer path counts width and string
-  precision in display columns like {fmt} (1 per code point, 2 for East
-  Asian wide and emoji), so `{:^10}` with `"静夜思"` adds 4 fill. printf's
-  `%10s` / `%.3s` count bytes, so on the specifiers path non-ASCII string
-  arguments are under-padded (and precision can cut a code point). The
-  argument is only known at runtime, so this cannot be diagnosed at
-  compile time. ASCII strings match on both paths.
-
-### Spec target: `{fmt}`
-
-The output reference is [{fmt}](https://github.com/fmtlib/fmt): ffmt prints
-exactly what `fmt::format` prints, and the test suite diffs against a pinned
-`{fmt}` (`FMT_REF` in the Makefile, fetched into `third_party/fmt`, or point
-`FMT_DIR` at a checkout). The system `std::format` is not used as a
-reference because implementations disagree with each other and with
-`{fmt}`. Where `{fmt}` and `std::format` differ, ffmt follows `{fmt}`:
-
-| | `{fmt}` / ffmt | `std::format` |
-|---|---|---|
-| `{}` of `1e15` | `1000000000000000` (fixed while exponent < 16 for double, < 7 for float) | `1e+15` (shorter form) |
-| `{:a}` of `1.5` | `0x1.8p+0` | `1.8p+0` |
-| `{:.1a}` of `1.03125` | `0x1.1p+0` (ties round up) | `1.0p+0` (ties to even) |
-| `{:a}` of a subnormal | `0x0.0000000000001p-1022` | libc++ and libstdc++ differ |
-| `{:+}` on `5u` (any sign on an unsigned or `bool`) | compile error | `+5` (valid per the standard) |
-
-### Buffer-path size limit
-
-The buffer-path output buffer defaults to 128 characters. Output longer
-than that per `FFMT_PRINT` call is silently truncated. Override with:
-
-```cpp
-#define FFMT_BUFFER_SIZE 512
-#include <ffmt/base.hpp>
+```cmake
+add_subdirectory(ffmt)
+target_link_libraries(my_program PRIVATE ffmt::ffmt)
 ```
 
-### Buffer-path Unicode width
+Installed packages also support `find_package(ffmt CONFIG REQUIRED)`.
+To prepare and test the independent oracle:
 
-By default the buffer path counts string width and precision in display
-columns, like {fmt} (see Backend differences). That brings in a UTF-8
-decoder and a ~800-byte table of wide characters wherever a string
-argument is formatted with a spec. To drop both from device code, count
-bytes instead (as printf does, and as {fmt}'s `FMT_UNICODE=0`):
-
-```cpp
-#define FFMT_UNICODE 0
-#include <ffmt/base.hpp>
+```sh
+git clone https://github.com/fmtlib/fmt.git third_party/fmt
+git -C third_party/fmt checkout 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
+cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DCMAKE_CXX_COMPILER=g++
+cmake --build build/cmake -j2
+ctest --test-dir build/cmake --output-on-failure
 ```
 
-ASCII output is identical either way; fill characters such as `{:─^10}`
-stay UTF-8-aware.
+Use a C++20-capable compiler, such as GCC 13 or recent LLVM.
+NVCC qualification uses `-std=c++20 --extended-lambda --expt-relaxed-constexpr`.
+`make test-host test-focused test-negative CXX=g++` runs the historical
+compatibility, focused regression, and diagnostic-aware rejection suites.
+`make coverage CXX=clang++` reports region, line and branch-edge coverage of
+instrumented headers. Uninstantiated templates and device-only bodies are
+outside that coverage denominator. Optional C++23 tests use
+`-DFFMT_BUILD_CXX23_TESTS=ON` or `make test-cxx23`.
 
-## Build
+See [the conformance guide](docs/CONFORMANCE.md) for exact-byte comparisons,
+negative-format checks, the seeded numeric corpus and portable benchmark
+primitives. [Backend documentation](docs/BACKENDS.md) describes compiler
+selection, transport contracts and device-callability constraints.
 
-```bash
-# DPC++ (Intel)
-icpx -fsycl -std=c++20 my_kernel.cpp -o my_kernel
+System-specific campaigns, provisioning, scheduler integration, captured results
+and the manuscript live in the companion
+[ffmt-evaluation](https://github.com/nscottnichols/ffmt-evaluation) repository.
+They are not needed to build, install or test this library. That repository
+retains the original qualified source revisions and documents their mapping to
+the separated library history.
 
-# AdaptiveCpp (generic/SSCP backend)
-acpp --acpp-targets=generic -std=c++20 my_kernel.cpp -o my_kernel
-
-# OpenMP target offload (clang → NVPTX)
-clang++ -fopenmp --offload-arch=sm_80 -std=c++20 my_kernel.cpp -o my_kernel
-
-# CUDA (clang)
-clang++ -x cuda --cuda-gpu-arch=sm_80 -std=c++20 my_kernel.cu -lcudart -o my_kernel
-```
-
-## Tests
-
-```bash
-make test                                  # SYCL backend (default: icpx)
-make test USE_ACPP=1                       # AdaptiveCpp backend
-CXX=clang++ make test-omp USE_OMP_CLANG=1  # clang-OMP-CUDA, -O0 default
-CXX=clang++ make test-omp USE_OMP_CLANG=1 OMP_OPT=-O2  # full coverage
-make test-omp USE_OMP_ICPX=1               # icpx-OMP-SPIR64
-make test-host                             # host-only (libc printf, no device)
-make coverage                              # base.hpp region coverage, both paths (as CI)
-```
-
-Output is TAP-style: each test gets one line of `ok N - file`,
-`not ok N - file`, or `skipped N - file # reason`. Skip reasons identify
-a known compiler bug — see the catalog at the top of
-[`test/capture.hpp`](test/capture.hpp).
+ffmt incorporates numerical conversion and Unicode material derived from fmt
+and Dragonbox. See [NOTICE](NOTICE) and [LICENSES](LICENSES) for attribution
+and the licenses of those components.

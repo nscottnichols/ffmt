@@ -1,0 +1,21 @@
+ffmt working fork
+
+This fork retains the original TApplencourt/ffmt source and attribution:
+https://github.com/TApplencourt/ffmt
+
+Parts of the numeric conversion and Unicode tables were adapted from {fmt},
+Copyright (c) 2012 - present, Victor Zverovich and {fmt} contributors.
+The {fmt} MIT license is reproduced in LICENSES/fmt.txt. The independent
+conformance oracle is pinned to commit 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f;
+retained Dragonbox integration initially came from {fmt} 12.0.1.
+
+The Dragonbox algorithm is by Junekey Jeon:
+https://github.com/jk-jeon/dragonbox
+The original Dragonbox project offers Boost Software License 1.0 and
+Apache License 2.0 with LLVM Exceptions. Its Boost license is reproduced in
+LICENSES/dragonbox-Boost.txt. The integration retained here was adapted through
+{fmt}; source comments distinguish the algorithm from its integration.
+
+New differential tests use {fmt} as the source of truth and preserve applicable
+notices when adapting upstream material. Full toolchain dependencies retain
+their own upstream licenses in the ignored local software source checkouts.

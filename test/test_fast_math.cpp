@@ -35,7 +35,6 @@ RUN(EXPECT("2.225074e-308", "{:e}", 2.2250738585072009e-308));
 RUN(EXPECT("1.401298e-45", "{:e}", 1e-45f));
 RUN(EXPECT("-0", "{}", -0.0)); // -fno-signed-zeros: {fmt} built with it prints "0"
 RUN(EXPECT("9.9999999999999694493e-311", "{:.20g}", 1e-310));
-#if FFMT_BUFFER_PATH
 RUN(EXPECT("5e-324", "{}", 4.9406564584124654e-324));
 RUN(EXPECT("-5e-324", "{}", -4.9406564584124654e-324));
 RUN(EXPECT("2.225073858507201e-308", "{}", 2.2250738585072009e-308));
@@ -43,7 +42,6 @@ RUN(EXPECT("1e-45", "{}", 1e-45f));
 RUN(EXPECT("0x0.0000000000001p-1022", "{:a}", 4.9406564584124654e-324));
 RUN(EXPECT("0x0.fffffffffffffp-1022", "{:a}", 2.2250738585072009e-308));
 RUN(EXPECT("0x1p-149", "{:a}", 1e-45f));
-#endif
 #undef EXPECT
 
 // Normal values: {fmt} is still a valid reference here.
