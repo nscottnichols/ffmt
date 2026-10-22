@@ -40,9 +40,8 @@ HOST_OPT ?= -O2
 # codegen is checked without a GPU.
 ICPX_OMP_TARGETS := $(if $(AOT_DEVICE),spir64_gen -Xopenmp-target-backend "-device $(AOT_DEVICE)",spir64)
 
-# Test sources are test/test_<name>.cpp. TESTS build on both paths;
-# BUFFER_TESTS use buffer-path-only specs ({:a}, {:b}, {:^}, ...), which the
-# specifiers path rejects at compile time.
+# Historical source-compatibility suites. Both FFMT_BUFFER_PATH values now use
+# the same engine; the independent differential and focused suites are below.
 TESTS        := integers floats strings layout misc formatter
 BUFFER_TESTS := buffer_path
 TEST_HDRS    := $(wildcard test/*.hpp test/*.inc)
@@ -171,7 +170,8 @@ $(FMT_HDR):
 $(FMT_OBJ): $(FLAGS_STAMP) | build/.dir $(FMT_HDR)
 	$(CXX) $(filter-out -Werror,$(CXXFLAGS)) $(HOST_OPT) -c $(FMT_DIR)/src/format.cc -o $@
 
-DEPS := $(TEST_HDRS) include/ffmt/base.hpp $(FLAGS_STAMP)
+FFMT_HDRS := $(wildcard include/ffmt/*.hpp include/ffmt/detail/*.hpp)
+DEPS := $(TEST_HDRS) $(FFMT_HDRS) $(FLAGS_STAMP)
 
 # Run each binary in $(1), printing "<name>: PASS|FAIL (<ms>ms)"; fails if
 # any failed, after running them all.
@@ -180,6 +180,7 @@ define run
   t0=$$($(NOW_NS)); ./$$bin; rc=$$?; \
   ms=$$(( ($$($(NOW_NS)) - t0) / 1000000 )); \
   if [ $$rc -eq 0 ]; then echo "$${bin#build/}: PASS ($${ms}ms)"; \
+  elif [ $$rc -eq 77 ]; then echo "$${bin#build/}: SKIP ($${ms}ms)"; \
   else echo "$${bin#build/}: FAIL ($${ms}ms)"; fail=1; fi; \
 done; exit $$fail
 endef
@@ -269,6 +270,26 @@ $(foreach p,specifiers buffer,$(eval $(call HOST_template,test_main_host,,$(p)))
 test-host: build/test_main_host_specifiers build/test_main_host_buffer
 	$(call run,$^)
 
+# Focused core/family regressions, independently linked to the pinned oracle.
+# Optional compiler types return 77 when unavailable, never a conformance pass.
+FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad families families_printf
+FOCUSED_SOURCES := $(wildcard $(addprefix test/conformance/test_,$(addsuffix .cpp,$(FOCUSED_SUITES))))
+FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/focused_%,$(FOCUSED_SOURCES)) build/focused_engine_portable
+build/focused_%: test/conformance/test_%.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(if $(filter engine_quad,$*),-DFMT_USE_FLOAT128=1) -UNDEBUG $< $(FMT_OBJ) -o $@
+
+build/focused_engine_portable: test/conformance/test_engine.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) $(HOST_OPT) -DFFMT_PORTABLE_SHORTEST=1 -UNDEBUG $< $(FMT_OBJ) -o $@
+
+test-focused: $(FOCUSED_BINS)
+	$(call run,$^)
+
+build/focused_families_std23: test/conformance/test_families_std23.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) -std=c++23 $(HOST_OPT) -UNDEBUG $< $(FMT_OBJ) -o $@
+
+test-cxx23: build/focused_families_std23
+	$(call run,$^)
+
 # DAZ (denormals-are-zero, on by default with icpx and with -ffast-math on
 # x86) makes a subnormal compare equal to 0.0. test_fast_math.cpp checks
 # that subnormals still print exactly on both paths.
@@ -280,17 +301,24 @@ build/test_fast_math_%: test/test_fast_math.cpp $(DEPS) $(FMT_OBJ) | build/.dir 
 test-fast-math: build/test_fast_math_specifiers build/test_fast_math_buffer
 	$(call run,$^)
 
-# Region coverage of base.hpp, as the union over both paths' binaries: the
-# number CI gates on (see .github/scripts/coverage_union.py for why not
-# `llvm-cov -object`).
+# Source-position union across every instantiated header. Report regions,
+# executable lines and branch edges separately; device-only bodies are excluded.
 COV_FLAGS     := -fprofile-instr-generate -fcoverage-mapping
 LLVM_PROFDATA  = $(shell $(CXX) -print-prog-name=llvm-profdata)
 LLVM_COV       = $(shell $(CXX) -print-prog-name=llvm-cov)
 
 $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))))
 
-coverage: build/cov_specifiers build/cov_buffer
-	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt/base.hpp $^
+build/cov_focused_%: test/conformance/test_%.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) $(HOST_OPT) $(COV_FLAGS) $(if $(filter engine_quad,$*),-DFMT_USE_FLOAT128=1) -UNDEBUG $< $(FMT_OBJ) -o $@
+
+# BitInt/quad may be unavailable (exit 77), so their coverage is collected only
+# by callers that have qualified those compiler extensions.
+COV_FOCUSED_SOURCES := $(filter-out %test_engine_bitint.cpp %test_engine_quad.cpp,$(FOCUSED_SOURCES))
+COV_FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/cov_focused_%,$(COV_FOCUSED_SOURCES))
+
+coverage: build/cov_specifiers build/cov_buffer $(COV_FOCUSED_BINS)
+	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt $^
 
 # Existing rejection corpus, with preserved diagnostics and positive/syntax controls.
 test-negative: $(FMT_HDR)
@@ -307,7 +335,7 @@ conformance-harness:
 qualify:
 	python3 tools/jlse/submit.py head $(PROFILE) --revision $(REVISION)
 
-.PHONY: conformance conformance-harness qualify
+.PHONY: conformance conformance-harness qualify test-focused test-cxx23
 
 clean:
 	rm -rf build/

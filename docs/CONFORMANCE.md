@@ -71,6 +71,7 @@ fallback. Arm jobs use native tools rather than inherited x86 executables.
 ```sh
 python3 tools/report.py --label baseline --output docs/results/baseline
 cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DCMAKE_CXX_COMPILER=g++
+cmake --build build/cmake -j2
 ctest --test-dir build/cmake --output-on-failure
 ```
 
@@ -82,3 +83,6 @@ coverage, source-code coverage and performance have separate denominators.
 
 The CMake interface target is `ffmt::ffmt`; normal consumers need no Python or
 fmt dependency. CTest invokes the same runner and corpus as the Make front end.
+It also runs the focused numeric, bounded-output, transport, and custom-type
+regressions. Unsupported optional compiler extensions use CTest's explicit
+skipped status (exit 77). Assertions remain enabled in release test builds.

@@ -23,7 +23,12 @@ Working fork: https://github.com/nscottnichols/ffmt. Upstream starts at
 - Distinguish unsupported functionality, compiler/runtime blockers, infrastructure
   failures, and not-run configurations. A compilation is not a hardware run.
 
-## M1 — independent baseline and infrastructure (in progress)
+## M1 — independent baseline and infrastructure (implemented)
+
+PR: https://github.com/nscottnichols/ffmt/pull/1. The binary-safe runner,
+diagnostic classifier, Cobalt profiles and baseline evidence are committed.
+Fourteen harness regressions pass. Further routes and evidence are integrated
+with their corresponding implementation/qualification changes.
 
 Build a binary-safe differential runner, diagnostic-aware negative tests,
 reproducible per-system profiles, software directories, Cobalt job scripts,
@@ -31,7 +36,12 @@ CMake/CTest and Make entry points. Capture baseline output and manifests before
 implementation. Add focused tests of harness failure detection. Open the first
 small PR in the fork.
 
-## M2 — shared formatting engine (pending)
+## M2 — shared formatting engine (implemented; qualification in progress)
+
+Core regressions: 57,361 comparisons; portable shortest conversion, native
+extended precision, BitInt, binary128, bounded canaries, wide output, and
+legacy/custom formatter protocols have focused tests. Host strict warnings and
+ASan/UBSan pass on captured source snapshots. Device evidence is tracked in M4.
 
 Replace truncating output with bounded streaming, unify formatting semantics,
 add checked bounded/runtime/wide APIs, remove arbitrary parser limits, fix
@@ -39,7 +49,11 @@ numerical and bounds defects, support host/CUDA/HIP/OMP/SYCL emission. Preserve
 existing source calls and custom formatter protocol. Add regressions and open a
 stacked implementation PR.
 
-## M3 — expanded format families (pending)
+## M3 — expanded format families (implemented; integration in progress)
+
+The family handoff includes 206 differential cases, 34,719 checked-printf
+comparisons and six C++23 cases. Forwarding mutable ranges, move-only joins,
+and noncontiguous registered string ranges are active followup work.
 
 Extend named arguments, debug formatting, ranges/tuples/join, locale-independent
 chrono/calendar values, device-callable standard types, numeric representations,
@@ -47,7 +61,13 @@ and explicit ANSI style. Provide fmt-like formatter contexts while keeping legac
 specializations. Test family semantics against pinned fmt; expose genuine device
 type restrictions. Keep changes in focused stacked PRs.
 
-## M4 — representative JLSE qualification (pending)
+## M4 — representative JLSE qualification (in progress)
+
+Native CUDA and HIP have passed the 40-case core stdout corpus and 8,216
+device-memory numeric records at both optimization levels on captured snapshots.
+The expanded 52-case corpus and final committed snapshots still require runs.
+Intel cold JIT, transport NUL limitations, OpenMP numeric execution failures,
+and AdaptiveCpp/chipStar dependency builds remain under investigation.
 
 Use Rome x86_64 host; H100 CUDA/OpenMP; MI300X native HIP/OpenMP;
 Chiatta Intel Max SYCL/SPIR-V/OpenMP/chipStar; GH200 Arm host/CUDA.
@@ -58,7 +78,12 @@ driver/runtime/compiler versions, commands, flags, source state and outcomes.
 Re-run affected configurations after fixes. Both -O0 and -O2, strict floating
 point, host sanitizers; fast-math is a separate assessment.
 
-## M5 — measurements and working manuscript (pending)
+## M5 — measurements and working manuscript (in progress)
+
+Host/Arm/HIP timing and resource manifests exist under artifacts; they need a
+final source pass and compact publication. First-batch timing is not cold JIT
+measurement. An explicit cache-disabled SYCL kernel-bundle build measurement is
+being added. The supplied manuscript still needs import and revision.
 
 Measure formatting separately from printing, cold compilation/JIT separately
 from warm execution, with five warm-up batches and thirty measured samples.
