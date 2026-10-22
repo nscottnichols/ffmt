@@ -95,6 +95,10 @@ Include the headers for additional families explicitly:
 |---|---|
 | `ffmt/args.hpp` | Named arguments with `ffmt::arg` |
 | `ffmt/ranges.hpp` | Ranges, sets/maps, tuples, joins and container adapters |
+| `ffmt/chrono.hpp` | Locale-independent durations, calendar values, `tm`, system/local time points |
+| `ffmt/std.hpp` | Optional/variant, bitsets, bytes, reference wrappers, atomics, complex, source location and pointer views |
+| `ffmt/std23.hpp` | Optional C++23 expected/unexpected |
+| `ffmt/color.hpp` | Explicit ANSI color, RGB and emphasis with `ffmt::styled` |
 | `ffmt/enum.hpp` | Enum underlying-value helpers |
 
 For example, including `ffmt/ranges.hpp` allows
@@ -139,6 +143,8 @@ python3 tools/conformance.py --route host-buffer --opt 2 \
 `make coverage CXX=clang++` reports region, line and branch-edge coverage of
 instrumented headers. Uninstantiated templates and device-only bodies are
 outside that coverage denominator.
+
+Optional C++23 adapters are checked with `make CXX=g++ test-cxx23`.
 
 System-specific campaigns, provisioning, scheduler integration, captured results
 and the manuscript live in the companion

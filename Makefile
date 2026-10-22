@@ -272,7 +272,7 @@ test-host: build/test_main_host_specifiers build/test_main_host_buffer
 
 # Focused core/family regressions, independently linked to the pinned oracle.
 # Optional compiler types return 77 when unavailable, never a conformance pass.
-FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad engine_forwarding engine_fast_math families_ranges
+FOCUSED_SUITES := engine engine_transport engine_legacy_hook engine_extended engine_bitint engine_quad engine_forwarding engine_fast_math families families_ranges
 QUAD_TEST_FLAGS := $(if $(shell $(CXX) -dM -E -x c++ /dev/null 2>/dev/null | sed -n '/__SIZEOF_FLOAT128__/p'),-DFMT_USE_FLOAT128=1)
 FOCUSED_SOURCES := $(wildcard $(addprefix test/conformance/test_,$(addsuffix .cpp,$(FOCUSED_SUITES))))
 FOCUSED_BINS := $(patsubst test/conformance/test_%.cpp,build/focused_%,$(FOCUSED_SOURCES)) build/focused_engine_portable
@@ -286,6 +286,12 @@ build/focused_engine_portable: test/conformance/test_engine.cpp $(DEPS) $(FMT_OB
 	$(CXX) $(CXXFLAGS) $(HOST_OPT) -DFFMT_PORTABLE_SHORTEST=1 -UNDEBUG $< $(FMT_OBJ) -o $@
 
 test-focused: $(FOCUSED_BINS)
+	$(call run,$^)
+
+build/focused_families_std23: test/conformance/test_families_std23.cpp $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) -std=c++23 $(HOST_OPT) -UNDEBUG $< $(FMT_OBJ) -o $@
+
+test-cxx23: build/focused_families_std23
 	$(call run,$^)
 
 # DAZ (denormals-are-zero, on by default with icpx and with -ffast-math on
@@ -329,7 +335,7 @@ conformance: $(FMT_HDR)
 conformance-harness:
 	python3 -m unittest discover -s test/conformance -p test_runner.py
 
-.PHONY: conformance conformance-harness test-focused
+.PHONY: conformance conformance-harness test-focused test-cxx23
 
 clean:
 	rm -rf build/
