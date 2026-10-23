@@ -23,3 +23,16 @@ int main(int argc, char** argv) {
   return 0;
 }
 """
+
+
+def numeric_launcher(route):
+    return r"""
+int main() {
+  auto input = inputs();
+  std::vector<Output> output(input.size());
+  for (unsigned i = 0; i < input.size(); ++i)
+    format_record(input[i], output[i]);
+  serialize(input, output);
+  return 0;
+}
+"""
