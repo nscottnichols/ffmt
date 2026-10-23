@@ -19,7 +19,7 @@ FMT_HD constexpr bool compatible(const basic_format_spec<Char> &s) {
                 !std::is_same_v<T, Char>)
     return false;
   constexpr bool str = string_like<T, Char> || char_pointer<T, Char>;
-  constexpr bool flt = false;
+  constexpr bool flt = floating<T>;
   bool num = (integer<T> && !ch) || flt ||
              (ch && s.type && s.type != 'c' && s.type != '?');
   if (s.sign && !(flt || (signed_integer<T> && !ch)))
@@ -47,7 +47,7 @@ FMT_HD constexpr bool compatible(const basic_format_spec<Char> &s) {
 }
 template <typename T, typename Char>
 inline constexpr bool primitive =
-    integer<T> || std::is_pointer_v<T> ||
+    integer<T> || floating<T> || std::is_pointer_v<T> ||
     std::is_null_pointer_v<T> || string_like<T, Char>;
 
 }
