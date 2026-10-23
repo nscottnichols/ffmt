@@ -299,41 +299,10 @@ $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))
 coverage: build/cov_specifiers build/cov_buffer
 	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt/base.hpp $^
 
-# ── Negative tests (`make test-negative`) ───────────────────
-# Each .cpp in test/negative/ uses NEG_EXPECT_REJECTED(fmt, ...) and is
-# compiled THREE times, all of which must fail to compile: on each ffmt
-# path (FLAGS_specifiers, FLAGS_buffer) and with fmt::format (FLAGS_fmt;
-# {fmt} checks format strings at compile time in C++20).
-# The {fmt} build guards against "wrong" negative tests: a restriction we
-# invent that {fmt}, our output reference, would actually accept.
-# test/negative/control/accept_valid.cpp must instead compile in every
-# variant, and each test must compile with -DNEG_SYNTAX_CHECK (the format
-# call reduced to its arguments) — otherwise a broken harness or a typo in a
-# test would make it "pass".
-NEG_NAMES   := $(basename $(notdir $(wildcard test/negative/*.cpp)))
-NEG_CONTROL := test/negative/control/accept_valid.cpp
-FLAGS_fmt   := -DNEG_CHECK_FMT
-
-# One make target per compile, so `make -j test-negative` runs them in
-# parallel. They are never files, so they always run.
-neg-control/%: $(FMT_HDR) verify-fmt
-	@if $(CXX) $(CXXFLAGS) $(FLAGS_$*) -c $(NEG_CONTROL) -o /dev/null; then \
-	  echo "negative/control [$*]: PASS (valid call compiles)"; \
-	else echo "negative/control [$*]: FAIL (harness cannot compile a valid call)"; exit 1; fi
-
-define NEG_template
-neg/$(1)/syntax: $(FMT_HDR) verify-fmt
-	@$$(CXX) $$(CXXFLAGS) -DNEG_SYNTAX_CHECK -c test/negative/$(1).cpp -o /dev/null || \
-	  { echo "negative/$(1): FAIL (the test file itself does not compile)"; exit 1; }
-neg/$(1)/%: neg/$(1)/syntax
-	@if $$(CXX) $$(CXXFLAGS) $$(FLAGS_$$*) -c test/negative/$(1).cpp -o /dev/null >/dev/null 2>&1; then \
-	  echo "negative/$(1) [$$*]: FAIL (compile unexpectedly succeeded)"; exit 1; \
-	else echo "negative/$(1) [$$*]: PASS (compile rejected)"; fi
-endef
-$(foreach n,$(NEG_NAMES),$(eval $(call NEG_template,$(n))))
-
-test-negative: $(foreach v,specifiers buffer fmt,neg-control/$(v)) \
-               $(foreach n,$(NEG_NAMES),$(foreach v,specifiers buffer fmt,neg/$(n)/$(v)))
+# Existing rejection corpus, with preserved diagnostics and positive/syntax controls.
+# A compiler crash or unrelated diagnostic is a failure, not a correct rejection.
+test-negative: $(FMT_HDR) verify-fmt
+	python3 tools/negative.py --cxx="$(CXX)" --flags="$(CXXFLAGS)"
 
 clean:
 	rm -rf build/
