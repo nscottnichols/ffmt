@@ -13,18 +13,8 @@ bool CONCAT(test_, TEST_NAME)() {
 
   auto std_out = capture_stdout([&]() {
 #define FFMT_STD_PATH
-#if FFMT_BUFFER_PATH
-#define PRINT(fmt_str, ...)                                                   \
-  std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__)                 \
-                   .substr(0, FFMT_BUFFER_SIZE)
-#define PRINTLN(fmt_str, ...)                                                 \
-  std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__)                 \
-                   .substr(0, FFMT_BUFFER_SIZE)                     \
-            << '\n'
-#else
 #define PRINT(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__)
 #define PRINTLN(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__) << '\n'
-#endif
 #define RUN(...) do { printf("Test %d\n", ++_test_id); \
   for (int _i = 0; _i < N; _i++) { __VA_ARGS__; } } while (0)
 #define SKIP_IF(gate, reason, ...) do {                                       \
