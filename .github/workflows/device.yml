@@ -10,9 +10,11 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   nvptx:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     name: ${{ matrix.name }} -- ${{ matrix.mode }}
     runs-on: ubuntu-24.04
     strategy:
@@ -39,6 +41,7 @@ jobs:
         run: make -j$(nproc) CXX=clang++-22 ${{ matrix.make-args }} ${{ matrix.targets }}
 
   intel:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     # Ahead-of-time for PVC: icpx emits SPIR-V and ocloc (IGC) compiles it
     # to the device's ISA at build time, so IGC's codegen is checked too.
     name: ${{ matrix.name }} (AOT pvc) -- ${{ matrix.mode }}
