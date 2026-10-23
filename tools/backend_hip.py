@@ -30,3 +30,29 @@ int main(int argc, char** argv) {
   return 0;
 }
 """
+
+
+def numeric_launcher(route):
+    return r"""
+__global__ void memory_kernel(const Input* input, Output* output, unsigned count) {
+  unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < count) format_record(input[i], output[i]);
+}
+int main() {
+  auto input = inputs();
+  std::vector<Output> output(input.size());
+  Input* device_input = nullptr;
+  Output* device_output = nullptr;
+  if (hipMalloc((void**)&device_input, input.size() * sizeof(Input)) != hipSuccess) return 81;
+  if (hipMalloc((void**)&device_output, output.size() * sizeof(Output)) != hipSuccess) return 82;
+  if (hipMemcpy(device_input, input.data(), input.size() * sizeof(Input), hipMemcpyHostToDevice) != hipSuccess) return 83;
+  if (hipMemset(device_output, 0, output.size() * sizeof(Output)) != hipSuccess) return 84;
+  hipLaunchKernelGGL(memory_kernel, dim3((input.size() + 63) / 64), dim3(64), 0, 0, device_input, device_output, unsigned(input.size()));
+  if (hipGetLastError() != hipSuccess || hipDeviceSynchronize() != hipSuccess) return 85;
+  if (hipMemcpy(output.data(), device_output, output.size() * sizeof(Output), hipMemcpyDeviceToHost) != hipSuccess) return 86;
+  hipFree(device_input);
+  hipFree(device_output);
+  serialize(input, output);
+  return 0;
+}
+"""
