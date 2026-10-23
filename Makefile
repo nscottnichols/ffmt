@@ -287,9 +287,8 @@ build/test_fast_math_%: test/test_fast_math.cpp $(DEPS) $(FMT_OBJ) | build/.dir 
 test-fast-math: build/test_fast_math_specifiers build/test_fast_math_buffer
 	$(call run,$^)
 
-# Region coverage of base.hpp, as the union over both paths' binaries: the
-# number CI gates on (see .github/scripts/coverage_union.py for why not
-# `llvm-cov -object`).
+# Source-position union across instantiated headers. Report regions,
+# executable lines and branch edges without a percentage regression gate.
 COV_FLAGS     := -fprofile-instr-generate -fcoverage-mapping
 LLVM_PROFDATA  = $(shell $(CXX) -print-prog-name=llvm-profdata)
 LLVM_COV       = $(shell $(CXX) -print-prog-name=llvm-cov)
@@ -297,7 +296,7 @@ LLVM_COV       = $(shell $(CXX) -print-prog-name=llvm-cov)
 $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))))
 
 coverage: build/cov_specifiers build/cov_buffer
-	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt/base.hpp $^
+	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt $^
 
 # Existing rejection corpus, with preserved diagnostics and positive/syntax controls.
 # A compiler crash or unrelated diagnostic is a failure, not a correct rejection.
@@ -320,3 +319,5 @@ $(FMT_OBJ): | verify-fmt
 
 # Explicit focused-suite registrations travel with their implementation.
 include mk/portable-tests.mk
+
+include mk/portable-coverage.mk
