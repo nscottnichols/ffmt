@@ -42,10 +42,21 @@ template <> inline constexpr bool extended_integer<__int128> = true;
 template <> inline constexpr bool extended_integer<unsigned __int128> = true;
 #endif
 template <typename T> struct floating_traits {
-  static constexpr bool value = std::is_same_v<T,float> || std::is_same_v<T,double>;
+  static constexpr bool value = std::is_floating_point_v<T>;
   static constexpr int precision = std::numeric_limits<T>::digits;
   static constexpr int decimal_digits = std::numeric_limits<T>::digits10;
 };
+#if defined(__SIZEOF_FLOAT128__) && !defined(__CUDACC__) &&                    \
+    !defined(__HIPCC__) && !defined(SYCL_LANGUAGE_VERSION) &&                  \
+    !FFMT_COMPILER_ACPP
+#define FFMT_HAS_FLOAT128 1
+template <> struct floating_traits<__float128> {
+  static constexpr bool value = true;
+  static constexpr int precision = 113, decimal_digits = 33;
+};
+#else
+#define FFMT_HAS_FLOAT128 0
+#endif
 template <typename T>
 inline constexpr bool floating = floating_traits<T>::value;
 template <typename T>
