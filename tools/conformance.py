@@ -131,7 +131,7 @@ class Campaign:
             case_ids=[x["id"] for x in fixtures.CASES if not args.case or x["id"] in args.case],
             routes=args.route or args.profiles_config["profiles"][args.profile]["routes"],
             optimizations=args.opt or [0, 2], numeric_samples=0,
-            memory=False, negative=False, shard_size=args.shard_size)
+            memory=False, negative=not args.no_negative, shard_size=args.shard_size)
         self.manifest["runner_files"] = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in sorted((ROOT / "tools").glob("*.py"))}
         self.manifest["timeouts"] = dict(compile=args.compile_timeout, execution=args.run_timeout, cold_jit=args.jit_timeout)
@@ -214,7 +214,8 @@ class Campaign:
         # status is assigned only after every requested auxiliary suite finishes.
         self.save()
 
-
+        if config["stdout_status"] == "completed" and not self.args.no_negative:
+            self.negatives(command, directory, route, config)
         config["status"] = config["stdout_status"]
         self.save()
 
@@ -289,6 +290,20 @@ class Campaign:
         return result
 
 
+    def negatives(self, cmd, directory, route, config):
+        for item in fixtures.NEGATIVE_CASES:
+            src = directory / ("negative-" + item["id"] + ".cpp")
+            src.write_text(target_source([item], [0], route))
+            p = run(cmd + ["-c", src, "-o", directory / "negative.o"], directory, "negative-" + item["id"], self.args.compile_timeout)
+            config["negative_cases"].append(dict(id=item["id"], family=item["family"], status=negative_status(p), build=record(p)))
+        if "negative_cases" not in self.manifest["oracle"]:
+            self.manifest["oracle"]["negative_cases"] = []
+            for item in fixtures.NEGATIVE_CASES:
+                src = self.reference / ("negative-" + item["id"] + ".cpp")
+                src.write_text(oracle_source([item]))
+                p = run(self.host_cxx + ["-std=c++20", "-I" + str(self.fmt / "include"), "-c", src, "-o", self.reference / "negative.o"], self.reference, "negative-" + item["id"], self.args.compile_timeout)
+                self.manifest["oracle"]["negative_cases"].append(dict(id=item["id"], status=negative_status(p), build=record(p)))
+
 def main():
     global SOURCE_ROOT
     parser = argparse.ArgumentParser(description=__doc__)
@@ -307,7 +322,7 @@ def main():
     parser.add_argument("--compile-timeout", type=int, default=180)
     parser.add_argument("--run-timeout", type=int, default=30)
     parser.add_argument("--jit-timeout", type=int, default=600, help="execution cap for routes that compile device images at launch")
-    parser.add_argument("--no-negative", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--no-negative", action="store_true")
     parser.add_argument("--no-memory", action="store_true", help=argparse.SUPPRESS)
     parser.add_argument("--numeric-samples", type=int, default=0, help=argparse.SUPPRESS)
     args = parser.parse_args()
