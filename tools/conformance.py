@@ -9,6 +9,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import re
 import shlex
 import shutil
 import subprocess
@@ -16,6 +17,7 @@ import sys
 import tarfile
 from process_evidence import ROOT, compare_bytes, path_label, record, run
 from oracle import FMT_COMMIT, oracle_identity
+from compile_diagnostics import negative_status
 import backends
 from backends import ROUTES, compiler, flags, link_flags
 
@@ -182,31 +184,109 @@ class Campaign:
         command = compiler(route) + flags(route, opt) + ["-I" + str(self.output / "source/include")]
         config = dict(route=route, optimization=opt, command_prefix=command,
                       cases=[], negative_cases=[])
+        timeout = self.args.run_timeout
+        if route in ("sycl", "acpp", "chipstar", "omp-spirv", "kokkos-sycl"):
+            timeout = max(timeout, self.args.jit_timeout)
+        config["execution_timeout"] = timeout
         self.manifest["configurations"].append(config)
         config["compiler_version"] = record(run(compiler(route) + ["--version"], directory, "compiler-version"))
-        for index, item in enumerate(items):
-            source = directory / (item["id"] + ".cpp")
-            source.write_text(target_source(items, [index], route))
-            executable = directory / item["id"]
-            build = run(command + [source] + link_flags(route) + ["-o", executable],
-                        directory, item["id"] + "-build", self.args.compile_timeout)
-            result = dict(id=item["id"], family=item["family"], build=record(build),
-                          source_sha256=hashlib.sha256(source.read_bytes()).hexdigest())
-            if build["exit_code"]:
-                result["status"] = "compile_timeout" if build.get("timeout") else "compile_failure"
-            else:
-                execution = run([executable, index], directory, item["id"], self.args.run_timeout)
-                result["execution"] = record(execution)
-                if execution["exit_code"]:
-                    result["status"] = "execution_timeout" if execution.get("timeout") else "execution_failure"
+
+        if self.stdout_control(command, directory, route, config, timeout):
+            applicable = []
+            for index, item in enumerate(items):
+                missing = [header for header in item.get("requires", [])
+                           if not (self.output / "source/include" / header).is_file()]
+                if missing:
+                    config["cases"].append(dict(id=item["id"], family=item["family"],
+                        status="unsupported", reason="source snapshot lacks " + ", ".join(missing)))
                 else:
-                    result.update(compare_bytes(expected[index], execution["stdout"]))
-            config["cases"].append(result)
-            self.save()
-            print("%s -O%s %s: %s" % (route, opt, item["id"], result["status"]), flush=True)
-        config["stdout_status"] = "completed"
-        config["status"] = "completed"
+                    applicable.append(index)
+            for first in range(0, len(applicable), self.args.shard_size):
+                self.run_shard(command, directory, route, opt, items, expected,
+                               applicable[first:first + self.args.shard_size], config, timeout)
+            config["stdout_status"] = "completed"
+        else:
+            reason = "stdout control did not compile" if config["stdout_status"] == "control_compile_failure" else "stdout control did not execute correctly"
+            config["cases"] = [dict(id=item["id"], family=item["family"], status="not_run", reason=reason)
+                               for item in items]
+
+        # Publish stdout evidence before an auxiliary suite can raise. A completed
+        # status is assigned only after every requested auxiliary suite finishes.
         self.save()
+
+
+        config["status"] = config["stdout_status"]
+        self.save()
+
+    def stdout_control(self, command, directory, route, config, timeout):
+        control = [dict(id="control", pattern="control {}", args=["7"])]
+        source = directory / "control.cpp"
+        source.write_text(target_source(control, [0], route))
+        build = run(command + [source] + link_flags(route) + ["-o", directory / "control"],
+                    directory, "control-build", self.args.compile_timeout)
+        config["control_build"] = record(build)
+        if build["exit_code"]:
+            config["stdout_status"] = "control_compile_failure"
+            return False
+        execution = run([directory / "control", 0], directory, "control-run", timeout)
+        config["control_run"] = record(execution)
+        metadata = [line for line in execution["stderr"].decode("utf-8", "replace").splitlines()
+                    if line.startswith("FFMT_DEVICE ")]
+        config["device"] = metadata[0][12:] if metadata else None
+        if execution["exit_code"] or execution["stdout"] != b"control 7" or not metadata:
+            config["stdout_status"] = "control_execution_failure"
+            return False
+        return True
+
+    def run_shard(self, command, directory, route, opt, items, expected, indices, config, timeout):
+        label = "cases-%d-%d" % (indices[0], indices[-1])
+        source = directory / (label + ".cpp")
+        source.write_text(target_source(items, indices, route))
+        source_hash = hashlib.sha256(source.read_bytes()).hexdigest()
+        build = run(command + [source] + link_flags(route) + ["-o", directory / label],
+                    directory, label + "-build", self.args.compile_timeout)
+        if build["exit_code"] and len(indices) > 1:
+            config.setdefault("shard_failures", []).append(dict(stage="build",
+                case_ids=[items[index]["id"] for index in indices], source_sha256=source_hash,
+                build=record(build), status="compile_timeout" if build.get("timeout") else "compile_failure"))
+            self.save()
+            self.split_shard(command, directory, route, opt, items, expected, indices, config, timeout)
+            return
+        for position, index in enumerate(indices):
+            item = items[index]
+            result = self.case_result(build, directory / label, index, item,
+                                      expected[index], directory, source_hash, timeout)
+            if result["status"] != "pass" and "execution" in result and len(indices) > 1:
+                # Preserve the failed shared executable before trying smaller ones.
+                config.setdefault("shard_failures", []).append(result)
+                self.save()
+                self.split_shard(command, directory, route, opt, items, expected,
+                                 indices[position:], config, timeout)
+                return
+            config["cases"].append(result)
+            print("%s -O%s %s: %s" % (route, opt, item["id"], result["status"]), flush=True)
+            self.save()
+
+    def split_shard(self, command, directory, route, opt, items, expected, indices, config, timeout):
+        middle = len(indices) // 2
+        groups = [indices] if len(indices) == 1 else [indices[:middle], indices[middle:]]
+        for group in groups:
+            self.run_shard(command, directory, route, opt, items, expected, group, config, timeout)
+
+    def case_result(self, build, executable, index, item, expected, directory, source_hash, timeout):
+        result = dict(id=item["id"], family=item["family"], build=record(build), source_sha256=source_hash)
+        if build["exit_code"]:
+            diagnostic = build["stderr"].decode("utf-8", "replace")
+            unsupported = re.search(r"cannot express with printf|format string too long|too_many_placeholders|incompatible|invalid_format_spec|invalid_placeholder", diagnostic)
+            result["status"] = "unsupported" if unsupported and negative_status(build) != "infrastructure_failure" else "compile_failure"
+            return result
+        execution = run([executable, index], directory, item["id"], timeout)
+        result["execution"] = record(execution)
+        if execution["exit_code"]:
+            result["status"] = "execution_timeout" if execution.get("timeout") else "execution_failure"
+        else:
+            result.update(compare_bytes(expected, execution["stdout"]))
+        return result
 
 
 def main():
