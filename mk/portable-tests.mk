@@ -14,7 +14,9 @@ build/focused_$(1): build/cap_$(1)
 endef
 $(foreach suite,$(FFMT_CAPABILITIES),$(eval $(call FFMT_CAPABILITY,$(suite))))
 
-FFMT_CAP_BINS := $(addprefix build/cap_,$(FFMT_CAPABILITIES))
+FFMT_CXX23_CAPABILITIES := $(foreach suite,$(FFMT_CAPABILITIES),$(if $(filter c++23,$(FFMT_STANDARD_$(suite))),$(suite)))
+FFMT_DEFAULT_CAPABILITIES := $(filter-out $(FFMT_CXX23_CAPABILITIES),$(FFMT_CAPABILITIES))
+FFMT_CAP_BINS := $(addprefix build/cap_,$(FFMT_DEFAULT_CAPABILITIES))
 # Optional compiler types use exit 77; this is visible as SKIP, not conformance.
 # The qualification runner records each individual exit status separately.
 define ffmt_run_capabilities
@@ -41,5 +43,5 @@ conformance-harness:
 
 # The C++23 implementation registers its explicit sources in the same registry.
 .PHONY: test-cxx23
-test-cxx23: $(addprefix build/cap_,$(filter %std23,$(FFMT_CAPABILITIES)))
+test-cxx23: $(addprefix build/cap_,$(FFMT_CXX23_CAPABILITIES))
 	$(call ffmt_run_capabilities,$^)
