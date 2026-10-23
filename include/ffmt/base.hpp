@@ -1,3 +1,4 @@
+// Allocation-free formatting on hosts and accelerator devices.
 #pragma once
-// Keep the original implementation active until migration.
-#include "detail/legacy_base.hpp"
+#include "detail/checked.hpp"
+#include "detail/sycl_formatters.hpp"
