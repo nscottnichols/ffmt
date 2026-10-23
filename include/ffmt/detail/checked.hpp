@@ -20,3 +20,6 @@
 #include "numeric.hpp"
 #include "text.hpp"
 #include "value.hpp"
+#include "legacy_emit.hpp"
+#include "transport.hpp"
+#include "print_macros.hpp"
