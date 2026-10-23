@@ -3,10 +3,13 @@
 import argparse
 import datetime
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import platform
+import re
+import shutil
 import shlex
 import socket
 import statistics
@@ -65,6 +68,43 @@ def link_flags(flags):
     return result
 
 
+def image_tables(route, obj, directory):
+    """Keep ELF images and count retained conversion tables by symbol and size."""
+    images, events = [], []
+    if route == "nvcc" and shutil.which("cuobjdump"):
+        inspect = command(["cuobjdump", "--dump-elf-symbols", "--dump-resource-usage", str(obj)], directory, "cuda-symbols")
+        events.append(qualification.record(inspect))
+        # cuobjdump writes extracted files in its cwd. Keep them with this
+        # isolated object rather than in the repository working directory.
+        process = command([sys.executable, "-c", "import os,sys;os.chdir(sys.argv[1]);os.execvp(sys.argv[2],sys.argv[2:])",
+                           str(directory), "cuobjdump", "--extract-elf", "all", str(obj)], directory, "cuda-extract")
+        events.append(qualification.record(process))
+        images = sorted(directory.glob("*.cubin"))
+    elif route == "hip" and shutil.which("llvm-objdump"):
+        process = command(["llvm-objdump", "--offloading", str(obj)], directory, "hip-extract")
+        events.append(qualification.record(process))
+        images = sorted(directory.glob(obj.name+".*amdgcn*"))
+    elif route.startswith("host-"):
+        images = [obj]
+    result = dict(events=events, images=[], tables=[])
+    needles = ("float_pow10_table", "double_pow10_significands", "double_powers_of_5_64", "wide_cp_ranges")
+    for index, path in enumerate(images):
+        result["images"].append(dict(path=qualification.path_label(path), bytes=path.stat().st_size,
+                                      sha256=hashlib.sha256(path.read_bytes()).hexdigest()))
+        if not shutil.which("readelf"):
+            continue
+        symbols = command(["readelf", "--symbols", "--wide", str(path)], directory, "image-"+str(index)+"-symbols")
+        result["events"].append(qualification.record(symbols))
+        for line in symbols["stdout"].decode("utf-8", "replace").splitlines():
+            fields = line.split()
+            if len(fields) < 8 or fields[3] != "OBJECT":
+                continue
+            table = next((name for name in needles if name in fields[7]), None)
+            if table:
+                result["tables"].append(dict(table=table, symbol=fields[7], bytes=int(fields[2], 0) if fields[2].startswith("0x") else int(fields[2]),
+                                              image=qualification.path_label(path)))
+    return result
+
 
 def build(route, capacity, multi, destination, include, reference=False, sources_directory=None, float_presentation="explicit_e8"):
     cxx = qualification.compiler(route)
@@ -89,6 +129,11 @@ def build(route, capacity, multi, destination, include, reference=False, sources
         if not reference:
             if route == "nvcc": flags += ["-rdc=true"]
             elif route in ("cuda", "hip"): flags += ["-fgpu-rdc"]
+    resource = []
+    if route == "nvcc" and not reference:
+        resource = ["--resource-usage", "-Xptxas=-v"]
+    elif route in ("host-buffer", "host-specifiers") or reference:
+        resource = ["-fstack-usage"]
     destination.mkdir(parents=True, exist_ok=True)
     sources_directory = sources_directory or ROOT / "test/conformance"
     sources = [sources_directory / "benchmark.cpp"]
@@ -97,7 +142,7 @@ def build(route, capacity, multi, destination, include, reference=False, sources
     events, objects = [], []
     for index, source in enumerate(sources):
         obj = destination / f"unit-{index}.o"
-        cmd = [*cxx, *flags, *defines, "-I" + str(include),
+        cmd = [*cxx, *flags, *defines, *resource, "-I" + str(include),
                "-I" + str(sources_directory), "-c", str(source), "-o", str(obj)]
         process = command(cmd, destination, f"compile-{index}")
         events.append(qualification.record(process))
@@ -117,13 +162,76 @@ def build(route, capacity, multi, destination, include, reference=False, sources
     events.append(qualification.record(process))
     if process["exit_code"]:
         return {"status": "link_failure", "events": events}
+    sizes = []
+    if shutil.which("size"):
+        process = command(["size", "-A", *map(str, objects), str(executable)], destination, "size")
+        sizes.append(qualification.record(process))
+    image_metadata = []
+    inspect = ["cuobjdump", "--list-elf", str(executable)] if route == "nvcc" and not reference else ["llvm-objdump", "--offloading", str(objects[0])]
+    if not reference and not route.startswith("host-") and shutil.which(inspect[0]):
+        process = command(inspect, destination, "device-images")
+        image_metadata.append(dict(**qualification.record(process), text=process["stdout"].decode("utf-8", "replace")))
+    tables = image_tables(route, executable, destination) if not reference else {}
     return {"status": "built", "executable": str(executable), "events": events,
-            "clean_compile_seconds": sum(event["seconds"] for event in events),
+            "clean_compile_seconds": sum(e["seconds"] for e in events), "resources": sizes,
+            "object_bytes": {p.name: p.stat().st_size for p in objects},
             "executable_bytes": executable.stat().st_size,
             "executable_sha256": hashlib.sha256(executable.read_bytes()).hexdigest(),
-            "object_sha256": {path.name: hashlib.sha256(path.read_bytes()).hexdigest() for path in objects}}
+            "object_sha256": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in objects},
+            "device_image_metadata": image_metadata, "conversion_tables": tables}
 
 
+def resources(route, capacity, destination, include, sources_directory, presentation="existing", families=None, modes=None):
+    rows = []
+    macro = "CUDA" if route in ("cuda", "nvcc") else "HIP" if route in ("hip", "chipstar") else "SYCL" if route in ("sycl", "acpp") else "OMP" if route.startswith("omp-") else None
+    extra = ["--resource-usage", "-Xptxas=-v"] if route == "nvcc" else ["-fstack-usage"]
+    if route == "hip": extra += ["-Rpass-analysis=kernel-resource-usage"]
+    for floating in ((0, 1) if presentation == "existing" else (2,) if presentation == "shortest" else (0, 1, 2)):
+        if families and ("float" if floating else "integer") not in families:
+            continue
+        for printing in (0, 1):
+            if modes and ("print" if printing else "memory") not in modes:
+                continue
+            for calls in (1, 2):
+                label = f"{'float-shortest' if floating == 2 else 'float' if floating else 'integer'}-{'print' if printing else 'memory'}-{calls}calls"
+                directory = destination / label
+                directory.mkdir(parents=True, exist_ok=True)
+                obj = directory / "resource.o"
+                defines = [f"-DFFMT_BUFFER_SIZE={capacity}", f"-DBENCH_FLOAT={int(bool(floating))}", f"-DBENCH_PRINT={printing}", f"-DBENCH_CALLS={calls}", f"-DBENCH_SHORTEST={int(floating == 2)}"]
+                if macro: defines += ["-DBENCH_" + macro]
+                process = command([*qualification.compiler(route), *qualification.flags(route, 2), *extra, *defines,
+                                   "-I"+str(include), "-I"+str(sources_directory), "-c", str(sources_directory/"benchmark_resource.cpp"), "-o", str(obj)], directory, "compile")
+                row = dict(route=route,capacity=capacity,family="float" if floating else "integer",presentation="shortest" if floating == 2 else "explicit_e8" if floating else "integer_d",mode="print" if printing else "memory",calls=calls,
+                           status="compiled" if process["exit_code"] == 0 else "compile_failure",compile=qualification.record(process))
+                if obj.exists(): row["object_bytes"] = obj.stat().st_size
+                diagnostic = process["stderr"].decode("utf-8", "replace")
+                for key, pattern in [("gpu_registers", r"Used (\d+) registers"), ("gpu_stack_frame_bytes", r"(\d+) bytes stack frame"),
+                                     ("gpu_spill_store_bytes", r"(\d+) bytes spill stores"), ("gpu_spill_load_bytes", r"(\d+) bytes spill loads"),
+                                     ("gpu_vgprs", r"(?:VGPRs|NumVgprs):\s*(\d+)"), ("gpu_sgprs", r"(?:SGPRs|NumSgprs):\s*(\d+)"),
+                                     ("gpu_scratch_bytes_per_lane", r"ScratchSize \[bytes/lane\]:\s*(\d+)")]:
+                    values = [int(v) for v in re.findall(pattern, diagnostic)]
+                    if values: row[key] = values
+                stack = []
+                for report in directory.glob("*.su"):
+                    for line in report.read_text().splitlines():
+                        fields = line.rsplit("\t", 2)
+                        if len(fields) == 3 and fields[1].isdigit(): stack.append(int(fields[1]))
+                if stack:
+                    row["max_static_frame_bytes"] = max(stack)
+                    row["stack_frame_scope"] = "maximum compiler .su frame; excludes cumulative call depth"
+                if obj.exists() and shutil.which("size"):
+                    section = command(["size", "-A", str(obj)], directory, "size")
+                    row["section_report"] = qualification.record(section)
+                    sections = []
+                    for line in section["stdout"].decode("utf-8", "replace").splitlines():
+                        fields = line.split()
+                        if len(fields) >= 2 and fields[0].startswith(".") and fields[1].isdigit(): sections.append((fields[0], int(fields[1])))
+                    row["text_section_bytes"] = sum(size for name, size in sections if name.startswith(".text"))
+                    row["read_only_section_bytes"] = sum(size for name, size in sections if name.startswith(".rodata"))
+                if obj.exists():
+                    row["conversion_tables"] = image_tables(route, obj, directory)
+                rows.append(row)
+    return rows
 
 
 def main():
@@ -135,12 +243,14 @@ def main():
     p.add_argument("--revision", default="WORKTREE")
     p.add_argument("--route", action="append", choices=[route for route in qualification.ROUTES if not route.startswith("kokkos-")])
     p.add_argument("--capacity", type=int, action="append", choices=[16, 64, 128, 512])
-    p.add_argument("--family", action="append", choices=["integer", "float"], help="Restrict timing workloads to selected value families")
-    p.add_argument("--mode", action="append", choices=["memory", "print"], help="Restrict timing workloads to selected output modes")
+    p.add_argument("--family", action="append", choices=["integer", "float"], help="Restrict timing/resource probes to selected value families")
+    p.add_argument("--mode", action="append", choices=["memory", "print"], help="Restrict timing/resource probes to selected output modes")
     p.add_argument("--float-presentation", choices=["explicit_e8", "shortest"], default="explicit_e8", help="Shortest timing requires memory mode and compares only with fmt")
     p.add_argument("--memory-iterations", type=int, default=4096)
     p.add_argument("--print-iterations", type=int, default=128)
     p.add_argument("--multi-tu", action="store_true", help="Also measure separate translation units")
+    p.add_argument("--resources-only", action="store_true", help="Compile dedicated integer/float one/two-call resource probes without timing")
+    p.add_argument("--resource-presentation", choices=["existing", "shortest", "both"], default="existing", help="Resource-only float presentation; existing rows use explicit8e precision")
     p.add_argument("--output")
     a = p.parse_args()
     try:
@@ -152,8 +262,10 @@ def main():
     qualification.SOURCE_ROOT = Path(a.source_root).resolve()
     a.fmt_dir = a.fmt_dir.resolve()
     os.environ["FFMT_PROFILE"] = a.profile
-    if a.float_presentation == "shortest" and (set(a.mode or ["memory", "print"]) != {"memory"}):
-        p.error("--float-presentation shortest requires --mode memory")
+    if a.float_presentation == "shortest" and (a.resources_only or set(a.mode or ["memory", "print"]) != {"memory"}):
+        p.error("--float-presentation shortest requires --mode memory; use --resource-presentation for resource probes")
+    if a.resources_only and a.resource_presentation == "shortest" and a.family and "float" not in a.family:
+        p.error("shortest resource probes require the float family")
     # Keep JIT preparation reproducible across independent verification and
     # timing processes. Intel's executable kernel bundle is built explicitly.
     os.environ["SYCL_CACHE_PERSISTENT"] = "0"
@@ -183,14 +295,14 @@ def main():
                 "hostname": socket.gethostname(), "machine": platform.machine(),
                 "fmt_commit": oracle_commit, "oracle": oracle, "timer_policy": "host wall; accelerator launch and synchronization included; copies and checksum outside timer; first_batch is first invocation in this process, not an implicit cold-JIT claim",
                 "sycl_cache_persistent": False, "sycl_jit_policy": "explicit executable kernel bundle build before batches (Intel SYCL); preparation includes backend cache lookup and compilation",
-                "warmups": 5, "samples": 30, "results": [], "builds": []}
+                "warmups": 5, "samples": 30, "results": [], "builds": [], "resource_probes": []}
     manifest["runner_files"] = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
         for path in sorted((ROOT / "tools").glob("*.py"))}
     manifest["environment"] = {key: os.environ[key] for key in
         ("SYCL_CACHE_PERSISTENT", "ONEAPI_DEVICE_SELECTOR", "CHIP_BE", "CHIP_DEVICE_TYPE", "CHIP_SKIP_UNINIT") if key in os.environ}
     manifest["selection"] = dict(families=a.family or ["integer", "float"], modes=a.mode or ["memory", "print"],
                                  capacities=a.capacity or [16, 64, 128, 512], multi_tu=a.multi_tu,
-                                 float_presentation=a.float_presentation)
+                                 resource_presentation=a.resource_presentation, float_presentation=a.float_presentation)
     if a.profiles:
         profile_path = Path(a.profiles).resolve()
         manifest["profiles"] = dict(path=str(profile_path), sha256=hashlib.sha256(profile_path.read_bytes()).hexdigest())
@@ -207,6 +319,13 @@ def main():
     for route in a.route or profiles["profiles"][a.profile]["routes"]:
         version = command([*qualification.compiler(route), "--version"], output / route, "compiler-version")
         manifest["compiler_versions"][route] = dict(**qualification.record(version), text=version["stdout"].decode("utf-8", "replace"))
+        if a.resources_only:
+            for capacity in a.capacity or [16, 64, 128, 512]:
+                probes = resources(route, capacity, output / route / f"capacity-{capacity}" / "resources", output / "source/include", bench_sources, a.resource_presentation, a.family, a.mode)
+                manifest["resource_probes"] += probes
+                failed |= any(row["status"] != "compiled" for row in probes)
+                save()
+            continue
         oracle = build(route, 128, False, output / route / "oracle", a.fmt_dir / "include", True, bench_sources, a.float_presentation)
         manifest["builds"].append(dict(route=route, engine="fmt", **oracle)); save()
         if oracle["status"] != "built":
