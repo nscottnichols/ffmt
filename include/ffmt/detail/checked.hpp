@@ -13,5 +13,8 @@
 #include "execution.hpp"
 #include "memory.hpp"
 #include "integer.hpp"
+#include "dragonbox.hpp"
+#include "exact_decimal.hpp"
+#include "floating.hpp"
 #include "text.hpp"
 #include "value.hpp"
