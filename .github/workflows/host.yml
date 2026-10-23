@@ -9,9 +9,11 @@ on:
   push:
     branches: [main, omp_support]
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
 
 jobs:
   matrix:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     name: ${{ matrix.cxx }} ${{ matrix.opt }}
     runs-on: ubuntu-24.04
     strategy:
@@ -45,6 +47,7 @@ jobs:
         run: make -j$(getconf _NPROCESSORS_ONLN) test-negative
 
   plain:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     # No sanitizers, default toolchain of each OS: catches what only shows
     # up in a normal build (macOS: Apple clang + libc++ + GNU Make 3.81 —
     # e.g. the memfd_create and build/ target-clash breakages).
@@ -72,6 +75,7 @@ jobs:
         run: make -j$(getconf _NPROCESSORS_ONLN) test-negative
 
   coverage:
+    if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
     name: coverage non-regression
     runs-on: ubuntu-24.04
     env:
