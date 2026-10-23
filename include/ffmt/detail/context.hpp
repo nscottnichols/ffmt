@@ -66,12 +66,6 @@ namespace detail {
 template <typename T, typename Char> consteval bool formatter_invocable() {
   using U = std::remove_cvref_t<T>;
   using Value = std::remove_reference_t<T>;
-  using F = formatter<U, Char>;
-  if constexpr (requires { typename F::ffmt_primary_type; }) {
-    if constexpr (!std::is_same_v<typename F::ffmt_primary_type, U>)
-      return false;
-  } else
-    return false;
   if constexpr (legacy_formatter<U>)
     return requires(Value &value) { formatter<U>::format(value); };
   else
@@ -96,7 +90,9 @@ template <typename T, typename Char> consteval bool formattable_type() {
         return false;
     }
   }
-  return false;
+  return requires(F &f, basic_format_parse_context<Char> &pc) {
+    f.parse(pc);
+  } && formatter_invocable<T, Char>();
 }
 } // namespace detail
 template <typename T, typename Char = char>

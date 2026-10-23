@@ -7,7 +7,11 @@ validate_one(basic_format_parse_context<Char> &pc) {
   using U = std::remove_cvref_t<T>;
   if constexpr (!formatter_invocable<T, Char>())
     return format_error::incompatible_type;
-  {
+  if constexpr (legacy_formatter<U>) {
+    if (pc.begin() != pc.end() && *pc.begin() != Char('}'))
+      return format_error::invalid_format;
+    return format_error::none;
+  } else {
     formatter<U, Char> fmt;
     auto it = fmt.parse(pc);
     pc.advance_to(it);
