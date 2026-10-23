@@ -14,7 +14,8 @@ template <typename T> struct mapped_argument<T, true> {
 };
 template <typename T>
 using mapped_argument_t = typename mapped_argument<T>::type;
-template <typename T> inline constexpr bool legacy_formatter = false;
+template <typename T>
+concept legacy_formatter = requires(T &x) { formatter<T>::format(x); };
 
 template <typename Context, typename T, typename Char>
 FMT_HD void write_value(Context &, const T &, basic_format_spec<Char>);

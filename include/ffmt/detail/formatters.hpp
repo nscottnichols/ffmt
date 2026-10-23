@@ -50,6 +50,11 @@ template <typename T, typename Char> struct formatter {
   }
 };
 
+template <detail::fixed_string Fmt, typename... Args> struct formatted {
+  static constexpr auto format_string = Fmt;
+  std::tuple<Args...> values;
+};
+
 namespace detail {
 template <typename Tuple, typename F, std::size_t... I>
 FMT_HD constexpr bool visit_index_impl(const Tuple &args, int index, F &&f,
