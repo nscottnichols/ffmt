@@ -199,7 +199,7 @@ FMT_HD void write_float(Context &ctx, T arg, basic_format_spec<Char> s) {
                   std::numeric_limits<T>::digits == 53)
       write_float(ctx, static_cast<double>(arg), s);
     else
-      ctx.on_error(format_error::unsupported_type);
+      write_extended_float(ctx, arg, s);
   } else {
     s = resolved(ctx, s);
     if (ctx.error() != format_error::none)
@@ -314,3 +314,5 @@ FMT_HD void write_float(Context &ctx, T arg, basic_format_spec<Char> s) {
   }
 }
 } // namespace ffmt::detail
+
+#include "extended.hpp"

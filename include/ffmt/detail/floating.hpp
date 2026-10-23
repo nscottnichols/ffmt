@@ -78,6 +78,47 @@ template <typename T> FMT_HD binary_parts split_binary(T value) {
     p.precision = 53;
     p.min_exponent = -1074;
     p.exponent = int(e ? e : 1) - 1023 - 52;
+  } else if constexpr (floating_traits<T>::precision == 53 &&
+                       sizeof(T) == sizeof(double)) {
+    return split_binary(static_cast<double>(value));
+  } else if constexpr ((floating_traits<T>::precision == 64 ||
+                        floating_traits<T>::precision == 113) &&
+                       sizeof(T) >= 10) {
+    struct storage {
+      unsigned char bytes[sizeof(T)];
+    };
+    auto raw = __builtin_bit_cast(storage, value);
+    auto byte = [&](unsigned i) {
+#if defined(__BYTE_ORDER__) && __BYTE_ORDER__ == __ORDER_BIG_ENDIAN__
+      return raw.bytes[sizeof(T) - 1 - i];
+#else
+      return raw.bytes[i];
+#endif
+    };
+    p.precision = floating_traits<T>::precision;
+    if constexpr (floating_traits<T>::precision == 64) {
+      for (unsigned i = 0; i < 8; ++i)
+        p.words[i / 4] |= std::uint32_t(byte(i)) << ((i % 4) * 8);
+      unsigned head = unsigned(byte(8)) | (unsigned(byte(9)) << 8),
+               e = head & 0x7fff;
+      p.negative = bool(head >> 15);
+      p.finite = e != 0x7fff;
+      p.nan = !p.finite && bool(p.words[0] | (p.words[1] & 0x7fffffff));
+      p.min_exponent = -16445;
+      p.exponent = int(e ? e : 1) - 16383 - 63;
+    } else {
+      for (unsigned i = 0; i < 16; ++i)
+        p.words[i / 4] |= std::uint32_t(byte(i)) << ((i % 4) * 8);
+      unsigned head = p.words[3], e = (head >> 16) & 0x7fff;
+      p.negative = bool(head >> 31);
+      p.words[3] &= 0xffff;
+      p.finite = e != 0x7fff;
+      p.nan = !p.finite && !p.zero();
+      if (e && p.finite)
+        p.words[3] |= 1u << 16;
+      p.min_exponent = -16494;
+      p.exponent = int(e ? e : 1) - 16383 - 112;
+    }
   } else
     p.supported = false;
   return p;
