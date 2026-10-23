@@ -18,7 +18,7 @@ NOW_NS := perl -MTime::HiRes=time -e 'printf("%d\n", time() * 1e9)'
 # output (the system std::format varies: libc++ and libstdc++ disagree on
 # some corners). Point FMT_DIR at an existing checkout to skip the fetch.
 FMT_REPO ?= https://github.com/fmtlib/fmt.git
-FMT_REF  ?= 35c58f084e7cd79b51997439cff68346f4c724c0
+FMT_REF  ?= 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
 FMT_DIR  ?= third_party/fmt
 FMT_HDR  := $(FMT_DIR)/include/fmt/format.h
 # Not header-only: its implementation is compiled once into a host object
@@ -310,13 +310,13 @@ FLAGS_fmt   := -DNEG_CHECK_FMT
 
 # One make target per compile, so `make -j test-negative` runs them in
 # parallel. They are never files, so they always run.
-neg-control/%: $(FMT_HDR)
+neg-control/%: $(FMT_HDR) verify-fmt
 	@if $(CXX) $(CXXFLAGS) $(FLAGS_$*) -c $(NEG_CONTROL) -o /dev/null; then \
 	  echo "negative/control [$*]: PASS (valid call compiles)"; \
 	else echo "negative/control [$*]: FAIL (harness cannot compile a valid call)"; exit 1; fi
 
 define NEG_template
-neg/$(1)/syntax: $(FMT_HDR)
+neg/$(1)/syntax: $(FMT_HDR) verify-fmt
 	@$$(CXX) $$(CXXFLAGS) -DNEG_SYNTAX_CHECK -c test/negative/$(1).cpp -o /dev/null || \
 	  { echo "negative/$(1): FAIL (the test file itself does not compile)"; exit 1; }
 neg/$(1)/%: neg/$(1)/syntax
@@ -331,3 +331,14 @@ test-negative: $(foreach v,specifiers buffer fmt,neg-control/$(v)) \
 
 clean:
 	rm -rf build/
+
+# Verify, never modify, an existing oracle checkout before using its code.
+.PHONY: verify-fmt
+verify-fmt: $(FMT_HDR)
+	@expected=$$(git -C "$(FMT_DIR)" rev-parse --verify '$(FMT_REF)^{commit}') && \
+	 actual=$$(git -C "$(FMT_DIR)" rev-parse HEAD) && \
+	 test "$$actual" = "$$expected" || \
+	 { echo 'fmt checkout does not match FMT_REF; supply a clean pinned checkout.' >&2; exit 1; }
+	@test -z "$$(git -C "$(FMT_DIR)" status --porcelain)" || \
+	 { echo 'fmt checkout has local changes; preserve it and supply a clean pinned checkout.' >&2; exit 1; }
+$(FMT_OBJ): | verify-fmt
