@@ -176,7 +176,8 @@ $(FMT_HDR):
 $(FMT_OBJ): $(FLAGS_STAMP) | build/.dir $(FMT_HDR)
 	$(CXX) $(filter-out -Werror,$(CXXFLAGS)) $(HOST_OPT) -c $(FMT_DIR)/src/format.cc -o $@
 
-DEPS := $(TEST_HDRS) include/ffmt/base.hpp $(FLAGS_STAMP)
+FFMT_HDRS := $(wildcard include/ffmt/*.hpp include/ffmt/detail/*.hpp)
+DEPS := $(TEST_HDRS) $(FFMT_HDRS) $(FLAGS_STAMP)
 
 # Run each binary in $(1), printing "<name>: PASS|FAIL (<ms>ms)"; fails if
 # any failed, after running them all.
