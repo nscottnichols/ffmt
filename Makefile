@@ -291,7 +291,7 @@ LLVM_COV       = $(shell $(CXX) -print-prog-name=llvm-cov)
 $(foreach p,specifiers buffer,$(eval $(call HOST_template,cov,$(COV_FLAGS),$(p))))
 
 coverage: build/cov_specifiers build/cov_buffer
-	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt/base.hpp $^
+	python3 .github/scripts/coverage_union.py $(LLVM_COV) $(LLVM_PROFDATA) include/ffmt $^
 
 # ── Negative tests (`make test-negative`) ───────────────────
 # Each .cpp in test/negative/ uses NEG_EXPECT_REJECTED(fmt, ...) and is
@@ -345,3 +345,5 @@ $(FMT_OBJ): | verify-fmt
 
 # Explicit focused-suite registrations travel with their implementation.
 include mk/portable-tests.mk
+
+include mk/portable-coverage.mk
