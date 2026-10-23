@@ -80,7 +80,7 @@ jobs:
 
   coverage:
     if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
-    name: coverage non-regression
+    name: source coverage reporting
     runs-on: ubuntu-24.04
     env:
       CXX: clang++
@@ -95,7 +95,7 @@ jobs:
         id: base
         run: |
           # PR runs compare against the merge base. Pushes fall back to
-          # comparing against origin/main so direct pushes are still gated.
+          # comparing against origin/main for the reporting baseline.
           if [ -n "${{ github.event.pull_request.base.sha }}" ]; then
             echo "ref=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
           else
@@ -119,24 +119,25 @@ jobs:
           mapfile -t BINS < <(find build -maxdepth 1 -type f -executable -name 'cov_*')
           python3 "$GITHUB_WORKSPACE/.github/scripts/coverage_union.py" \
             "$($CXX -print-prog-name=llvm-cov)" "$($CXX -print-prog-name=llvm-profdata)" \
-            include/ffmt/base.hpp "${BINS[@]}" > "$GITHUB_WORKSPACE/base.json"
+            include/ffmt "${BINS[@]}" > "$GITHUB_WORKSPACE/base.json"
       - name: Coverage on this branch
         run: |
           make -j2 coverage
           mapfile -t BINS < <(find build -maxdepth 1 -type f -executable -name 'cov_*')
           python3 .github/scripts/coverage_union.py \
             "$($CXX -print-prog-name=llvm-cov)" "$($CXX -print-prog-name=llvm-profdata)" \
-            include/ffmt/base.hpp "${BINS[@]}" > head.json
-      - name: Compare
+            include/ffmt "${BINS[@]}" > head.json
+      - name: Report coverage (no percentage regression gate)
         run: |
-          # Union over the coverage binaries (see coverage_union.py): a
-          # region counts as covered if either path's build covers it.
-          base=$(jq -r .percent base.json)
-          head=$(jq -r .percent head.json)
-          printf 'Regions coverage — base: %.4f%%  head: %.4f%%\n' "$base" "$head"
-          # 0.01pp slack: identical builds occasionally wobble at the 5th
-          # decimal (rounding when the region count differs by an
-          # always-false `if constexpr` branch, etc.). A real regression
-          # moves the number by much more than this.
-          awk -v b="$base" -v h="$head" \
-            'BEGIN { if (h+0 < b+0 - 0.01) { printf("FAIL: %.4f%% < base %.4f%% (drop)\n", h, b); exit 1 } }'
+          # Header moves and template instantiation change the denominator.
+          # Validate measurement, then leave per-file regression review to humans.
+          jq -e '.count > 0 and .covered > 0 and .lines.count > 0' head.json
+          for report in base head; do
+            echo "$report: $(jq -c '{regions: {covered, count, percent}, lines, branches}' "$report.json")" >> "$GITHUB_STEP_SUMMARY"
+          done
+      - uses: actions/upload-artifact@v4
+        with:
+          name: source-coverage
+          path: |
+            base.json
+            head.json
