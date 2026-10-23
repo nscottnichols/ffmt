@@ -145,6 +145,12 @@ endif
 
 all: $(TEST_GOAL)
 
+# Compare the current or explicitly pinned headers with the independent fmt oracle.
+REVISION ?= WORKTREE
+.PHONY: conformance
+conformance: $(FMT_HDR) verify-fmt
+	CXX="$(CXX)" python3 tools/conformance.py --revision "$(REVISION)" --host-cxx "$(CXX)" --fmt-dir "$(FMT_DIR)"
+
 # ── Common ──────────────────────────────────────────────────
 
 # Order-only prereq is a stamp file, not `build/`: GNU Make 3.81 (the
