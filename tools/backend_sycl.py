@@ -31,3 +31,32 @@ int main(int argc, char** argv) {
   }
 }
 """
+
+
+def numeric_launcher(route):
+    return r"""
+int main() {
+  try {
+    auto input = inputs();
+    std::vector<Output> output(input.size());
+    sycl::queue queue{sycl::gpu_selector_v};
+    Input* device_input = sycl::malloc_device<Input>(input.size(), queue);
+    Output* device_output = sycl::malloc_device<Output>(output.size(), queue);
+    if (!device_input || !device_output) return 81;
+    queue.memcpy(device_input, input.data(), input.size() * sizeof(Input)).wait_and_throw();
+    queue.memset(device_output, 0, output.size() * sizeof(Output)).wait_and_throw();
+    unsigned count = unsigned(input.size());
+    queue.parallel_for(sycl::range<1>(count), [=](sycl::id<1> id) {
+      format_record(device_input[id[0]], device_output[id[0]]);
+    }).wait_and_throw();
+    queue.memcpy(output.data(), device_output, output.size() * sizeof(Output)).wait_and_throw();
+    sycl::free(device_input, queue);
+    sycl::free(device_output, queue);
+    serialize(input, output);
+    return 0;
+  } catch (const std::exception& error) {
+    std::fprintf(stderr, "%s\n", error.what());
+    return 80;
+  }
+}
+"""
