@@ -59,7 +59,6 @@ FLAGS_buffer     := -DFFMT_BUFFER_PATH=1
 # "set" for `?=`, which would leave gcc in place; an env- or
 # command-line-supplied CXX (e.g. CXX=g++ from CI) still wins.
 ifdef USE_ACPP
-  export PATH := $(HOME)/projet/p26.02/install/bin:$(PATH)
   CXX             := acpp
   BACKEND_FLAGS   := --acpp-targets=generic
   OPT_LEVELS      := O0 O2
