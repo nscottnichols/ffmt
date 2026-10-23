@@ -31,7 +31,7 @@ FMT_HD constexpr bool compatible(const basic_format_spec<Char> &s) {
     return false;
   char t = s.type;
   if constexpr (str)
-    return !t || t == 's' || t == 'p';
+    return !t || t == 's' || t == '?' || t == 'p';
   if constexpr (std::is_pointer_v<T> || std::is_null_pointer_v<T>)
     return !t || t == 'p';
   if constexpr (std::is_same_v<T, bool>)
@@ -39,7 +39,7 @@ FMT_HD constexpr bool compatible(const basic_format_spec<Char> &s) {
            t == 'x' || t == 'X';
   if constexpr (integer<T>)
     return !t || t == 'd' || t == 'b' || t == 'B' || t == 'o' || t == 'x' ||
-           t == 'X' || t == 'c';
+           t == 'X' || t == 'c' || (ch && t == '?');
   if constexpr (flt)
     return !t || t == 'f' || t == 'F' || t == 'e' || t == 'E' || t == 'g' ||
            t == 'G' || t == 'a' || t == 'A';

@@ -15,6 +15,38 @@ template <typename Char> FMT_HD constexpr bool is_align(Char c) {
   return c == Char('<') || c == Char('>') || c == Char('^');
 }
 
+// Counted views never read a decoder byte beyond the supplied input.
+FMT_HD constexpr int decode_utf8(const char *s, std::size_t size,
+                                 std::uint32_t &cp) {
+  cp = invalid_code_point;
+  if (!size)
+    return 0;
+  auto b = static_cast<unsigned char>(s[0]);
+  if (b < 0x80) {
+    cp = b;
+    return 1;
+  }
+  int n = b >= 0xc2 && b <= 0xdf   ? 2
+          : b >= 0xe0 && b <= 0xef ? 3
+          : b >= 0xf0 && b <= 0xf4 ? 4
+                                   : 1;
+  if (n == 1 || static_cast<std::size_t>(n) > size)
+    return 1;
+  std::uint32_t v = b & (0x7f >> n);
+  for (int j = 1; j < n; ++j) {
+    auto t = static_cast<unsigned char>(s[j]);
+    if ((t & 0xc0) != 0x80)
+      return 1;
+    v = (v << 6) | (t & 0x3f);
+  }
+  if (v < (n == 2   ? 0x80u
+           : n == 3 ? 0x800u
+                    : 0x10000u) ||
+      (v >= 0xd800 && v <= 0xdfff) || v > 0x10ffff)
+    return 1;
+  cp = v;
+  return n;
+}
 }
 template <typename Char> class basic_format_parse_context {
   const Char *begin_;
@@ -141,6 +173,16 @@ FMT_HD constexpr auto parse_standard_specs(basic_format_parse_context<Char> &pc)
   auto p = pc.begin();
   auto end = pc.end();
   unsigned units = p != end ? 1 : 0;
+  if constexpr (sizeof(Char) == 1)
+    if (units && static_cast<unsigned char>(*p) >= 0x80) {
+      std::uint32_t cp;
+      units = decode_utf8(p, static_cast<std::size_t>(end - p), cp);
+      if (cp == invalid_code_point) {
+        pc.on_error(format_error::invalid_format);
+        pc.advance_to(p);
+        return s;
+      }
+    }
   if (units && static_cast<std::size_t>(end - p) > units &&
       is_align(p[units])) {
     if (*p == Char('{') || *p == Char('}'))
