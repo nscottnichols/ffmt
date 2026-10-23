@@ -1,9 +1,7 @@
 name: host
 
-# Does it format correctly? Runs the test suite on the CPU and diffs both
-# paths (FFMT_BUFFER_PATH=0 and =1, through libc printf) against {fmt}:
-# compilers x opt levels under sanitizers, plain Ubuntu / macOS builds,
-# -ffast-math, negative-compile tests, and the coverage gate.
+# Portable formatting regressions, independent exact-byte/memory conformance,
+# sanitizers, diagnostic-aware negative tests, and source coverage reporting.
 
 on:
   push:
@@ -37,10 +35,23 @@ jobs:
         run: ${{ matrix.cxx }} --version
       - name: Build + run host tests
         run: make -j2 test-host test-capabilities conformance-harness
+      - name: Compare the independent host stdout and memory corpora
+        run: >-
+          python3 tools/conformance.py
+          --route host-buffer --route host-specifiers
+          --opt "${HOST_OPT#-O}" --host-cxx "$CXX"
+          --fmt-dir third_party/fmt --output artifacts/ci-conformance
       - name: Build + run host tests under -ffast-math
         run: make test-fast-math
       - name: Run negative-compile tests
         run: make -j2 test-negative
+      - name: Preserve conformance commands, sources, diagnostics and results
+        if: ${{ always() && !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: conformance-${{ matrix.cxx }}-${{ matrix.opt }}
+          path: artifacts/ci-conformance/
+          if-no-files-found: warn
 
   plain:
     if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
