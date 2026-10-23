@@ -1,3 +1,9 @@
 build/
 a.out
 third_party/
+software/
+artifacts/
+__pycache__/
+*.pyc
+*.profraw
+*.profdata
