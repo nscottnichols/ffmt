@@ -3,6 +3,7 @@
 #include "config.hpp"
 #include "result.hpp"
 #include "arguments.hpp"
+#include "unicode_width.hpp"
 #include "parse.hpp"
 #include "type_categories.hpp"
 #include "type_traits.hpp"
