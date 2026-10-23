@@ -37,3 +37,29 @@ int main(int argc, char** argv) {
   return 0;
 }
 """
+
+
+def numeric_launcher(route):
+    return r"""
+__global__ void memory_kernel(const Input* input, Output* output, unsigned count) {
+  unsigned i = blockIdx.x * blockDim.x + threadIdx.x;
+  if (i < count) format_record(input[i], output[i]);
+}
+int main() {
+  auto input = inputs();
+  std::vector<Output> output(input.size());
+  Input* device_input = nullptr;
+  Output* device_output = nullptr;
+  if (cudaMalloc((void**)&device_input, input.size() * sizeof(Input)) != cudaSuccess) return 81;
+  if (cudaMalloc((void**)&device_output, output.size() * sizeof(Output)) != cudaSuccess) return 82;
+  if (cudaMemcpy(device_input, input.data(), input.size() * sizeof(Input), cudaMemcpyHostToDevice) != cudaSuccess) return 83;
+  if (cudaMemset(device_output, 0, output.size() * sizeof(Output)) != cudaSuccess) return 84;
+  memory_kernel<<<(input.size() + 63) / 64, 64>>>(device_input, device_output, unsigned(input.size()));
+  if (cudaGetLastError() != cudaSuccess || cudaDeviceSynchronize() != cudaSuccess) return 85;
+  if (cudaMemcpy(output.data(), device_output, output.size() * sizeof(Output), cudaMemcpyDeviceToHost) != cudaSuccess) return 86;
+  cudaFree(device_input);
+  cudaFree(device_output);
+  serialize(input, output);
+  return 0;
+}
+"""
