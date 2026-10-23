@@ -12,6 +12,10 @@ on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review]
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   nvptx:
     if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
@@ -38,7 +42,7 @@ jobs:
       - uses: ./.github/actions/setup-clang
       - uses: ./.github/actions/setup-cuda
       - name: Build
-        run: make -j$(nproc) CXX=clang++-22 ${{ matrix.make-args }} ${{ matrix.targets }}
+        run: make -j2 CXX=clang++-22 ${{ matrix.make-args }} ${{ matrix.targets }}
 
   intel:
     if: ${{ github.event_name != 'pull_request' || !github.event.pull_request.draft }}
@@ -68,4 +72,4 @@ jobs:
       - name: Build
         run: |
           source /opt/intel/oneapi/setvars.sh
-          make -j$(nproc) CXX=icpx AOT_DEVICE=pvc ${{ matrix.make-args }} ${{ matrix.targets }}
+          make -j2 CXX=icpx AOT_DEVICE=pvc ${{ matrix.make-args }} ${{ matrix.targets }}
