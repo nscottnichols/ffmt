@@ -342,3 +342,6 @@ verify-fmt: $(FMT_HDR)
 	@test -z "$$(git -C "$(FMT_DIR)" status --porcelain)" || \
 	 { echo 'fmt checkout has local changes; preserve it and supply a clean pinned checkout.' >&2; exit 1; }
 $(FMT_OBJ): | verify-fmt
+
+# Explicit focused-suite registrations travel with their implementation.
+include mk/portable-tests.mk
