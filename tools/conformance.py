@@ -4,6 +4,7 @@ import argparse
 import datetime
 import hashlib
 import importlib.util
+import io
 import json
 import os
 from pathlib import Path
@@ -12,6 +13,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import tarfile
 from process_evidence import ROOT, compare_bytes, path_label, record, run
 from oracle import FMT_COMMIT, oracle_identity
 import backends
@@ -51,12 +53,22 @@ def source_git(*args):
     return subprocess.check_output(["git"] + list(args), cwd=str(SOURCE_ROOT)).decode().strip()
 
 def snapshot(destination, revision):
-    if revision != "WORKTREE":
-        raise ValueError("this runner revision supports only --revision WORKTREE")
-    shutil.copytree(str(SOURCE_ROOT / "include"), str(destination / "include"))
-    return {str(path.relative_to(destination)): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted((destination / "include").rglob("*")) if path.is_file()}
-
+    if revision == "WORKTREE":
+        shutil.copytree(str(SOURCE_ROOT / "include"), str(destination / "include"))
+    else:
+        data = subprocess.check_output(["git", "archive", revision, "include"], cwd=str(SOURCE_ROOT))
+        with tarfile.open(fileobj=io.BytesIO(data)) as archive:
+            for member in archive.getmembers():
+                if not member.isfile():
+                    continue
+                name = Path(member.name)
+                if name.is_absolute() or ".." in name.parts:
+                    raise ValueError("unsafe source archive member")
+                path = destination / name
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_bytes(archive.extractfile(member).read())
+    return {str(p.relative_to(destination)): hashlib.sha256(p.read_bytes()).hexdigest()
+            for p in sorted((destination / "include").rglob("*")) if p.is_file()}
 
 def expression(item, reference=False):
     special = item.get("oracle_expr" if reference else "ffmt_expr")
@@ -104,7 +116,7 @@ class Campaign:
         self.host_cxx = shlex.split(args.host_cxx or os.environ.get("FFMT_HOST_CXX", "g++"))
         self.fmt = Path(args.fmt_dir).resolve()
         self.manifest = dict(schema_version=1, profile=args.profile, label=args.label, started=stamp,
-            source=dict(checkout=str(ROOT), commit=source_git("rev-parse", "HEAD" if args.revision == "WORKTREE" else args.revision),
+            source=dict(checkout=str(SOURCE_ROOT), commit=source_git("rev-parse", "HEAD" if args.revision == "WORKTREE" else args.revision),
                         worktree=args.revision == "WORKTREE", dirty=bool(source_git("status", "--porcelain")), files=hashes),
             runner=dict(checkout=str(ROOT), commit=git("rev-parse", "HEAD")),
             oracle=oracle,
@@ -202,10 +214,10 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--profiles", default=os.environ.get("FFMT_PROFILES_FILE"), help="Optional JSON profile defaults; no site profiles are required")
     parser.add_argument("--profile", default="local", help="Profile label/default routes from --profiles; built-in profile: local")
-
+    parser.add_argument("--source-root", default=str(SOURCE_ROOT), help="Library Git checkout to snapshot; runner and fixtures remain in this checkout")
     parser.add_argument("--route", action="append", choices=ROUTES)
     parser.add_argument("--opt", type=int, choices=(0, 1, 2, 3), action="append")
-    parser.add_argument("--revision", default="WORKTREE", choices=("WORKTREE",))
+    parser.add_argument("--revision", default="WORKTREE")
     parser.add_argument("--label", default="head")
     parser.add_argument("--output")
     parser.add_argument("--fmt-dir", default=os.environ.get("FFMT_FMT_DIR", str(WORKSPACE / "third_party/fmt")))
@@ -225,7 +237,7 @@ def main():
         parser.error(str(error))
     if args.profile not in args.profiles_config["profiles"]:
         parser.error("unknown profile %s; supply --profiles or use local" % args.profile)
-    SOURCE_ROOT = ROOT
+    SOURCE_ROOT = Path(args.source_root).resolve()
     if args.shard_size < 1:
         parser.error("--shard-size must be positive")
     if args.numeric_samples < 0:
