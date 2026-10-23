@@ -40,9 +40,8 @@ HOST_OPT ?= -O2
 # codegen is checked without a GPU.
 ICPX_OMP_TARGETS := $(if $(AOT_DEVICE),spir64_gen -Xopenmp-target-backend "-device $(AOT_DEVICE)",spir64)
 
-# Test sources are test/test_<name>.cpp. TESTS build on both paths;
-# BUFFER_TESTS use buffer-path-only specs ({:a}, {:b}, {:^}, ...), which the
-# specifiers path rejects at compile time.
+# Historical source-compatibility suites. Both FFMT_BUFFER_PATH values now use
+# the same engine; the focused suites are registered independently.
 TESTS        := integers floats strings layout misc formatter
 BUFFER_TESTS := buffer_path
 TEST_HDRS    := $(wildcard test/*.hpp test/*.inc)
@@ -122,7 +121,7 @@ else ifdef USE_OMP_ICPX
     BACKEND_FLAGS += -DFFMT_SPIRV_O0
   endif
   OPT_LEVELS      := O0 O2
-  DEVICE_TESTS    := $(TESTS)
+  DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)
   EXAMPLES        := build/readme1_omp build/readme2_omp
   TEST_GOAL       := test-omp
 else
@@ -135,7 +134,7 @@ else
   # FFMT_SPIRV_O0 gates tests broken by an icpx-SYCL-on-SPIR64 bug at -O0:
   # a string-literal accessed through a pointer segfaults on device.
   WA_O0           := -DFFMT_SPIRV_O0
-  DEVICE_TESTS    := $(TESTS)
+  DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)
   EXAMPLES        := build/readme1_sycl build/readme2_sycl build/readme3_sycl_omp
   TEST_GOAL       := test
 endif
