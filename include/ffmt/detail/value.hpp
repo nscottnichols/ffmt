@@ -60,7 +60,7 @@ FMT_HD void write_value(Context &ctx, const T &value,
     } else
       write_integer(ctx, value, s);
   } else if constexpr (floating<U>)
-    ctx.on_error(format_error::unsupported_type);
+    write_float(ctx, value, s);
   else if constexpr (std::is_pointer_v<U> || std::is_null_pointer_v<U>) {
     std::uintptr_t address = 0;
     if constexpr (std::is_pointer_v<U>)
