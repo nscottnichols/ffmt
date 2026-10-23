@@ -24,6 +24,8 @@ from backends import ROUTES, compiler, flags, link_flags
 WORKSPACE = Path(os.environ.get("FFMT_WORKSPACE", ROOT)).resolve()
 SOURCE_ROOT = Path(os.environ.get("FFMT_SOURCE_ROOT", ROOT)).resolve()
 
+import numeric_memory
+
 def load_profiles(path=None):
     """Load optional execution defaults without depending on a site campaign."""
     if path is None:
@@ -130,10 +132,10 @@ class Campaign:
         self.manifest["selection"] = dict(
             case_ids=[x["id"] for x in fixtures.CASES if not args.case or x["id"] in args.case],
             routes=args.route or args.profiles_config["profiles"][args.profile]["routes"],
-            optimizations=args.opt or [0, 2], numeric_samples=0,
-            memory=False, negative=not args.no_negative, shard_size=args.shard_size)
+            optimizations=args.opt or [0, 2], numeric_samples=args.numeric_samples,
+            memory=not args.no_memory, negative=not args.no_negative, shard_size=args.shard_size)
         self.manifest["runner_files"] = {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
-            for path in sorted((ROOT / "tools").glob("*.py"))}
+            for path in sorted((ROOT / "tools").glob("*.py")) + sorted((ROOT / "test/conformance").glob("*.cpp.in"))}
         self.manifest["timeouts"] = dict(compile=args.compile_timeout, execution=args.run_timeout, cold_jit=args.jit_timeout)
         self.manifest["invocation"] = [sys.executable, *sys.argv]
         self.manifest["workspace"] = str(WORKSPACE)
@@ -213,7 +215,8 @@ class Campaign:
         # Publish stdout evidence before an auxiliary suite can raise. A completed
         # status is assigned only after every requested auxiliary suite finishes.
         self.save()
-
+        if not self.args.no_memory and (self.output / "source/include/ffmt/core.hpp").is_file():
+            self.memory_suite(command, directory, route, config)
         if config["stdout_status"] == "completed" and not self.args.no_negative:
             self.negatives(command, directory, route, config)
         config["status"] = config["stdout_status"]
@@ -290,6 +293,40 @@ class Campaign:
         return result
 
 
+    def memory_suite(self, cmd, directory, route, config):
+        if not hasattr(backends.adapter(route), "numeric_launcher"):
+            config["numeric_memory"] = dict(status="unsupported", reason="adapter lacks numeric memory launcher")
+            return
+        src = directory / "numeric-memory.cpp"
+        src.write_text(numeric_memory.source(route, samples=self.args.numeric_samples))
+        p = run(cmd + [src] + link_flags(route) + ["-o", directory / "numeric-memory"], directory, "numeric-memory-build", self.args.compile_timeout)
+        result = dict(build=record(p), status="compile_failure", source_sha256=hashlib.sha256(src.read_bytes()).hexdigest())
+        config["numeric_memory"] = result
+        if p["exit_code"]:
+            return
+        if not (self.reference / "numeric-memory").exists():
+            src = self.reference / "numeric-memory.cpp"
+            src.write_text(numeric_memory.source("host-buffer", oracle=True, samples=self.args.numeric_samples))
+            reference_build = run(self.host_cxx + ["-std=c++20", "-O2", "-fno-fast-math", "-I" + str(self.fmt / "include"), src, self.reference / "fmt.o", "-o", self.reference / "numeric-memory"], self.reference, "numeric-memory-build", self.args.compile_timeout)
+            self.manifest["oracle"]["numeric_memory_build"] = record(reference_build)
+            if reference_build["exit_code"]:
+                raise RuntimeError("numeric oracle build failed")
+            reference_run = run([self.reference / "numeric-memory"], self.reference, "numeric-memory-run", self.args.run_timeout)
+            self.manifest["oracle"]["numeric_memory_run"] = record(reference_run)
+            if reference_run["exit_code"]:
+                raise RuntimeError("numeric oracle execution failed")
+        expected = (self.reference / "numeric-memory-run.stdout").read_bytes()
+        execution = run([directory / "numeric-memory"], directory, "numeric-memory-run", max(config.get("execution_timeout", self.args.run_timeout), 120))
+        result["execution"] = record(execution)
+        if execution["exit_code"]:
+            result["status"] = "execution_timeout" if execution.get("timeout") else "execution_failure"
+        else:
+            try:
+                result.update(numeric_memory.compare_records(expected, execution["stdout"]))
+            except ValueError as error:
+                result.update(status="transport_failure", reason=str(error))
+        print("%s numeric memory: %s (%s passed)" % (route, result["status"], result.get("passed", 0)), flush=True)
+
     def negatives(self, cmd, directory, route, config):
         for item in fixtures.NEGATIVE_CASES:
             src = directory / ("negative-" + item["id"] + ".cpp")
@@ -323,8 +360,8 @@ def main():
     parser.add_argument("--run-timeout", type=int, default=30)
     parser.add_argument("--jit-timeout", type=int, default=600, help="execution cap for routes that compile device images at launch")
     parser.add_argument("--no-negative", action="store_true")
-    parser.add_argument("--no-memory", action="store_true", help=argparse.SUPPRESS)
-    parser.add_argument("--numeric-samples", type=int, default=0, help=argparse.SUPPRESS)
+    parser.add_argument("--no-memory", action="store_true")
+    parser.add_argument("--numeric-samples", type=int, default=4096)
     args = parser.parse_args()
     try:
         args.profiles_config = load_profiles(args.profiles)
