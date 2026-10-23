@@ -147,5 +147,9 @@ parse_blocks(const std::string& s) {
   fprintf(stderr, "# %s: %d/%zu passed", name, passed, ids.size());
   if (skipped) fprintf(stderr, " (%d skipped)", skipped);
   fprintf(stderr, "\n");
+  if (failed == 0 && expected != actual) {
+    fprintf(stderr, "not ok - %s: raw stream mismatch outside parsed blocks\n", name);
+    return false;
+  }
   return failed == 0;
 }
