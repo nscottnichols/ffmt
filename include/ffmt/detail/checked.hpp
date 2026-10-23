@@ -16,5 +16,6 @@
 #include "dragonbox.hpp"
 #include "exact_decimal.hpp"
 #include "floating.hpp"
+#include "numeric.hpp"
 #include "text.hpp"
 #include "value.hpp"
