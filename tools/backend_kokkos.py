@@ -73,3 +73,35 @@ GUARD
   return 0;
 }
 """.replace("SPACE", space).replace("GUARD", device_guard(route))
+
+
+def numeric_launcher(route):
+    space = {"kokkos-serial": "Serial", "kokkos-cuda": "Cuda",
+             "kokkos-hip": "HIP", "kokkos-sycl": "SYCL"}[route]
+    return r"""
+#include <cstring>
+int main(int argc, char** argv) {
+  Kokkos::initialize(argc, argv);
+  if (std::strcmp(Kokkos::DefaultExecutionSpace::name(), "SPACE") != 0) {
+    Kokkos::finalize(); return 77;
+  }
+GUARD
+  {
+    auto input = inputs();
+    std::vector<Output> output(input.size());
+    unsigned count = unsigned(input.size());
+    Kokkos::View<Input*> device_input("input", count);
+    Kokkos::View<Output*> device_output("output", count);
+    auto host_input = Kokkos::create_mirror_view(device_input);
+    for (unsigned i = 0; i < count; ++i) host_input(i) = input[i];
+    Kokkos::deep_copy(device_input, host_input);
+    Kokkos::parallel_for("ffmt-memory", Kokkos::RangePolicy<>(0, count),
+      KOKKOS_LAMBDA(int i) { format_record(device_input(i), device_output(i)); });
+    auto host_output = Kokkos::create_mirror_view_and_copy(Kokkos::HostSpace{}, device_output);
+    for (unsigned i = 0; i < count; ++i) output[i] = host_output(i);
+    serialize(input, output);
+  }
+  Kokkos::finalize();
+  return 0;
+}
+""".replace("SPACE", space).replace("GUARD", device_guard(route))
