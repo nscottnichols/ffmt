@@ -109,7 +109,7 @@ else ifdef USE_CUDA_CLANG
   endif
   CUDA_ARCH       ?= sm_80
   CUDA_PATH       ?= /usr/local/cuda
-  BACKEND_FLAGS   := -x cuda --cuda-gpu-arch=$(CUDA_ARCH) \
+  BACKEND_FLAGS   := -x cuda --cuda-path=$(CUDA_PATH) --cuda-gpu-arch=$(CUDA_ARCH) \
                      -L$(CUDA_PATH)/lib64 -lcudart
   OPT_LEVELS      := O0 O2
   DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)

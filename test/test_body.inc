@@ -4,6 +4,10 @@
 #define CONCAT(a, b) CONCAT2(a, b)
 
 bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
+  if (!q.get_device().is_gpu()) {
+    std::fprintf(stderr, "%s: refusing SYCL CPU fallback\n", TEST_INC);
+    return false;
+  }
   int _test_id = 0;
 
 #include "test_reference_body.inc"
@@ -14,7 +18,7 @@ bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
 #define PRINT(fmt_str, ...) FFMT_PRINT(fmt_str __VA_OPT__(,) __VA_ARGS__)
 #define PRINTLN(fmt_str, ...) FFMT_PRINTLN(fmt_str __VA_OPT__(,) __VA_ARGS__)
 #define RUN(...) do { printf("Test %d\n", ++_test_id); \
-  q.parallel_for(N, [=](::sycl::id<1>) { __VA_ARGS__; }).wait(); } while (0)
+  q.parallel_for(N, [=](::sycl::id<1>) { __VA_ARGS__; }).wait_and_throw(); } while (0)
 #define SKIP_IF(gate, reason, ...) do {                                       \
   if (gate) printf("Test %d\n# skipped: %s\n", ++_test_id, reason);           \
   else RUN(__VA_ARGS__);                                                      \
@@ -30,6 +34,11 @@ bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
 }
 
 int main() {
-  ::sycl::queue q;
-  return CONCAT(test_, TEST_NAME)(q) ? 0 : 1;
+  try {
+    auto q = make_gpu_test_queue();
+    return CONCAT(test_, TEST_NAME)(q) ? 0 : 1;
+  } catch (const std::exception &error) {
+    std::fprintf(stderr, "SYCL hardware test failed: %s\n", error.what());
+    return 1;
+  }
 }

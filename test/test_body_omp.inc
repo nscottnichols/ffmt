@@ -1,9 +1,19 @@
 #include "capture.hpp"
+#include <omp.h>
 
 #define CONCAT2(a, b) a##b
 #define CONCAT(a, b) CONCAT2(a, b)
 
 bool CONCAT(test_, TEST_NAME)() {
+  // Check one target region before comparing output. A host fallback can match
+  // fmt perfectly while providing no evidence about the accelerator backend.
+  int on_initial_device = 1;
+#pragma omp target map(from : on_initial_device)
+  { on_initial_device = omp_is_initial_device(); }
+  if (on_initial_device) {
+    std::fprintf(stderr, "%s: refusing OpenMP host fallback\n", TEST_INC);
+    return false;
+  }
   int _test_id = 0;
 
 #include "test_reference_body.inc"

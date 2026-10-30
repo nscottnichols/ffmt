@@ -7,6 +7,7 @@
 #include <limits>
 #include <cstdlib>
 #include <cstring>
+#include <exception>
 #include <fmt/format.h>
 #include <iostream>
 #include <map>
@@ -23,6 +24,16 @@
 // they skip this include.
 #if defined(SYCL_LANGUAGE_VERSION) || FFMT_COMPILER_ACPP
 #include <sycl/sycl.hpp>
+
+// Hardware tests must select a GPU explicitly. CPU-only coverage uses test-host.
+// Rethrow asynchronous failures when each submitted event is waited on.
+static ::sycl::queue make_gpu_test_queue() {
+  return ::sycl::queue{
+      ::sycl::gpu_selector_v, [](::sycl::exception_list errors) {
+        for (const auto &error : errors)
+          std::rethrow_exception(error);
+      }};
+}
 #endif
 
 constexpr int N = 2;
@@ -69,12 +80,20 @@ static std::string capture_stdout(auto&& fn) {
   int saved_fd = dup(STDOUT_FILENO);
   dup2(mem_fd, STDOUT_FILENO);
 
-  fn();
-
-  std::cout.flush();
-  fflush(stdout);
-  dup2(saved_fd, STDOUT_FILENO);
-  close(saved_fd);
+  auto restore_stdout = [&]() {
+    std::cout.flush();
+    fflush(stdout);
+    dup2(saved_fd, STDOUT_FILENO);
+    close(saved_fd);
+  };
+  try {
+    fn();
+  } catch (...) {
+    restore_stdout();
+    fclose(tmp);
+    throw;
+  }
+  restore_stdout();
 
   auto size = lseek(mem_fd, 0, SEEK_END);
   lseek(mem_fd, 0, SEEK_SET);

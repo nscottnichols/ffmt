@@ -103,3 +103,116 @@ class OraclePinTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("local changes", result.stderr)
         self.assertEqual(self.header.read_text(), "// local work must survive\n")
+
+
+@unittest.skipUnless(shutil.which("make") and shutil.which("perl"), "Make/Perl unavailable")
+class MakeContractsTests(unittest.TestCase):
+    """Exercise the real Make rules without invoking a C++ compiler."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temporary.cleanup)
+        self.directory = Path(self.temporary.name)
+        shutil.copyfile(ROOT / "Makefile", self.directory / "Makefile")
+        self.registration = self.directory / "test/direct/tests.mk"
+        self.registration.parent.mkdir(parents=True)
+        self.registration.write_text(
+            "FFMT_SHARED_TESTS :=\nFFMT_BUFFER_TESTS :=\nFFMT_HOST_ONLY_TESTS :=\n"
+            "FFMT_DIRECT_TESTS := mandatory optional\n"
+            "FFMT_DIRECT_CXX23_TESTS := future\n"
+            "FFMT_DIRECT_REFERENCE_mandatory := 0\n"
+            "FFMT_DIRECT_REFERENCE_optional := 0\n"
+            "FFMT_DIRECT_REFERENCE_future := 0\n"
+            "FFMT_DIRECT_OPTIONAL_mandatory := 0\n"
+            "FFMT_DIRECT_OPTIONAL_optional := 1\n"
+            "FFMT_DIRECT_OPTIONAL_future := 1\n")
+        for name in ("mandatory", "optional", "future"):
+            (self.registration.parent / ("test_" + name + ".cpp")).write_text(
+                "int main() { return 0; }\n")
+        self.header = self.directory / "include/ffmt/base.hpp"
+        self.header.parent.mkdir(parents=True)
+        self.header.write_text("// dependency fixture\n")
+        (self.directory / "build").mkdir()
+        (self.directory / "build/.dir").touch()
+        (self.directory / "build/.flags").touch()
+        # Stable relative ordering, independent of filesystem clock resolution.
+        for path in self.directory.rglob("*"):
+            if path.is_file():
+                self.stamp(path, 1000000000)
+
+    @staticmethod
+    def stamp(path, timestamp):
+        import os
+        os.utime(path, (timestamp, timestamp))
+
+    def make(self, target, *, dry_run=True):
+        command = ["make", "--no-print-directory", "-o", "build/.flags"]
+        if dry_run:
+            command.append("-n")
+        command += [target, "CXX=unused-compiler"]
+        return subprocess.run(command, cwd=self.directory, capture_output=True, text=True)
+
+    def binary(self, name, return_code=0):
+        binary = self.directory / ("build/test_" + name)
+        binary.write_text("#!/bin/sh\nexit " + str(return_code) + "\n")
+        binary.chmod(0o755)
+        self.stamp(binary, 1000000200)
+
+    def test_missing_declared_source_is_a_failure(self):
+        (self.registration.parent / "test_mandatory.cpp").unlink()
+        result = self.make("build/test_mandatory")
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("test_mandatory.cpp", result.stderr)
+
+    def test_registration_edit_rebuilds_cached_binary(self):
+        self.binary("mandatory")
+        before = self.make("build/test_mandatory")
+        self.assertEqual(before.returncode, 0, before.stderr)
+        self.assertNotIn("-o build/test_mandatory", before.stdout)
+        with self.registration.open("a") as stream:
+            stream.write("FFMT_DIRECT_FLAGS_mandatory := -DCHANGED\n")
+        self.stamp(self.registration, 1000000300)
+        after = self.make("build/test_mandatory")
+        self.assertEqual(after.returncode, 0, after.stderr)
+        self.assertIn("-DCHANGED", after.stdout)
+        self.assertIn("-o build/test_mandatory", after.stdout)
+
+    def test_header_macro_edit_rebuilds_cached_binary(self):
+        self.binary("mandatory")
+        before = self.make("build/test_mandatory")
+        self.assertEqual(before.returncode, 0, before.stderr)
+        self.assertNotIn("-o build/test_mandatory", before.stdout)
+        self.header.write_text("#define FFMT_BUFFER_SIZE 32\n")
+        self.stamp(self.header, 1000000300)
+        after = self.make("build/test_mandatory")
+        self.assertEqual(after.returncode, 0, after.stderr)
+        self.assertIn("-o build/test_mandatory", after.stdout)
+
+    def test_default_direct_checks_keep_cxx20(self):
+        result = self.make("test-direct")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("test/direct/test_mandatory.cpp", result.stdout)
+        self.assertIn("-std=c++20", result.stdout)
+        self.assertNotIn("test/direct/test_future.cpp", result.stdout)
+        self.assertNotIn("-std=c++23", result.stdout)
+
+    def test_cxx23_checks_require_explicit_target(self):
+        result = self.make("test-cxx23")
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("test/direct/test_future.cpp", result.stdout)
+        self.assertIn("-std=c++23", result.stdout)
+        self.assertNotIn("test/direct/test_mandatory.cpp", result.stdout)
+
+    def test_mandatory_exit_77_is_a_failure(self):
+        self.binary("mandatory", 77)
+        self.binary("optional")
+        result = self.make("test-direct", dry_run=False)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn("test_mandatory: FAIL", result.stdout)
+
+    def test_declared_optional_exit_77_is_visible_as_skip(self):
+        self.binary("mandatory")
+        self.binary("optional", 77)
+        result = self.make("test-direct", dry_run=False)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("test_optional: SKIP (optional compiler capability)", result.stdout)
