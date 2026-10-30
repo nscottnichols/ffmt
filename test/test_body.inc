@@ -4,25 +4,13 @@
 #define CONCAT(a, b) CONCAT2(a, b)
 
 bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
+  if (!q.get_device().is_gpu()) {
+    std::fprintf(stderr, "%s: refusing SYCL CPU fallback\n", TEST_INC);
+    return false;
+  }
   int _test_id = 0;
 
-  auto std_out = capture_stdout([&]() {
-#define FFMT_STD_PATH
-#define PRINT(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__)
-#define PRINTLN(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__) << '\n'
-#define RUN(...) do { printf("Test %d\n", ++_test_id); \
-  for (int _i = 0; _i < N; _i++) { __VA_ARGS__; } } while (0)
-#define SKIP_IF(gate, reason, ...) do {                                       \
-  if (gate) printf("Test %d\n# skipped: %s\n", ++_test_id, reason);           \
-  else RUN(__VA_ARGS__);                                                      \
-} while (0)
-#include TEST_INC
-#undef SKIP_IF
-#undef RUN
-#undef PRINTLN
-#undef PRINT
-#undef FFMT_STD_PATH
-  });
+#include "test_reference_body.inc"
 
   _test_id = 0;
 
@@ -30,7 +18,7 @@ bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
 #define PRINT(fmt_str, ...) FFMT_PRINT(fmt_str __VA_OPT__(,) __VA_ARGS__)
 #define PRINTLN(fmt_str, ...) FFMT_PRINTLN(fmt_str __VA_OPT__(,) __VA_ARGS__)
 #define RUN(...) do { printf("Test %d\n", ++_test_id); \
-  q.parallel_for(N, [=](::sycl::id<1>) { __VA_ARGS__; }).wait(); } while (0)
+  q.parallel_for(N, [=](::sycl::id<1>) { __VA_ARGS__; }).wait_and_throw(); } while (0)
 #define SKIP_IF(gate, reason, ...) do {                                       \
   if (gate) printf("Test %d\n# skipped: %s\n", ++_test_id, reason);           \
   else RUN(__VA_ARGS__);                                                      \
@@ -46,6 +34,11 @@ bool CONCAT(test_, TEST_NAME)(::sycl::queue& q) {
 }
 
 int main() {
-  ::sycl::queue q;
-  return CONCAT(test_, TEST_NAME)(q) ? 0 : 1;
+  try {
+    auto q = make_gpu_test_queue();
+    return CONCAT(test_, TEST_NAME)(q) ? 0 : 1;
+  } catch (const std::exception &error) {
+    std::fprintf(stderr, "SYCL hardware test failed: %s\n", error.what());
+    return 1;
+  }
 }

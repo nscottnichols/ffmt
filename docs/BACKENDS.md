@@ -13,7 +13,7 @@ for every compiler/runtime release.
 | HIP | HIP-capable compiler and a matching runtime | Same bounded-byte emission contract; test launch/synchronization errors remain observable. |
 | SYCL / SPIR-V | GPU-capable SYCL compiler/runtime | Tests select a GPU and propagate asynchronous errors. Some SPIR-V printf runtimes drop NUL. |
 | OpenMP target | Compiler, device runtime and target libraries built for the same stack | Tests reject host fallback; applications manage their target runtime. |
-| Kokkos | Kokkos built for the requested execution space | Tests verify the actual default execution space and selected device. |
+| Kokkos | Kokkos built for the requested execution space | The evaluation adapter verifies the actual execution space and device; the library harness has no separate Kokkos launcher. |
 | AdaptiveCpp SSCP | SSCP-capable compiler/runtime | Its supported device print builtin accepts null-terminated strings. |
 | chipStar | Matching HIP/SPIR-V compiler, translator and runtime | Generic printf pointer handling follows the chipStar device ABI. |
 

@@ -1,47 +1,59 @@
 #!/usr/bin/env python3
-"""Reason-aware driver for the existing ffmt negative-compile corpus."""
+"""Run the original compile-rejection corpus with positive and syntax controls."""
 import argparse
-import datetime
-import json
 from pathlib import Path
 import shlex
+import subprocess
 import sys
-from process_evidence import ROOT, record, run
+
 from compile_diagnostics import negative_status
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def compile_case(command, source, flags, output, name):
+    """Keep compiler diagnostics in the build tree; a crash is never a rejection."""
+    argv = command + flags + ["-c", str(source), "-o", str(output / "negative.o")]
+    try:
+        process = subprocess.run(argv, cwd=ROOT, capture_output=True, timeout=180)
+        result = dict(exit_code=process.returncode, stderr=process.stderr)
+    except (OSError, subprocess.TimeoutExpired) as error:
+        result = dict(exit_code=-1, stderr=str(error).encode())
+    (output / (name + ".stderr")).write_bytes(result["stderr"])
+    return result
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--cxx", default="c++")
     parser.add_argument("--flags", default="-std=c++20 -Iinclude -Ithird_party/fmt/include")
-    parser.add_argument("--output")
+    parser.add_argument("--output", type=Path, default=ROOT / "build/negative")
     args = parser.parse_args()
-    output = Path(args.output) if args.output else ROOT / "artifacts/negative" / datetime.datetime.now(datetime.timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    output.mkdir(parents=True, exist_ok=False)
+    args.output.mkdir(parents=True, exist_ok=True)
     command = shlex.split(args.cxx) + shlex.split(args.flags)
-    variants = dict(specifiers=["-DFFMT_BUFFER_PATH=0"], buffer=["-DFFMT_BUFFER_PATH=1"], fmt=["-DNEG_CHECK_FMT"])
-    results = []
-    bad = False
-    for variant, flags in variants.items():
-        p = run(command + flags + ["-c", ROOT / "test/negative/control/accept_valid.cpp", "-o", output / "control.o"], output, "control-" + variant)
-        results.append(dict(id="control", variant=variant, status="pass" if p["exit_code"] == 0 else "infrastructure_failure", process=record(p)))
-        bad |= p["exit_code"] != 0
-    if not bad:
-        for source in sorted((ROOT / "test/negative").glob("*.cpp")):
-            syntax = run(command + ["-DNEG_SYNTAX_CHECK", "-c", source, "-o", output / "syntax.o"], output, source.stem + "-syntax")
-            if syntax["exit_code"]:
-                results.append(dict(id=source.stem, status="infrastructure_failure", syntax=record(syntax)))
-                bad = True
-                continue
-            for variant, flags in variants.items():
-                p = run(command + flags + ["-c", source, "-o", output / "negative.o"], output, source.stem + "-" + variant)
-                status = negative_status(p)
-                results.append(dict(id=source.stem, variant=variant, status=status, syntax=record(syntax), process=record(p)))
-                print("negative/%s [%s]: %s" % (source.stem, variant, status), flush=True)
-                bad |= status != "expected_rejection"
-    (output / "manifest.json").write_text(json.dumps(dict(schema_version=1, cases=results), indent=2) + "\n")
-    print("Negative evidence: " + str(output / "manifest.json"))
-    return int(bad)
+    variants = {"specifiers": ["-DFFMT_BUFFER_PATH=0"],
+                "buffer": ["-DFFMT_BUFFER_PATH=1"], "fmt": ["-DNEG_CHECK_FMT"]}
+    failed = False
+    for name, flags in variants.items():
+        result = compile_case(command, ROOT / "test/negative/control/accept_valid.cpp",
+                              flags, args.output, "control-" + name)
+        if result["exit_code"]:
+            print("negative/control [%s]: FAIL (valid format did not compile)" % name)
+            return 1
+    for source in sorted((ROOT / "test/negative").glob("*.cpp")):
+        result = compile_case(command, source, ["-DNEG_SYNTAX_CHECK"],
+                              args.output, source.stem + "-syntax")
+        if result["exit_code"]:
+            print("negative/%s: FAIL (syntax control)" % source.stem)
+            failed = True
+            continue
+        for name, flags in variants.items():
+            result = compile_case(command, source, flags, args.output, source.stem + "-" + name)
+            status = negative_status(result)
+            print("negative/%s [%s]: %s" % (source.stem, name, status), flush=True)
+            failed |= status != "expected_rejection"
+    print("Negative diagnostics: " + str(args.output))
+    return int(failed)
 
 
 if __name__ == "__main__":

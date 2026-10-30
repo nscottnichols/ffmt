@@ -1,7 +1,7 @@
 # Named arguments
 
 ```cpp
-#include <ffmt/args.hpp>
+#include <ffmt/base.hpp>
 char out[16];
 auto result = ffmt::format_to_n(out, sizeof out, "{value:04x}", ffmt::arg("value", 42));
 // out contains "002a"; result.written == result.required == 4.

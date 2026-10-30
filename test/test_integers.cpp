@@ -45,4 +45,19 @@ RUN(PRINT("{:5d}\n", static_cast<uint8_t>(200)));
 RUN(PRINT("[{:300}]\n", 1));
 RUN(PRINT("[{:<1000}]\n", -7));
 
+
+// Regressions moved from the separate conformance fixture registry.
+// int-min
+RUN(PRINT("{}", INT64_MIN));
+// uint-max
+RUN(PRINT("{}", UINT64_MAX));
+// uint-d
+RUN(PRINT("{:d}", 4000000000u));
+// signed-hex
+RUN(PRINT("{:#010x}", -42));
+// binary-max
+RUN(PRINT("{:b}", UINT64_MAX));
+// zero-alt
+RUN(PRINT("{:#x} {:#o} {:#b}", 0u, 0u, 0u));
+
 #endif

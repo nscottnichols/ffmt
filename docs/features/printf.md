@@ -1,7 +1,7 @@
 # Checked typed percent formatting
 
 ```cpp
-#include <ffmt/printf.hpp>
+#include <ffmt/base.hpp>
 char out[32];
 auto result = ffmt::printf_to_n(out, sizeof out, "%#08x %.3f", 42u, 1.25);
 // out contains "0x00002a 1.250".

@@ -1,3 +1,3 @@
-// Internal compatibility include. Applications include ffmt/base.hpp.
+// Compatibility include. The implementation is maintained in ffmt/base.hpp.
 #pragma once
-#include "detail/checked.hpp"
+#include "base.hpp"

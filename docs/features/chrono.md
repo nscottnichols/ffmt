@@ -1,7 +1,7 @@
 # Locale-independent chrono formatting
 
 ```cpp
-#include <ffmt/chrono.hpp>
+#include <ffmt/base.hpp>
 ffmt::println("{:%T}", std::chrono::milliseconds{-123456}); // -00:02:03.456
 ffmt::println("{:%G-W%V-%u}", std::chrono::year{2021}/1/1); // 2020-W53-5
 ```

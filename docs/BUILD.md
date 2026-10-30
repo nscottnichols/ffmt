@@ -1,10 +1,18 @@
 # Build and install
 
-ffmt is a C++20 header-only library. Use a C++20-capable compiler; CMake
-integration requires CMake 3.20 or newer. Library consumers need neither fmt,
-Python nor a GPU runtime for host formatting.
+ffmt requires C++20. The complete implementation is maintained directly in
+`include/ffmt/base.hpp`; copying that file alone is sufficient. The other header
+paths are compatibility includes. There is no amalgamation or generation step.
+C++23 expected adapters are guarded and do not raise the C++20 requirement.
+A host consumer needs neither fmt, Python nor a GPU runtime.
 
-For a source checkout:
+```sh
+mkdir -p /tmp/my-include/ffmt
+cp include/ffmt/base.hpp /tmp/my-include/ffmt/
+c++ -std=c++20 -I/tmp/my-include my_program.cpp -o my_program
+```
+
+CMake 3.20 or newer provides a header-only interface target:
 
 ```cmake
 add_subdirectory(ffmt)
@@ -21,42 +29,34 @@ cmake --build build/consumer -j2
 ./build/consumer/ffmt_consumer
 ```
 
-The consumer uses `find_package(ffmt CONFIG REQUIRED)` and links `ffmt::ffmt`.
-The target supplies include directories and the C++20 language requirement.
-Compiler backend flags, runtime linking and kernel launch/synchronization remain
-the application's responsibility; see [transport contract](api/transport.md).
+The package installs the implementation, compatibility wrappers, interface target
+and notices. Configuring an ordinary consumer never discovers or fetches test
+dependencies. Applications supply their backend compiler flags, runtime linking,
+launching and synchronization; see [backend contracts](BACKENDS.md).
 
-The package installs headers, CMake target metadata and third-party notices. It
-does not fetch software or discover test dependencies while configuring an
-ordinary consumer. Select `CMAKE_INSTALL_INCLUDEDIR` and `CMAKE_INSTALL_LIBDIR`
-through standard GNUInstallDirs options when packaging for another layout.
+## Portable tests
 
-## Portable CMake tests
-
-Tests are opt-in. They require Python 3, Git and a clean independent fmt checkout
-at revision `0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f`. Configuration verifies
-that checkout and never clones, switches or modifies it.
+Opt-in tests require Git, Python 3 and a clean fmt checkout at
+`0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f`. CMake verifies the checkout without
+modifying it. Make can fetch that exact reference if it is absent.
 
 ```sh
-git clone https://github.com/fmtlib/fmt.git third_party/fmt
-git -C third_party/fmt checkout 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
+make verify-fmt CXX=g++
+make -j2 test-portable CXX=g++
 cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DFFMT_FMT_DIR="$PWD/third_party/fmt"
 cmake --build build/cmake -j2
 ctest --test-dir build/cmake --output-on-failure
 ```
 
-Each declared C++ suite has an explicit source and CTest entry. Missing sources
-fail configuration; they are never silently omitted. Assertions stay enabled in
-Release builds. The floating suite also runs with `FFMT_PORTABLE_SHORTEST=1`;
-the fast-math target has a separately compiled strict oracle. Python discovery
-runs every `test_*.py` capability test, rather than only the original runner test.
+Both frontends read the same explicit inventory, `test/direct/tests.mk`. They
+build the original shared-case host harness and direct API regressions. Missing
+sources are errors. Assertions stay enabled in Release builds. fmt's implementation
+is compiled once for the host, including in accelerator builds.
 
-Native int128, BitInt and binary128 tests report CTest skips via exit 77 when the
-compiler lacks the tested extension. Optional C++23 expected/unexpected tests use
-`-DFFMT_BUILD_CXX23_TESTS=ON`; that option requires `FFMT_BUILD_TESTS=ON` and a
-compiler accepting C++23 mode. A standard library lacking expected reports 77.
-A skip is not evidence that the corresponding feature conforms.
+`make test-cxx23` or `-DFFMT_BUILD_CXX23_TESTS=ON` opts into C++23 tests. Compiler
+extension tests return 77 when unsupported; this is a visible skip, not a pass.
+The isolated consumer target compiles with only a copied `base.hpp`, without the
+repository include directory, compatibility wrappers, or fmt.
 
-The full host differential test compares both compatibility paths, including
-the independent numeric memory corpus. Compiler/runtime investigations and
-accelerator campaign results remain separate; see [the independent runner guide](conformance/tool-host-oracle.md).
+See the [test guide](CONFORMANCE.md) and [maintenance inventory](MAINTENANCE.md)
+for test boundaries, flags and retained components.

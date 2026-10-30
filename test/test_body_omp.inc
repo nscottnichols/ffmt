@@ -1,31 +1,22 @@
 #include "capture.hpp"
+#include <omp.h>
 
 #define CONCAT2(a, b) a##b
 #define CONCAT(a, b) CONCAT2(a, b)
 
 bool CONCAT(test_, TEST_NAME)() {
+  // Check one target region before comparing output. A host fallback can match
+  // fmt perfectly while providing no evidence about the accelerator backend.
+  int on_initial_device = 1;
+#pragma omp target map(from : on_initial_device)
+  { on_initial_device = omp_is_initial_device(); }
+  if (on_initial_device) {
+    std::fprintf(stderr, "%s: refusing OpenMP host fallback\n", TEST_INC);
+    return false;
+  }
   int _test_id = 0;
 
-  auto std_out = capture_stdout([&]() {
-#define FFMT_STD_PATH
-#define PRINT(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__)
-#define PRINTLN(fmt_str, ...) std::cout << ::fmt::format(fmt_str __VA_OPT__(,) __VA_ARGS__) << '\n'
-#define RUN(...) do { printf("Test %d\n", ++_test_id); \
-  for (int _i = 0; _i < N; _i++) { __VA_ARGS__; } } while (0)
-// SKIP_IF: when `gate` is true (a Makefile-defined per-backend bug flag),
-// emit `Test N\n# skipped: <reason>` on both reference and target streams
-// so diff_output reports it as `skipped`. When false, falls through to RUN.
-#define SKIP_IF(gate, reason, ...) do {                                       \
-  if (gate) printf("Test %d\n# skipped: %s\n", ++_test_id, reason);           \
-  else RUN(__VA_ARGS__);                                                      \
-} while (0)
-#include TEST_INC
-#undef SKIP_IF
-#undef RUN
-#undef PRINTLN
-#undef PRINT
-#undef FFMT_STD_PATH
-  });
+#include "test_reference_body.inc"
 
   _test_id = 0;
 

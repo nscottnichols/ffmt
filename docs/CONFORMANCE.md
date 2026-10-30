@@ -1,98 +1,82 @@
 # Portable conformance and regression tests
 
-For library usage see [API contracts](API.md), and for installation/CMake
-options see [build and test integration](BUILD.md).
+The original harness is the common foundation: one clean pinned fmt reference
+compiled for the host, shared host/device cases, backend bodies, exact stdout
+comparison, negative compilation controls, and Make/CI integration. The library
+builds and tests without the evaluation repository.
 
-The reference is an independent host build of fmt commit
-`0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f`. Generated target programs include
-ffmt and backend headers, never fmt. The library and its test tools run without
-campaign profiles, scheduler commands or the evaluation repository.
+## Reference and commands
 
-## Prepare the reference
-
-```sh
-git clone https://github.com/fmtlib/fmt.git third_party/fmt
-git -C third_party/fmt checkout 0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f
-```
-
-Use a C++20-capable compiler such as GCC 13 or a recent Clang. A normal library
-consumer needs neither fmt nor Python. Tests use Python 3 and the pinned fmt
-checkout; `--fmt-dir` or CMake's `FFMT_FMT_DIR` can select an existing checkout.
-
-## Build and run
+The reference is fmt `0fc31633e7d53ac895ae0a688b83b7d44f0b0c1f`. Set
+`FMT_DIR=/path/to/fmt` to reuse a clean checkout; it is verified without modification.
+Otherwise Make fetches the pin. Consumers do not depend on fmt.
 
 ```sh
-python3 -m unittest discover -s test/conformance -p 'test_*.py'
-cmake -S . -B build/cmake -DFFMT_BUILD_TESTS=ON -DCMAKE_CXX_COMPILER=g++
-cmake --build build/cmake -j2
-ctest --test-dir build/cmake --output-on-failure
-make test-host test-capabilities test-negative CXX=g++
+make -j2 test-portable CXX=g++
+make -j2 test-portable CXX=clang++ HOST_OPT=-O0 \
+  EXTRA_CXXFLAGS='-fsanitize=address,undefined -fno-sanitize-recover=all'
+make test-cxx23 CXX=g++
 ```
 
-CTest and Make explicitly register the decomposed numeric, bounded-output,
-custom-type and independent family regressions. Missing declared C++ sources
-are configuration/build errors, not silently omitted tests. CMake also runs
-the seeded floating suite with `FFMT_PORTABLE_SHORTEST=1`. Optional extension types return an explicit skip
-(exit 77). C++23 adapters are enabled with `FFMT_BUILD_CXX23_TESTS=ON` or
-`make test-cxx23`. Assertions remain enabled in release test builds.
+`test-portable` runs the original two host compatibility configurations, direct
+API assertions, fast-math probes, negative tests, small infrastructure checks,
+and an isolated single-header consumer. `test-host`, `test-direct`,
+`test-negative`, `test-fast-math` and `test-single-header` remain useful individually.
+CMake/CTest builds the same explicit inventory; see [build integration](BUILD.md).
 
-The differential runner can be used independently:
+## Where a case belongs
+
+Text formatting cases go in the original `test/test_*.cpp` shared case bodies.
+They run against the host fmt object, then against ffmt on the selected backend,
+using the existing capture/diff reporter. The added corpus contributes 40 cases
+in those shared suites and 14 richer host-only cases in `test/test_features.cpp`.
+Host-only standard objects are not claimed as GPU execution coverage.
+
+Direct tests under `test/direct/` inspect state that stdout cannot establish:
+`written`, `required`, advanced iterators, bounded prefixes, untouched sentinels,
+error/no-write behavior, conversion boundaries, forwarding and single-pass range
+semantics. Existing seeded numeric and family sweeps remain. `test/reference.hpp`
+shares their small host-only oracle/comparison helper; it is not a backend runner.
+
+`test/direct/tests.mk` is the one explicit Make/CMake source inventory. Add a test
+there with nondefault flags or optional capability markers only when needed.
+Assertions remain enabled; optional compiler/library extensions return 77 and
+are reported as skips. Default tests require C++20; C++23 remains opt-in.
+
+## Negative and backend checks
+
+`make test-negative` compiles the existing rejection corpus against both ffmt
+compatibility macros and fmt. Each variant first compiles a valid control, and
+each rejection source has a syntax control. Expected format diagnostics must be
+present: an unrelated error, missing header, timeout or compiler crash fails.
+Diagnostics stay in `build/negative/`.
+
+Existing backend builds reuse the same cases and fmt host object:
 
 ```sh
-python3 tools/conformance.py --route host-buffer --route host-specifiers --opt 0 --opt 2
-python3 tools/conformance.py --case long-padding --numeric-samples 32 --opt 2
+make -j2 USE_CUDA_CLANG=1 CXX=clang++ CUDA_PATH=/path/to/cuda build/test_main_cuda
+make -j2 USE_HIP=1 CXX=hipcc OFFLOAD_ARCH=gfx942 compile-hip
+make -j2 USE_OMP_CLANG=1 CXX=clang++ OFFLOAD_ARCH=sm_80 compile-omp
+make -j2 CXX=icpx AOT_DEVICE=pvc build
+make -j2 USE_OMP_ICPX=1 CXX=icpx AOT_DEVICE=pvc build/test_main_omp
 ```
 
-The default is the current working headers; `--revision COMMIT` takes an immutable
-snapshot. `--source-root CHECKOUT` selects another ffmt source repository while
-the portable runner and fixtures remain identified separately. Output goes to a
-fresh ignored `artifacts/` directory, or an explicit `--output` path. Manifests
-retain source, fixture and oracle identities, commands, diagnostics and outcomes.
+Compile/link checks do not establish device execution. Runtime-specific gates
+remain visible as skips. Device-callable standard-library operations still depend
+on the compiler/runtime. Accelerator execution and independently selected source
+snapshots belong in [ffmt-evaluation](https://github.com/nscottnichols/ffmt-evaluation).
 
-Expected stdout is compared byte for byte, including empty output, missing
-newlines and embedded NUL. Expected output is never trimmed to a destination's
-capacity. Failed combined builds and executions are preserved before per-case
-isolation. A failed positive control does not establish a formatting result.
-Invalid-literal tests require the intended diagnostic in both ffmt and fmt;
-compiler crashes and unrelated errors cannot count as correct rejections.
+## Benchmarks, coverage and campaign evidence
 
-The independent memory suite uses 4,096 seeded float and 4,096 seeded double
-encodings plus 24 explicit boundaries. Each of the 8,216 records combines five
-format specifications and checks bytes, status, written/required counts and
-framing. `--numeric-samples` changes the seeded sample count; `--no-memory`
-disables this suite for focused work. The original implementation has no bounded
-memory API, so the numeric suite is not applicable to that revision.
+Reusable C++ memory/printing benchmark primitives are in `benchmarks/`.
+Timing campaigns, source snapshot management, backend campaign adapters, the
+seeded cross-device memory corpus, manifests, and evidence exports live in
+ffmt-evaluation. They are not library test or build dependencies. Historical
+runners and measurements retain their original source/fixture hashes.
 
-Use `--help` for optional CUDA, HIP, SYCL, OpenMP, Kokkos, AdaptiveCpp and chipStar
-routes. Compiler executables and flags can be supplied using the documented
-`FFMT_CXX_<ROUTE>` and `FFMT_FLAGS_<ROUTE>` environment overrides, with hyphens
-replaced by underscores. An explicit `--profiles FILE` can supply external route
-defaults; no site configuration is shipped or required by the library.
-
-## Benchmarks and coverage
-
-The reusable C++ benchmark primitives live in `test/conformance/benchmark*`.
-The portable driver verifies output before timing and separates memory formatting
-from printing. For a small host measurement:
-
-```sh
-python3 tools/benchmark.py --route host-buffer --family integer --mode memory \
-  --capacity 128 --memory-iterations 128
-```
-
-Each group uses five warm-up and thirty measured batches. Host wall timing on an
-accelerator includes launch and synchronization. First-batch timing is not a
-cold-JIT claim. Resource probes distinguish compile-only targets from execution;
-compiler frame size, scratch, registers and linked-image sizes are different
-measurements. Site orchestration and captured benchmark analysis belong in
-[ffmt-evaluation](https://github.com/nscottnichols/ffmt-evaluation).
-
-`make coverage CXX=clang++` reports region, executable-line and branch-edge
-coverage of instrumented headers. Uninstantiated templates, compile-time
-evaluation and device-only bodies are outside that denominator. Source coverage
-is separate from fmt feature coverage and accelerator execution.
-
-Hosted coverage replaces a percentage regression gate with reporting; passing
-CI no longer guarantees nondecreasing coverage. See the explicit
-[coverage policy](contributing/COVERAGE.md). Independent compiler/runtime
-[reproducers are preserved in evaluation](contributing/REPRODUCERS.md).
+`make coverage CXX=clang++` instruments the same shared/direct tests and reports
+regions, executable lines and branch edges. Uninstantiated templates and
+device-only code are outside its denominator. The existing
+[coverage policy](contributing/COVERAGE.md) remains reporting rather than a blocking
+percentage regression gate. See the [infrastructure inventory](MAINTENANCE.md)
+for exact retention and relocation decisions.
