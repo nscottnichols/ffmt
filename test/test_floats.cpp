@@ -275,4 +275,30 @@ RUN(PRINT("[{:.3}]\n", 3.14159265));                    // no type + precision =
 RUN(PRINT("{:.200f}\n", 0.1));
 RUN(PRINT("{:.150e}\n", 1.0 / 3.0));
 
+
+// Regressions moved from the separate conformance fixture registry.
+// float-shortest
+RUN(PRINT("{}", 1.23456789));
+// float-notation
+RUN(PRINT("{}", 1e15));
+// float32
+RUN(PRINT("{}", 0.1f));
+// float-fixed
+RUN(PRINT("{:+#013.5f}", -1.23456789));
+// float-round
+RUN(PRINT("{:.2f} {:.2f}", 1.125, 1.375));
+// float-hex
+RUN(PRINT("{:+020.3a}", -1.03125));
+// float32-subnormal
+RUN(PRINT("{}", __builtin_bit_cast(float, uint32_t(1))));
+// float64-subnormal
+RUN(PRINT("{}", __builtin_bit_cast(double, uint64_t(1))));
+// float-large-fixed
+RUN(PRINT("{:.2f}", 1e20));
+// float-special
+RUN(PRINT("{} {} {}",
+          __builtin_bit_cast(double, uint64_t(0x8000000000000000ULL)),
+          __builtin_bit_cast(double, uint64_t(0x7ff0000000000000ULL)),
+          __builtin_bit_cast(double, uint64_t(0xfff8000000000001ULL))));
+
 #endif

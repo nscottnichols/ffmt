@@ -24,7 +24,7 @@ install(EXPORT ffmtTargets NAMESPACE ffmt:: DESTINATION ${ffmt_config_dir})
 install(FILES ${CMAKE_CURRENT_BINARY_DIR}/ffmtConfig.cmake
   DESTINATION ${ffmt_config_dir})
 
-option(FFMT_BUILD_TESTS "Build the portable conformance and regression tests" OFF)
+option(FFMT_BUILD_TESTS "Build the original portable harness and direct API regressions" OFF)
 option(FFMT_BUILD_CXX23_TESTS "Include optional C++23 standard-type tests" OFF)
 if(FFMT_BUILD_CXX23_TESTS AND NOT FFMT_BUILD_TESTS)
   message(FATAL_ERROR "FFMT_BUILD_CXX23_TESTS requires FFMT_BUILD_TESTS")

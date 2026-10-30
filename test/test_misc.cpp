@@ -95,4 +95,37 @@ RUN(PRINT(""));
 RUN(PRINTLN(""));
 RUN(PRINTLN("}}{{"));
 
+
+// Regressions moved from the separate conformance fixture registry.
+// literal
+RUN(PRINT("hello {{world}} %\n"));
+// no-newline
+RUN(PRINT("no trailing newline"));
+// empty
+RUN(PRINT(""));
+// nul-char
+RUN(PRINT("a{}b", char(0)));
+// marker-text
+RUN(PRINT("Test 1\n# skipped: not metadata\n"));
+// repeated
+RUN(PRINT("{1} {0} {1}", 12, 34));
+// null-pointer
+RUN(PRINT("{}", static_cast<void*>(nullptr)));
+// long-padding
+RUN(PRINT("[{:300}]", 1));
+// large-precision
+RUN(PRINT("{:.180f}", 0.125));
+// long-literal
+RUN(PRINT(
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"));
+// many-fields
+RUN(PRINT("{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}{0}", 1));
+// percent-capacity
+RUN(PRINT("%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%{}", "%%%%%%%%%%%%"));
+// println-capacity
+RUN(PRINTLN("{:300}", 1));
+
 #endif

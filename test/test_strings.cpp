@@ -42,7 +42,7 @@ SKIP_IF(_S, "spirv-o0|ptx-clang-o0", PRINT("{}\n", "hello world"));
 // on device and would need `map(to: env[:len])` or a malloc_shared /
 // cudaMemcpy equivalent. Not worth the carve-out for what's a runtime-
 // transfer test, not a formatter test.
-#if !defined(_OPENMP) && !defined(__CUDACC__)
+#if !defined(_OPENMP) && !defined(__CUDACC__) && !defined(__HIPCC__)
 {
   const char *env = "cpu-char-* copied";
 #if defined(FFMT_STD_PATH) || !(defined(SYCL_LANGUAGE_VERSION) || FFMT_COMPILER_ACPP)
@@ -65,5 +65,22 @@ SKIP_IF(_S, "spirv-o0|ptx-clang-o0", PRINT("{:>10.5s}\n", "hello world"));
 SKIP_IF(_S, "spirv-o0|ptx-clang-o0", PRINT("{:<10.3s}\n", "hello"));
 #undef _S
 
+
+
+// Regressions moved from the separate conformance fixture registry.
+// ascii
+RUN(PRINT("[{:.3s}] [{:>10s}]", "abcdef", "hello"));
+// bool
+RUN(PRINT("{} {} {:d} {:c}", true, false, true, 65));
+// unicode-width
+RUN(PRINT("[{:>10}]", "静夜思"));
+// unicode-precision
+RUN(PRINT("[{:.3}]", "静夜思"));
+// unicode-fill
+RUN(PRINT("[{:─^9}]", "é"));
+// debug-string
+RUN(PRINT("{:?}", "a\n\t\""));
+// debug-char
+RUN(PRINT("{:?}", '\n'));
 
 #endif

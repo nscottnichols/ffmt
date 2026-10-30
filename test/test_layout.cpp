@@ -43,4 +43,15 @@ RUN(PRINT("{:+08.2f}\n", 3.14));
 RUN(PRINT("{:+08.2f}\n", -3.14));
 
 
+
+// Regressions moved from the separate conformance fixture registry.
+// align-zero
+RUN(PRINT("[{:>05}] [{:<05}]", 42, -42));
+// center-fill
+RUN(PRINT("[{:*^15}]", -42));
+// dynamic-width
+RUN(PRINT("[{0:>{1}}]", 42, 12));
+// dynamic-precision
+RUN(PRINT("{:.{}f}", 1.23456789, 4));
+
 #endif

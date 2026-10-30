@@ -40,11 +40,12 @@ HOST_OPT ?= -O2
 # codegen is checked without a GPU.
 ICPX_OMP_TARGETS := $(if $(AOT_DEVICE),spir64_gen -Xopenmp-target-backend "-device $(AOT_DEVICE)",spir64)
 
-# Historical source-compatibility suites. Both FFMT_BUFFER_PATH values now use
-# the same engine; the focused suites are registered independently.
-TESTS        := integers floats strings layout misc formatter
-BUFFER_TESTS := buffer_path
-TEST_HDRS    := $(wildcard test/*.hpp test/*.inc)
+# One explicit inventory is consumed by Make and CMake. The original shared
+# cases run through the same host reference and backend bodies as before.
+include test/direct/tests.mk
+TESTS        := $(FFMT_SHARED_TESTS)
+BUFFER_TESTS := $(FFMT_BUFFER_TESTS)
+TEST_HDRS    := $(wildcard test/*.hpp test/*.inc test/direct/*.hpp) test/direct/tests.mk
 
 # The -D selecting each path, for the host builds, which compile both
 # (device builds get their path from the compiler, see base.hpp).
@@ -57,7 +58,16 @@ FLAGS_buffer     := -DFFMT_BUFFER_PATH=1
 # `origin` checks (not `?=`): Make's built-in default `CXX=g++` counts as
 # "set" for `?=`, which would leave gcc in place; an env- or
 # command-line-supplied CXX (e.g. CXX=g++ from CI) still wins.
-ifdef USE_ACPP
+ifdef USE_HIP
+  ifeq ($(origin CXX),default)
+    CXX           := hipcc
+  endif
+  BACKEND_FLAGS   := -x hip $(if $(OFFLOAD_ARCH),--offload-arch=$(OFFLOAD_ARCH))
+  OPT_LEVELS      := O0 O2
+  DEVICE_TESTS    := $(TESTS) $(BUFFER_TESTS)
+  EXAMPLES        :=
+  TEST_GOAL       := test-hip
+else ifdef USE_ACPP
   CXX             := acpp
   BACKEND_FLAGS   := --acpp-targets=generic
   OPT_LEVELS      := O0 O2
@@ -139,15 +149,16 @@ else
 endif
 
 .PHONY: all build test test-format examples readme-examples test-omp compile-omp \
-        test-cuda test-host test-fast-math test-negative coverage clean FORCE
+        test-cuda test-hip compile-hip test-host test-direct test-portable test-fast-math test-negative \
+        test-infrastructure test-single-header test-cxx23 coverage clean FORCE
 
 all: $(TEST_GOAL)
 
-# Compare the current or explicitly pinned headers with the independent fmt oracle.
-REVISION ?= WORKTREE
+# The portable checks extend the original harness. Source snapshots, campaign
+# execution, and retained measurement evidence live in ffmt-evaluation.
 .PHONY: conformance
-conformance: $(FMT_HDR) verify-fmt
-	CXX="$(CXX)" python3 tools/conformance.py --revision "$(REVISION)" --host-cxx "$(CXX)" --fmt-dir "$(FMT_DIR)"
+conformance: test-portable
+test-portable: test-host test-direct test-fast-math test-negative test-infrastructure test-single-header
 
 # ── Common ──────────────────────────────────────────────────
 
@@ -186,6 +197,8 @@ define run
   t0=$$($(NOW_NS)); ./$$bin; rc=$$?; \
   ms=$$(( ($$($(NOW_NS)) - t0) / 1000000 )); \
   if [ $$rc -eq 0 ]; then echo "$${bin#build/}: PASS ($${ms}ms)"; \
+  elif [ $$rc -eq 77 ] && [[ " $(OPTIONAL_TEST_BINS) " == *" $$bin "* ]]; then \
+    echo "$${bin#build/}: SKIP (optional compiler capability)"; \
   else echo "$${bin#build/}: FAIL ($${ms}ms)"; fail=1; fi; \
 done; exit $$fail
 endef
@@ -214,7 +227,7 @@ test: test-format readme-examples
 
 DEVICE_SRCS := test/test_main_omp.cpp $(foreach t,$(DEVICE_TESTS),test/test_$(t).cpp)
 
-build/test_main_omp build/test_main_cuda: $(DEVICE_SRCS) $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
+build/test_main_omp build/test_main_cuda build/test_main_hip: $(DEVICE_SRCS) $(DEPS) $(FMT_OBJ) | build/.dir $(FMT_HDR)
 	$(CXX) $(CXXFLAGS) $(BACKEND_FLAGS) -DTEST_NO_MAIN $(DEVICE_SRCS) -x none $(FMT_OBJ) -o $@
 
 test-omp: build/test_main_omp
@@ -222,6 +235,16 @@ test-omp: build/test_main_omp
 
 test-cuda: build/test_main_cuda
 	$(call run,$^)
+
+test-hip: build/test_main_hip
+	$(call run,$^)
+
+# Native HIP uses the original shared CUDA-shaped body, with HIP runtime calls.
+# Compile-only checks do not require an allocated accelerator at execution time.
+build/hip_%.o: test/test_%.cpp $(DEPS) | build/.dir $(FMT_HDR)
+	$(CXX) $(CXXFLAGS) $(BACKEND_FLAGS) -DTEST_NO_MAIN -c $< -o $@
+
+compile-hip: $(patsubst %,build/hip_%.o,main_omp $(DEVICE_TESTS))
 
 # The same sources and the OpenMP examples, compiled (-c) but not linked:
 # device CI's clang OpenMP NVPTX check. apt.llvm.org ships no NVPTX OpenMP
@@ -260,8 +283,8 @@ readme-examples: $(EXAMPLES)
 # links test_main_host.cpp and one object per test.
 # $(1) = prefix (test_main_host, cov), $(2) = extra flags, $(3) = path.
 
-HOST_TESTS_specifiers := $(TESTS)
-HOST_TESTS_buffer     := $(TESTS) $(BUFFER_TESTS)
+HOST_TESTS_specifiers := $(TESTS) $(FFMT_HOST_ONLY_TESTS)
+HOST_TESTS_buffer     := $(TESTS) $(BUFFER_TESTS) $(FFMT_HOST_ONLY_TESTS)
 
 define HOST_template
 build/$(1)_$(3)_%.o: test/test_%.cpp $(DEPS) | build/.dir $(FMT_HDR)
@@ -316,7 +339,50 @@ verify-fmt: $(FMT_HDR)
 	 { echo 'fmt checkout has local changes; preserve it and supply a clean pinned checkout.' >&2; exit 1; }
 $(FMT_OBJ): | verify-fmt
 
-# Explicit focused-suite registrations travel with their implementation.
-include mk/portable-tests.mk
+# Direct API assertions complement stdout comparisons: required size, bounded
+# writes, sentinels, errors, conversion boundaries and formatter forwarding.
+DIRECT_TESTS := $(FFMT_DIRECT_TESTS) $(FFMT_DIRECT_CXX23_TESTS)
+OPTIONAL_TEST_BINS := $(foreach t,$(DIRECT_TESTS),$(if $(filter 1,$(FFMT_DIRECT_OPTIONAL_$(t))),build/test_$(t)))
+DIRECT_SOURCE = test/direct/test_$(or $(FFMT_DIRECT_SOURCE_$(1)),$(1)).cpp
 
-include mk/portable-coverage.mk
+define DIRECT_template
+build/test_$(1): $(call DIRECT_SOURCE,$(1)) $(DEPS) $(if $(filter 1,$(FFMT_DIRECT_REFERENCE_$(1))),$(FMT_OBJ)) | build/.dir
+	$$(CXX) $$(CXXFLAGS) $$(HOST_OPT) $(if $(filter $(1),$(FFMT_DIRECT_CXX23_TESTS)),-std=c++23) $$(FFMT_DIRECT_FLAGS_$(1)) -UNDEBUG $$< $(if $(filter 1,$(FFMT_DIRECT_REFERENCE_$(1))),$(FMT_OBJ)) -o $$@
+endef
+$(foreach t,$(DIRECT_TESTS),$(eval $(call DIRECT_template,$(t))))
+
+test-direct: $(addprefix build/test_,$(FFMT_DIRECT_TESTS))
+	$(call run,$^)
+
+test-cxx23: $(addprefix build/test_,$(FFMT_DIRECT_CXX23_TESTS))
+	$(call run,$^)
+
+# Thin target aliases for existing development commands; there is one runner.
+.PHONY: test-focused test-capabilities conformance-harness
+test-focused test-capabilities: test-direct
+conformance-harness: test-infrastructure
+
+test-infrastructure:
+	python3 -m unittest discover -s test -p test_infrastructure.py
+
+# A real consumer sees only the copied implementation header, never this
+# repository's include tree or the fmt oracle.
+build/single-header/ffmt/base.hpp: include/ffmt/base.hpp | build/.dir
+	mkdir -p build/single-header/ffmt
+	cp $< $@
+
+build/test_single_header: test/test_single_header.cpp build/single-header/ffmt/base.hpp $(FLAGS_STAMP)
+	$(CXX) -std=c++20 -Wall -Werror -fno-fast-math $(EXTRA_CXXFLAGS) $(HOST_OPT) -Ibuild/single-header $< -o $@
+
+test-single-header: build/test_single_header
+	$(call run,$^)
+
+# Coverage uses exactly the same sources and flags as the direct tests. Optional
+# compiler extensions and fast-math probes have separate qualification results.
+COV_DIRECT_TESTS := $(foreach t,$(FFMT_DIRECT_TESTS),$(if $(filter 1,$(FFMT_DIRECT_OPTIONAL_$(t))),,$(if $(findstring fast_math,$(t)),,$(t))))
+define DIRECT_COVERAGE_template
+build/cov_direct_$(1): $(call DIRECT_SOURCE,$(1)) $(DEPS) $(if $(filter 1,$(FFMT_DIRECT_REFERENCE_$(1))),$(FMT_OBJ)) | build/.dir
+	$$(CXX) $$(CXXFLAGS) $$(HOST_OPT) $$(FFMT_DIRECT_FLAGS_$(1)) $$(COV_FLAGS) -UNDEBUG $$< $(if $(filter 1,$(FFMT_DIRECT_REFERENCE_$(1))),$(FMT_OBJ)) -o $$@
+endef
+$(foreach t,$(COV_DIRECT_TESTS),$(eval $(call DIRECT_COVERAGE_template,$(t))))
+coverage: $(addprefix build/cov_direct_,$(COV_DIRECT_TESTS))
