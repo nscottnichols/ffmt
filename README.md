@@ -13,16 +13,18 @@ auto result = ffmt::format_to_n(output, sizeof output, "{:012x}", 42);
 // Eight stored bytes, twelve required bytes; no NUL is appended.
 ```
 
-ffmt is header-only. Ordinary consumers need neither fmt nor Python; those are
-independent test dependencies. Include the optional header for each additional
-format family. Device use also requires the formatted objects and their
+The complete implementation is maintained directly in this one header. Copy
+`include/ffmt/base.hpp` alone, or use the CMake interface target. Existing family
+and internal include paths remain thin compatibility wrappers. Ordinary consumers
+need neither fmt nor Python; those are independent test dependencies. Device use also requires the formatted objects and their
 operations to be callable by the selected compiler.
 
 | Start here | Contents |
 |---|---|
-| [API and output contracts](docs/API.md) | Checked results, buffers, custom formatters, optional headers and configuration |
+| [API and output contracts](docs/API.md) | Checked results, buffers, custom formatters, format families and configuration |
 | [Build and install](docs/BUILD.md) | Source and installed CMake targets; opt-in portable tests |
 | [Backend contracts](docs/BACKENDS.md) | CUDA, HIP, SYCL, SPIR-V, OpenMP and other supported compiler routes |
+| [Maintenance and infrastructure inventory](docs/MAINTENANCE.md) | One implementation header, the original shared-case harness, and the purpose of each retained test component |
 | [Conformance guide](docs/CONFORMANCE.md) | Independent oracle, focused regressions, exact-byte and memory comparisons |
 | [Contributor CI policy](docs/contributing/CI.md) | Ready review waves and the meaning of skipped hosted jobs |
 | [Coverage policy](docs/contributing/COVERAGE.md) | Reporting and the limits of the instrumentation denominator |

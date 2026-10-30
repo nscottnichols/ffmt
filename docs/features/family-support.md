@@ -1,7 +1,7 @@
 # Shared formatting-family support
 
 ```cpp
-// Internal support, used by optional formatter headers:
+// Internal alignment support in the single implementation header:
 return ffmt::detail::family_padded(ctx, spec, [&](auto& body) {
   ffmt::detail::family_ascii(body, "body");
 }, /* replayable = */ false);

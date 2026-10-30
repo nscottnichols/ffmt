@@ -1,7 +1,7 @@
 # Ranges, tuples and joins
 
 ```cpp
-#include <ffmt/ranges.hpp>
+#include <ffmt/base.hpp>
 std::array<int, 3> values{1, -2, 33};
 ffmt::println("{::03}", values);  // [001, -02, 033]
 ffmt::println("{:02x}", ffmt::join(values, ","));

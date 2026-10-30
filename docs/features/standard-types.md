@@ -1,7 +1,7 @@
 # Standard-library type adapters
 
 ```cpp
-#include <ffmt/std.hpp>
+#include <ffmt/base.hpp>
 ffmt::println("{}", std::optional<int>{42});  // optional(42)
 ffmt::println("{:.2f}", std::complex<double>{1, -2.2}); // (1.00-2.20i)
 ```

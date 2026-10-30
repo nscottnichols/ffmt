@@ -27,7 +27,7 @@ adds a terminator. `format_to` accepts an output iterator without a bound;
 `FFMT_PRINT` and `FFMT_PRINTLN` discard that status. Template calls such as
 `ffmt::print<"{}">(value)` remain supported. `FFMT_PRINTF` and `FFMT_PRINTLNF` are
 compatibility aliases for brace formatting; typed percent formatting is in the
-separate [printf header](features/printf.md).
+[typed printf API](features/printf.md).
 
 Errors distinguish invalid syntax, invalid arguments/specifications, unsupported
 types, invalid code points, output overflow and transport failure. A prefix may
@@ -58,9 +58,13 @@ formatting separately invokes it twice. The historical static
 supported for empty outer specs, including existing SYCL id/range/item
 formatters. ADL `format_as(value)` maps a user type to a primitive representation.
 
-## Optional headers
+## Format families and compatibility includes
 
-| Header | Guide |
+All families below are available from `<ffmt/base.hpp>`. These older include
+paths remain wrappers for source compatibility; they contain no implementation.
+C++23 adapters are guarded by the language mode and standard-library feature.
+
+| Compatibility include | Guide |
 |---|---|
 | `ffmt/args.hpp` | [Referenced named arguments](features/named-arguments.md) |
 | `ffmt/ranges.hpp` | [Ranges, tuples, joins and container adapters](features/ranges.md) |

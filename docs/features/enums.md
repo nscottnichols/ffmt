@@ -1,7 +1,7 @@
 # Enum underlying-value helpers
 
 ```cpp
-#include <ffmt/enum.hpp>
+#include <ffmt/base.hpp>
 namespace status_example {
 using ffmt::enums::format_as;
 enum class status : int { warning = -3 };

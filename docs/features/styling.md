@@ -1,7 +1,7 @@
 # Explicit ANSI styling
 
 ```cpp
-#include <ffmt/color.hpp>
+#include <ffmt/base.hpp>
 ffmt::println("{}", ffmt::styled(42, ffmt::fg(ffmt::rgb(255,20,30)) | ffmt::emphasis::bold));
 ```
 
