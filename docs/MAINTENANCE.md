@@ -75,7 +75,7 @@ replacing it with a few smoke tests.
 | Component/runner PR-stage notes | Byte-preserved in evaluation's `docs/history/library-stack-tip-notes`; active library documentation describes the current API and maintenance model. |
 
 All moves and fixture/test mappings are documented with hashes in the
-[follow-up provenance record](https://github.com/nscottnichols/ffmt-evaluation/blob/followup/library-maintenance/docs/provenance/single-header-followup.md).
+[follow-up provenance record](https://github.com/nscottnichols/ffmt-evaluation/blob/provenance/single-header-20261030/docs/provenance/single-header-followup.md).
 The original stack and its snapshots remain untouched. New validation identifies
 the new source and runner separately; historical measurements retain their
 original pins, commands, failures and hashes. No source reorganization by itself
