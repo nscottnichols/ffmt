@@ -90,11 +90,15 @@
 #define FFMT_UNICODE 1
 #endif
 #if defined(SYCL_LANGUAGE_VERSION) || FFMT_COMPILER_ACPP
-#if FFMT_COMPILER_ACPP
 #include <sycl/sycl.hpp>
-#else
+#if !FFMT_COMPILER_ACPP
 #include <sycl/ext/oneapi/experimental/builtins.hpp>
 #endif
+#endif
+// HIP's runtime declares device printf. Include it before cstdio so a consumer
+// can include base.hpp first without binding transport to host-only printf.
+#if defined(__HIPCC__)
+#include <hip/hip_runtime.h>
 #endif
 #include <cstdio>
 #include <cstddef>
